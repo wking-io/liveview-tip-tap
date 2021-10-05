@@ -1,0 +1,39 @@
+<h1>Listing Resources</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal WithoutCeasingWeb.ResourceLive.FormComponent,
+    id: @resource.id || :new,
+    title: @page_title,
+    action: @live_action,
+    resource: @resource,
+    return_to: Routes.resource_index_path(@socket, :index) %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Description</th>
+      <th>Status</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="resources">
+    <%= for resource <- @resources do %>
+      <tr id={"resource-#{resource.id}"}>
+        <td><%= resource.title %></td>
+        <td><%= resource.description %></td>
+        <td><%= resource.status %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.resource_show_path(@socket, :show, resource) %></span>
+          <span><%= live_patch "Edit", to: Routes.resource_index_path(@socket, :edit, resource) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: resource.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Resource", to: Routes.resource_index_path(@socket, :new) %></span>

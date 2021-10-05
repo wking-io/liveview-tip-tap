@@ -1,0 +1,12 @@
+{application,finch,
+             [{applications,[kernel,stdlib,elixir,logger,mint,castore,
+                             nimble_pool,nimble_options,telemetry]},
+              {description,"An HTTP client focused on performance."},
+              {modules,['Elixir.Finch','Elixir.Finch.Conn',
+                        'Elixir.Finch.Error','Elixir.Finch.HTTP1.Pool',
+                        'Elixir.Finch.HTTP2.Pool','Elixir.Finch.Pool',
+                        'Elixir.Finch.PoolManager','Elixir.Finch.Request',
+                        'Elixir.Finch.Response','Elixir.Finch.SSL',
+                        'Elixir.Finch.Telemetry']},
+              {registered,[]},
+              {vsn,"0.8.2"}]}.

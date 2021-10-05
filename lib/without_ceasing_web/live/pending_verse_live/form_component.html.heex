@@ -1,0 +1,32 @@
+<div>
+  <h2><%= @title %></h2>
+
+  <.form
+    let={f}
+    for={@changeset}
+    id="pending_verse-form"
+    phx-target={@myself}
+    phx-change="validate"
+    phx-submit="save">
+  
+    <%= label f, :book %>
+    <%= text_input f, :book %>
+    <%= error_tag f, :book %>
+  
+    <%= label f, :chapter %>
+    <%= number_input f, :chapter %>
+    <%= error_tag f, :chapter %>
+  
+    <%= label f, :order %>
+    <%= number_input f, :order %>
+    <%= error_tag f, :order %>
+  
+    <%= label f, :text %>
+    <%= text_input f, :text %>
+    <%= error_tag f, :text %>
+  
+    <div>
+      <%= submit "Save", phx_disable_with: "Saving..." %>
+    </div>
+  </.form>
+</div>

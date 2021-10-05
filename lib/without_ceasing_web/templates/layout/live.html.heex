@@ -1,0 +1,202 @@
+<header>
+  <nav class="nav fixed left-0 top-0 bottom-0 w-56 bg-white">
+    <div class="lg:min-w-xl">
+      <button
+        class="p-1 w-6 h-6 hover:bg-gray-100"
+        aria-label="Toggle Nav"
+      >
+        <svg
+          class="w-full h-auto"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+        >
+          <path
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+            d="M2.25 18.003h19.5m-19.5-6h19.5m-19.5-6h19.5"
+          ></path>
+        </svg>
+      </button>
+    </div>
+    <div class="ml-6 mt-6">
+      <ul class="mt-4">
+        <li class="current">
+          <%= live_redirect to: Routes.dashboard_index_path(@socket, :index), class: "flex items-center text-gray-700 hover:text-brand-300 text-sm" do %>
+          <i
+            class="nav-icon group-hover:bg-brand-200 w-auto p-1 rounded-full mr-2">
+            <svg
+              class="h-full w-auto"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                cx="7"
+                cy="8.5"
+                r="3.5"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></circle>
+              <path
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M7 5v3.5h3.5M9 22.5a6.979 6.979 0 0 0 1.5-4m4.5 4a6.979 6.979 0 0 1-1.5-4m-6.001 4h9M.5 15.5h23"
+              >
+              </path>
+              <rect
+                x=".5"
+                y="1.5"
+                width="23"
+                height="17"
+                rx="1"
+                ry="1"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></rect>
+              <path
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M13.5 7L15 5l3 2.5 2.5-3m-1 8V11m-2 1.5v-2m-2 2v-3m-2 3V11"
+              ></path>
+            </svg>
+          </i>
+          <span>Dashboard</span>
+          <% end %>
+        </li>
+        <li class="current">
+          <%= live_redirect to: Routes.translation_index_path(@socket, :index), class: "flex items-center text-gray-700 hover:text-brand-300 text-sm" do %>
+          <i
+            class="nav-icon group-hover:bg-brand-200 w-auto p-1 rounded-full mr-2">
+            <svg
+              class="h-full w-auto"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+            >
+              <circle
+                cx="7"
+                cy="8.5"
+                r="3.5"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></circle>
+              <path
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M7 5v3.5h3.5M9 22.5a6.979 6.979 0 0 0 1.5-4m4.5 4a6.979 6.979 0 0 1-1.5-4m-6.001 4h9M.5 15.5h23"
+              >
+              </path>
+              <rect
+                x=".5"
+                y="1.5"
+                width="23"
+                height="17"
+                rx="1"
+                ry="1"
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              ></rect>
+              <path
+                fill="none"
+                stroke="currentColor"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M13.5 7L15 5l3 2.5 2.5-3m-1 8V11m-2 1.5v-2m-2 2v-3m-2 3V11"
+              ></path>
+            </svg>
+          </i>
+          <span>Translations</span>
+          <% end %>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>
+<main
+  role="main"
+  class=""
+>
+<div class="workspace min-h-screen bg-gray-200 ml-56 my-4 mr-4 rounded-3xl">
+    <div class="w-5/6 mx-auto max-w-5xl py-12">
+      <%= if info = live_flash(@flash, :info) do %>
+      <p
+        class="alert alert-info"
+        role="alert"
+        phx-click="lv:clear-flash"
+        phx-value-key="info"
+      >
+        <%= info %>
+      </p>
+      <% end %>
+
+      <%= if error = live_flash(@flash, :error) do %>
+      <p
+        class="alert alert-danger"
+        role="alert"
+        phx-click="lv:clear-flash"
+        phx-value-key="error"
+      >
+        <%= error %>
+      </p>
+      <% end %>
+
+      <%= @inner_content %>
+    </div>
+  </div>
+</main>
+<!--
+<footer class="bg-brand-200">
+  <div class="relative w-5/6 max-w-6xl mx-auto py-6 md:flex md:items-center md:justify-between">
+    <div class="flex justify-center items-center space-x-6">
+      <a
+        href="#"
+        class="mr-3 focus:outline-none focus:ring-offset-2 focus:ring-offset-brand-200 focus:ring-2 focus:ring-brand-300"
+      >
+        <span class="sr-only">Fabled Labs</span>
+        <img
+          class="h-12 w-auto"
+          src={Routes.static_path(@socket, "/images/logo.svg")}
+          alt=""
+        >
+      </a>
+
+      <a
+        href="https://twitter.com/WithoutCeasing"
+        class="text-white hover:text-brand-300 focus:outline-none focus:ring-offset-2 focus:ring-offset-brand-200 focus:ring-2 focus:ring-brand-300"
+      >
+        <span class="sr-only">Twitter</span>
+        <svg
+          class="h-6 w-6"
+          fill="currentColor"
+          viewBox="0 0 24 24"
+          aria-hidden="true"
+        >
+          <path
+            d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"
+          />
+        </svg>
+      </a>
+    </div>
+    <div class="mt-8 md:mt-0">
+      <p class="text-center text-base text-white">
+        &copy; 2021 Fabled Labs. All rights reserved.
+      </p>
+    </div>
+  </div>
+</footer>
+-->

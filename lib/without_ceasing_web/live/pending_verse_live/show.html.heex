@@ -1,0 +1,37 @@
+<h1>Show Pending verse</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal WithoutCeasingWeb.VerseRevisionLive.FormComponent,
+    id: @pending_verse.id,
+    title: @page_title,
+    action: @live_action,
+    pending_verse: @pending_verse,
+    return_to: Routes.pending_verse_show_path(@socket, :show, @pending_verse) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Book:</strong>
+    <%= @pending_verse.book %>
+  </li>
+
+  <li>
+    <strong>Chapter:</strong>
+    <%= @pending_verse.chapter %>
+  </li>
+
+  <li>
+    <strong>Order:</strong>
+    <%= @pending_verse.order %>
+  </li>
+
+  <li>
+    <strong>Text:</strong>
+    <%= @pending_verse.text %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.pending_verse_show_path(@socket, :edit, @pending_verse), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.pending_verse_index_path(@socket, :index) %></span>

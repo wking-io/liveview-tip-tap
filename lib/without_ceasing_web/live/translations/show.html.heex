@@ -1,0 +1,27 @@
+<h1>Show Translation</h1>
+
+<%= if @live_action in [:edit] do %>
+<%= live_modal WithoutCeasingWeb.TranslationLive.FormComponent,
+    id: @translation.id,
+    title: @page_title,
+    action: @live_action,
+    translation: @translation,
+    return_to: Routes.translation_show_path(@socket, :show, @translation) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @translation.name %>
+  </li>
+
+  <li>
+    <strong>Slug:</strong>
+    <%= @translation.slug %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.translation_show_path(@socket, :edit, @translation), class: "button" %></span>
+<span><%= live_redirect "Back", to: Routes.translation_index_path(@socket, :index) %></span>

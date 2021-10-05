@@ -1,0 +1,32 @@
+<h1>Show Resource</h1>
+
+<%= if @live_action in [:edit] do %>
+  <%= live_modal WithoutCeasingWeb.ResourceLive.FormComponent,
+    id: @resource.id,
+    title: @page_title,
+    action: @live_action,
+    resource: @resource,
+    return_to: Routes.resource_show_path(@socket, :show, @resource) %>
+<% end %>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @resource.title %>
+  </li>
+
+  <li>
+    <strong>Description:</strong>
+    <%= @resource.description %>
+  </li>
+
+  <li>
+    <strong>Status:</strong>
+    <%= @resource.status %>
+  </li>
+
+</ul>
+
+<span><%= live_patch "Edit", to: Routes.resource_show_path(@socket, :edit, @resource), class: "button" %></span> |
+<span><%= live_redirect "Back", to: Routes.resource_index_path(@socket, :index) %></span>
