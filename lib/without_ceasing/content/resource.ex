@@ -9,7 +9,7 @@ defmodule WithoutCeasing.Content.Resource do
     field :status, Ecto.Enum, values: [:pending, :approved, :rejected]
     field :title, :string
 
-    belongs_to :member, WithoutCeasing.Account.Member
+    belongs_to :member, WithoutCeasing.Identity.Member
 
     timestamps()
   end

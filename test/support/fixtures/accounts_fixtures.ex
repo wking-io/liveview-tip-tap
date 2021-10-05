@@ -1,7 +1,7 @@
-defmodule WithoutCeasing.AccountsFixtures do
+defmodule WithoutCeasing.IdentityFixtures do
   @moduledoc """
   This module defines test helpers for creating
-  entities via the `WithoutCeasing.Accounts` context.
+  entities via the `WithoutCeasing.Identity` context.
   """
 
   @doc """
@@ -13,7 +13,7 @@ defmodule WithoutCeasing.AccountsFixtures do
       |> Enum.into(%{
         name: "some name"
       })
-      |> WithoutCeasing.Accounts.create_account()
+      |> WithoutCeasing.Identity.create_account()
 
     account
   end
@@ -32,7 +32,7 @@ defmodule WithoutCeasing.AccountsFixtures do
     {:ok, member} =
       attrs
       |> valid_member_attributes()
-      |> WithoutCeasing.Accounts.register_member()
+      |> WithoutCeasing.Identity.register_member()
 
     member
   end

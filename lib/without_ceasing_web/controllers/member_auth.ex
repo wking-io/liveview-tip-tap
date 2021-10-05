@@ -2,7 +2,7 @@ defmodule WithoutCeasingWeb.MemberAuth do
   import Plug.Conn
   import Phoenix.Controller
 
-  alias WithoutCeasing.Accounts
+  alias WithoutCeasing.Identity
   alias WithoutCeasingWeb.Router.Helpers, as: Routes
 
   # Make the remember me cookie valid for 60 days.
@@ -25,7 +25,7 @@ defmodule WithoutCeasingWeb.MemberAuth do
   if you are not using LiveView.
   """
   def log_in_member(conn, member, params \\ %{}) do
-    token = Accounts.generate_member_session_token(member)
+    token = Identity.generate_member_session_token(member)
     member_return_to = get_session(conn, :member_return_to)
 
     conn
@@ -72,7 +72,7 @@ defmodule WithoutCeasingWeb.MemberAuth do
   """
   def log_out_member(conn) do
     member_token = get_session(conn, :member_token)
-    member_token && Accounts.delete_session_token(member_token)
+    member_token && Identity.delete_session_token(member_token)
 
     if live_socket_id = get_session(conn, :live_socket_id) do
       WithoutCeasingWeb.Endpoint.broadcast(live_socket_id, "disconnect", %{})
@@ -90,7 +90,7 @@ defmodule WithoutCeasingWeb.MemberAuth do
   """
   def fetch_current_member(conn, _opts) do
     {member_token, conn} = ensure_member_token(conn)
-    member = member_token && Accounts.get_member_by_session_token(member_token)
+    member = member_token && Identity.get_member_by_session_token(member_token)
     assign(conn, :current_member, member)
   end
 

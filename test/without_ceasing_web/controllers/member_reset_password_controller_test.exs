@@ -1,9 +1,9 @@
 defmodule WithoutCeasingWeb.MemberResetPasswordControllerTest do
   use WithoutCeasingWeb.ConnCase, async: true
 
-  alias WithoutCeasing.Accounts
+  alias WithoutCeasing.Identity
   alias WithoutCeasing.Repo
-  import WithoutCeasing.AccountsFixtures
+  import WithoutCeasing.IdentityFixtures
 
   setup do
     %{member: member_fixture()}
@@ -27,7 +27,7 @@ defmodule WithoutCeasingWeb.MemberResetPasswordControllerTest do
 
       assert redirected_to(conn) == "/"
       assert get_flash(conn, :info) =~ "If your email is in our system"
-      assert Repo.get_by!(Accounts.MemberToken, member_id: member.id).context == "reset_password"
+      assert Repo.get_by!(Identity.MemberToken, member_id: member.id).context == "reset_password"
     end
 
     test "does not send reset password token if email is invalid", %{conn: conn} do
@@ -38,7 +38,7 @@ defmodule WithoutCeasingWeb.MemberResetPasswordControllerTest do
 
       assert redirected_to(conn) == "/"
       assert get_flash(conn, :info) =~ "If your email is in our system"
-      assert Repo.all(Accounts.MemberToken) == []
+      assert Repo.all(Identity.MemberToken) == []
     end
   end
 
@@ -46,7 +46,7 @@ defmodule WithoutCeasingWeb.MemberResetPasswordControllerTest do
     setup %{member: member} do
       token =
         extract_member_token(fn url ->
-          Accounts.deliver_member_reset_password_instructions(member, url)
+          Identity.deliver_member_reset_password_instructions(member, url)
         end)
 
       %{token: token}
@@ -68,7 +68,7 @@ defmodule WithoutCeasingWeb.MemberResetPasswordControllerTest do
     setup %{member: member} do
       token =
         extract_member_token(fn url ->
-          Accounts.deliver_member_reset_password_instructions(member, url)
+          Identity.deliver_member_reset_password_instructions(member, url)
         end)
 
       %{token: token}
@@ -86,7 +86,7 @@ defmodule WithoutCeasingWeb.MemberResetPasswordControllerTest do
       assert redirected_to(conn) == Routes.member_session_path(conn, :new)
       refute get_session(conn, :member_token)
       assert get_flash(conn, :info) =~ "Password reset successfully"
-      assert Accounts.get_member_by_email_and_password(member.email, "new valid password")
+      assert Identity.get_member_by_email_and_password(member.email, "new valid password")
     end
 
     test "does not reset password on invalid data", %{conn: conn, token: token} do

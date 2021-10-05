@@ -1,4 +1,4 @@
-defmodule WithoutCeasing.Repo.Migrations.CreateAccounts do
+defmodule WithoutCeasing.Repo.Migrations.CreateIdentity do
   use Ecto.Migration
 
   def up do

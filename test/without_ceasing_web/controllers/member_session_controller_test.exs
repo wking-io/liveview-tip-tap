@@ -1,7 +1,7 @@
 defmodule WithoutCeasingWeb.MemberSessionControllerTest do
   use WithoutCeasingWeb.ConnCase, async: true
 
-  import WithoutCeasing.AccountsFixtures
+  import WithoutCeasing.IdentityFixtures
 
   setup do
     %{member: member_fixture()}

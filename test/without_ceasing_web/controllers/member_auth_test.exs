@@ -1,9 +1,9 @@
 defmodule WithoutCeasingWeb.MemberAuthTest do
   use WithoutCeasingWeb.ConnCase, async: true
 
-  alias WithoutCeasing.Accounts
+  alias WithoutCeasing.Identity
   alias WithoutCeasingWeb.MemberAuth
-  import WithoutCeasing.AccountsFixtures
+  import WithoutCeasing.IdentityFixtures
 
   @remember_me_cookie "_without_ceasing_web_member_remember_me"
 
@@ -22,7 +22,7 @@ defmodule WithoutCeasingWeb.MemberAuthTest do
       assert token = get_session(conn, :member_token)
       assert get_session(conn, :live_socket_id) == "members_sessions:#{Base.url_encode64(token)}"
       assert redirected_to(conn) == "/"
-      assert Accounts.get_member_by_session_token(token)
+      assert Identity.get_member_by_session_token(token)
     end
 
     test "clears everything previously stored in the session", %{conn: conn, member: member} do
@@ -36,7 +36,9 @@ defmodule WithoutCeasingWeb.MemberAuthTest do
     end
 
     test "writes a cookie if remember_me is configured", %{conn: conn, member: member} do
-      conn = conn |> fetch_cookies() |> MemberAuth.log_in_member(member, %{"remember_me" => "true"})
+      conn =
+        conn |> fetch_cookies() |> MemberAuth.log_in_member(member, %{"remember_me" => "true"})
+
       assert get_session(conn, :member_token) == conn.cookies[@remember_me_cookie]
 
       assert %{value: signed_token, max_age: max_age} = conn.resp_cookies[@remember_me_cookie]
@@ -47,7 +49,7 @@ defmodule WithoutCeasingWeb.MemberAuthTest do
 
   describe "logout_member/1" do
     test "erases session and cookies", %{conn: conn, member: member} do
-      member_token = Accounts.generate_member_session_token(member)
+      member_token = Identity.generate_member_session_token(member)
 
       conn =
         conn
@@ -60,7 +62,7 @@ defmodule WithoutCeasingWeb.MemberAuthTest do
       refute conn.cookies[@remember_me_cookie]
       assert %{max_age: 0} = conn.resp_cookies[@remember_me_cookie]
       assert redirected_to(conn) == "/"
-      refute Accounts.get_member_by_session_token(member_token)
+      refute Identity.get_member_by_session_token(member_token)
     end
 
     test "broadcasts to the given live_socket_id", %{conn: conn} do
@@ -84,8 +86,11 @@ defmodule WithoutCeasingWeb.MemberAuthTest do
 
   describe "fetch_current_member/2" do
     test "authenticates member from session", %{conn: conn, member: member} do
-      member_token = Accounts.generate_member_session_token(member)
-      conn = conn |> put_session(:member_token, member_token) |> MemberAuth.fetch_current_member([])
+      member_token = Identity.generate_member_session_token(member)
+
+      conn =
+        conn |> put_session(:member_token, member_token) |> MemberAuth.fetch_current_member([])
+
       assert conn.assigns.current_member.id == member.id
     end
 
@@ -106,7 +111,7 @@ defmodule WithoutCeasingWeb.MemberAuthTest do
     end
 
     test "does not authenticate if data is missing", %{conn: conn, member: member} do
-      _ = Accounts.generate_member_session_token(member)
+      _ = Identity.generate_member_session_token(member)
       conn = MemberAuth.fetch_current_member(conn, [])
       refute get_session(conn, :member_token)
       refute conn.assigns.current_member
@@ -115,7 +120,11 @@ defmodule WithoutCeasingWeb.MemberAuthTest do
 
   describe "redirect_if_member_is_authenticated/2" do
     test "redirects if member is authenticated", %{conn: conn, member: member} do
-      conn = conn |> assign(:current_member, member) |> MemberAuth.redirect_if_member_is_authenticated([])
+      conn =
+        conn
+        |> assign(:current_member, member)
+        |> MemberAuth.redirect_if_member_is_authenticated([])
+
       assert conn.halted
       assert redirected_to(conn) == "/"
     end
@@ -162,7 +171,9 @@ defmodule WithoutCeasingWeb.MemberAuthTest do
     end
 
     test "does not redirect if member is authenticated", %{conn: conn, member: member} do
-      conn = conn |> assign(:current_member, member) |> MemberAuth.require_authenticated_member([])
+      conn =
+        conn |> assign(:current_member, member) |> MemberAuth.require_authenticated_member([])
+
       refute conn.halted
       refute conn.status
     end

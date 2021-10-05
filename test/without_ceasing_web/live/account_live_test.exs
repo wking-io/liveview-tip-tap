@@ -2,7 +2,7 @@ defmodule WithoutCeasingWeb.AccountLiveTest do
   use WithoutCeasingWeb.ConnCase
 
   import Phoenix.LiveViewTest
-  import WithoutCeasing.AccountsFixtures
+  import WithoutCeasing.IdentityFixtures
 
   @create_attrs %{name: "some name"}
   @update_attrs %{name: "some updated name"}
@@ -19,7 +19,7 @@ defmodule WithoutCeasingWeb.AccountLiveTest do
     test "lists all accounts", %{conn: conn, account: account} do
       {:ok, _index_live, html} = live(conn, Routes.account_index_path(conn, :index))
 
-      assert html =~ "Listing Accounts"
+      assert html =~ "Listing Identity"
       assert html =~ account.name
     end
 

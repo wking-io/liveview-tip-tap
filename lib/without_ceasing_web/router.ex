@@ -17,16 +17,47 @@ defmodule WithoutCeasingWeb.Router do
     plug :accepts, ["json"]
   end
 
+  ## Authentication routes
+
   scope "/", WithoutCeasingWeb do
-    pipe_through :browser
+    pipe_through [:browser, :redirect_if_member_is_authenticated]
 
-    live "/", HomeLive, :index
-    live "/scribe", DashboardLive.Index, :index
-    live "/scribe/editor/:translation/:book/:chapter", EditorLive.Show, :edit
+    get "/members/register", MemberRegistrationController, :new
+    post "/members/register", MemberRegistrationController, :create
+    get "/members/log_in", MemberSessionController, :new
+    post "/members/log_in", MemberSessionController, :create
+    get "/members/reset_password", MemberResetPasswordController, :new
+    post "/members/reset_password", MemberResetPasswordController, :create
+    get "/members/reset_password/:token", MemberResetPasswordController, :edit
+    put "/members/reset_password/:token", MemberResetPasswordController, :update
+  end
 
-    live "/scribe/translations", TranslationLive.Index, :index
-    live "/scribe/translations/create", TranslationLive.Index, :new
-    live "/scribe/translations/:translation", TranslationLive.Index, :edit
+  scope "/", WithoutCeasingWeb do
+    live_session :app, on_mount: WithoutCeasingWeb.MemberLiveAuth do
+      pipe_through [:browser, :require_authenticated_member]
+
+      live "/", HomeLive, :index
+      get "/members/settings", MemberSettingsController, :edit
+      put "/members/settings", MemberSettingsController, :update
+      get "/members/settings/confirm_email/:token", MemberSettingsController, :confirm_email
+
+      live "/scribe", DashboardLive.Index, :index
+      live "/scribe/editor/:translation/:book/:chapter", EditorLive.Show, :edit
+
+      live "/scribe/translations", TranslationLive.Index, :index
+      live "/scribe/translations/create", TranslationLive.Index, :new
+      live "/scribe/translations/:translation", TranslationLive.Index, :edit
+    end
+  end
+
+  scope "/", WithoutCeasingWeb do
+    pipe_through [:browser]
+
+    delete "/members/log_out", MemberSessionController, :delete
+    get "/members/confirm", MemberConfirmationController, :new
+    post "/members/confirm", MemberConfirmationController, :create
+    get "/members/confirm/:token", MemberConfirmationController, :edit
+    post "/members/confirm/:token", MemberConfirmationController, :update
   end
 
   # Other scopes may use custom stacks.
@@ -60,38 +91,5 @@ defmodule WithoutCeasingWeb.Router do
 
       forward "/mailbox", Plug.Swoosh.MailboxPreview
     end
-  end
-
-  ## Authentication routes
-
-  scope "/", WithoutCeasingWeb do
-    pipe_through [:browser, :redirect_if_member_is_authenticated]
-
-    get "/members/register", MemberRegistrationController, :new
-    post "/members/register", MemberRegistrationController, :create
-    get "/members/log_in", MemberSessionController, :new
-    post "/members/log_in", MemberSessionController, :create
-    get "/members/reset_password", MemberResetPasswordController, :new
-    post "/members/reset_password", MemberResetPasswordController, :create
-    get "/members/reset_password/:token", MemberResetPasswordController, :edit
-    put "/members/reset_password/:token", MemberResetPasswordController, :update
-  end
-
-  scope "/", WithoutCeasingWeb do
-    pipe_through [:browser, :require_authenticated_member]
-
-    get "/members/settings", MemberSettingsController, :edit
-    put "/members/settings", MemberSettingsController, :update
-    get "/members/settings/confirm_email/:token", MemberSettingsController, :confirm_email
-  end
-
-  scope "/", WithoutCeasingWeb do
-    pipe_through [:browser]
-
-    delete "/members/log_out", MemberSessionController, :delete
-    get "/members/confirm", MemberConfirmationController, :new
-    post "/members/confirm", MemberConfirmationController, :create
-    get "/members/confirm/:token", MemberConfirmationController, :edit
-    post "/members/confirm/:token", MemberConfirmationController, :update
   end
 end

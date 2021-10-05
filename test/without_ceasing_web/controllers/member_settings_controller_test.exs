@@ -1,8 +1,8 @@
 defmodule WithoutCeasingWeb.MemberSettingsControllerTest do
   use WithoutCeasingWeb.ConnCase, async: true
 
-  alias WithoutCeasing.Accounts
-  import WithoutCeasing.AccountsFixtures
+  alias WithoutCeasing.Identity
+  import WithoutCeasing.IdentityFixtures
 
   setup :register_and_log_in_member
 
@@ -35,7 +35,7 @@ defmodule WithoutCeasingWeb.MemberSettingsControllerTest do
       assert redirected_to(new_password_conn) == Routes.member_settings_path(conn, :edit)
       assert get_session(new_password_conn, :member_token) != get_session(conn, :member_token)
       assert get_flash(new_password_conn, :info) =~ "Password updated successfully"
-      assert Accounts.get_member_by_email_and_password(member.email, "new valid password")
+      assert Identity.get_member_by_email_and_password(member.email, "new valid password")
     end
 
     test "does not update password on invalid data", %{conn: conn} do
@@ -71,7 +71,7 @@ defmodule WithoutCeasingWeb.MemberSettingsControllerTest do
 
       assert redirected_to(conn) == Routes.member_settings_path(conn, :edit)
       assert get_flash(conn, :info) =~ "A link to confirm your email"
-      assert Accounts.get_member_by_email(member.email)
+      assert Identity.get_member_by_email(member.email)
     end
 
     test "does not update email on invalid data", %{conn: conn} do
@@ -95,18 +95,23 @@ defmodule WithoutCeasingWeb.MemberSettingsControllerTest do
 
       token =
         extract_member_token(fn url ->
-          Accounts.deliver_update_email_instructions(%{member | email: email}, member.email, url)
+          Identity.deliver_update_email_instructions(%{member | email: email}, member.email, url)
         end)
 
       %{token: token, email: email}
     end
 
-    test "updates the member email once", %{conn: conn, member: member, token: token, email: email} do
+    test "updates the member email once", %{
+      conn: conn,
+      member: member,
+      token: token,
+      email: email
+    } do
       conn = get(conn, Routes.member_settings_path(conn, :confirm_email, token))
       assert redirected_to(conn) == Routes.member_settings_path(conn, :edit)
       assert get_flash(conn, :info) =~ "Email changed successfully"
-      refute Accounts.get_member_by_email(member.email)
-      assert Accounts.get_member_by_email(email)
+      refute Identity.get_member_by_email(member.email)
+      assert Identity.get_member_by_email(email)
 
       conn = get(conn, Routes.member_settings_path(conn, :confirm_email, token))
       assert redirected_to(conn) == Routes.member_settings_path(conn, :edit)
@@ -117,7 +122,7 @@ defmodule WithoutCeasingWeb.MemberSettingsControllerTest do
       conn = get(conn, Routes.member_settings_path(conn, :confirm_email, "oops"))
       assert redirected_to(conn) == Routes.member_settings_path(conn, :edit)
       assert get_flash(conn, :error) =~ "Email change link is invalid or it has expired"
-      assert Accounts.get_member_by_email(member.email)
+      assert Identity.get_member_by_email(member.email)
     end
 
     test "redirects if member is not logged in", %{token: token} do

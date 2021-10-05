@@ -1,7 +1,7 @@
 defmodule WithoutCeasingWeb.MemberRegistrationControllerTest do
   use WithoutCeasingWeb.ConnCase, async: true
 
-  import WithoutCeasing.AccountsFixtures
+  import WithoutCeasing.IdentityFixtures
 
   describe "GET /members/register" do
     test "renders registration page", %{conn: conn} do
@@ -13,7 +13,11 @@ defmodule WithoutCeasingWeb.MemberRegistrationControllerTest do
     end
 
     test "redirects if already logged in", %{conn: conn} do
-      conn = conn |> log_in_member(member_fixture()) |> get(Routes.member_registration_path(conn, :new))
+      conn =
+        conn
+        |> log_in_member(member_fixture())
+        |> get(Routes.member_registration_path(conn, :new))
+
       assert redirected_to(conn) == "/"
     end
   end

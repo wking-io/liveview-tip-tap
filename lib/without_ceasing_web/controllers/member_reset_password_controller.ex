@@ -1,7 +1,7 @@
 defmodule WithoutCeasingWeb.MemberResetPasswordController do
   use WithoutCeasingWeb, :controller
 
-  alias WithoutCeasing.Accounts
+  alias WithoutCeasing.Identity
 
   plug :get_member_by_reset_password_token when action in [:edit, :update]
 
@@ -10,8 +10,8 @@ defmodule WithoutCeasingWeb.MemberResetPasswordController do
   end
 
   def create(conn, %{"member" => %{"email" => email}}) do
-    if member = Accounts.get_member_by_email(email) do
-      Accounts.deliver_member_reset_password_instructions(
+    if member = Identity.get_member_by_email(email) do
+      Identity.deliver_member_reset_password_instructions(
         member,
         &Routes.member_reset_password_url(conn, :edit, &1)
       )
@@ -27,13 +27,13 @@ defmodule WithoutCeasingWeb.MemberResetPasswordController do
   end
 
   def edit(conn, _params) do
-    render(conn, "edit.html", changeset: Accounts.change_member_password(conn.assigns.member))
+    render(conn, "edit.html", changeset: Identity.change_member_password(conn.assigns.member))
   end
 
   # Do not log in the member after reset password to avoid a
   # leaked token giving the member access to the account.
   def update(conn, %{"member" => member_params}) do
-    case Accounts.reset_member_password(conn.assigns.member, member_params) do
+    case Identity.reset_member_password(conn.assigns.member, member_params) do
       {:ok, _} ->
         conn
         |> put_flash(:info, "Password reset successfully.")
@@ -47,7 +47,7 @@ defmodule WithoutCeasingWeb.MemberResetPasswordController do
   defp get_member_by_reset_password_token(conn, _opts) do
     %{"token" => token} = conn.params
 
-    if member = Accounts.get_member_by_reset_password_token(token) do
+    if member = Identity.get_member_by_reset_password_token(token) do
       conn |> assign(:member, member) |> assign(:token, token)
     else
       conn

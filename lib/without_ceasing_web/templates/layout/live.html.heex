@@ -123,6 +123,13 @@
           <span>Translations</span>
           <% end %>
         </li>
+        <ul>
+          <%= if @current_member do %>
+            <li><%= @current_member.email %></li>
+            <li><%= live_redirect "Settings", to: Routes.member_settings_path(@socket, :edit) %></li>
+            <li><%= link "Log out", to: Routes.member_session_path(@socket, :delete), method: :delete %></li>
+          <% end %>
+        </ul>
       </ul>
     </div>
   </nav>

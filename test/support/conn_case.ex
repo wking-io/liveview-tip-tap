@@ -50,7 +50,7 @@ defmodule WithoutCeasingWeb.ConnCase do
   test context.
   """
   def register_and_log_in_member(%{conn: conn}) do
-    member = WithoutCeasing.AccountsFixtures.member_fixture()
+    member = WithoutCeasing.IdentityFixtures.member_fixture()
     %{conn: log_in_member(conn, member), member: member}
   end
 
@@ -60,7 +60,7 @@ defmodule WithoutCeasingWeb.ConnCase do
   It returns an updated `conn`.
   """
   def log_in_member(conn, member) do
-    token = WithoutCeasing.Accounts.generate_member_session_token(member)
+    token = WithoutCeasing.Identity.generate_member_session_token(member)
 
     conn
     |> Phoenix.ConnTest.init_test_session(%{})

@@ -1,7 +1,7 @@
 defmodule WithoutCeasingWeb.MemberSessionController do
   use WithoutCeasingWeb, :controller
 
-  alias WithoutCeasing.Accounts
+  alias WithoutCeasing.Identity
   alias WithoutCeasingWeb.MemberAuth
 
   def new(conn, _params) do
@@ -11,7 +11,7 @@ defmodule WithoutCeasingWeb.MemberSessionController do
   def create(conn, %{"member" => member_params}) do
     %{"email" => email, "password" => password} = member_params
 
-    if member = Accounts.get_member_by_email_and_password(email, password) do
+    if member = Identity.get_member_by_email_and_password(email, password) do
       MemberAuth.log_in_member(conn, member, member_params)
     else
       # In order to prevent user enumeration attacks, don't disclose whether the email is registered.

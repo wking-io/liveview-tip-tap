@@ -1,15 +1,15 @@
 defmodule WithoutCeasingWeb.MemberConfirmationController do
   use WithoutCeasingWeb, :controller
 
-  alias WithoutCeasing.Accounts
+  alias WithoutCeasing.Identity
 
   def new(conn, _params) do
     render(conn, "new.html")
   end
 
   def create(conn, %{"member" => %{"email" => email}}) do
-    if member = Accounts.get_member_by_email(email) do
-      Accounts.deliver_member_confirmation_instructions(
+    if member = Identity.get_member_by_email(email) do
+      Identity.deliver_member_confirmation_instructions(
         member,
         &Routes.member_confirmation_url(conn, :edit, &1)
       )
@@ -32,7 +32,7 @@ defmodule WithoutCeasingWeb.MemberConfirmationController do
   # Do not log in the member after confirmation to avoid a
   # leaked token giving the member access to the account.
   def update(conn, %{"token" => token}) do
-    case Accounts.confirm_member(token) do
+    case Identity.confirm_member(token) do
       {:ok, _} ->
         conn
         |> put_flash(:info, "Member confirmed successfully.")

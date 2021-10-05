@@ -1,7 +1,7 @@
 defmodule WithoutCeasingWeb.MemberSettingsController do
   use WithoutCeasingWeb, :controller
 
-  alias WithoutCeasing.Accounts
+  alias WithoutCeasing.Identity
   alias WithoutCeasingWeb.MemberAuth
 
   plug :assign_email_and_password_changesets
@@ -14,9 +14,9 @@ defmodule WithoutCeasingWeb.MemberSettingsController do
     %{"current_password" => password, "member" => member_params} = params
     member = conn.assigns.current_member
 
-    case Accounts.apply_member_email(member, password, member_params) do
+    case Identity.apply_member_email(member, password, member_params) do
       {:ok, applied_member} ->
-        Accounts.deliver_update_email_instructions(
+        Identity.deliver_update_email_instructions(
           applied_member,
           member.email,
           &Routes.member_settings_url(conn, :confirm_email, &1)
@@ -38,7 +38,7 @@ defmodule WithoutCeasingWeb.MemberSettingsController do
     %{"current_password" => password, "member" => member_params} = params
     member = conn.assigns.current_member
 
-    case Accounts.update_member_password(member, password, member_params) do
+    case Identity.update_member_password(member, password, member_params) do
       {:ok, member} ->
         conn
         |> put_flash(:info, "Password updated successfully.")
@@ -51,7 +51,7 @@ defmodule WithoutCeasingWeb.MemberSettingsController do
   end
 
   def confirm_email(conn, %{"token" => token}) do
-    case Accounts.update_member_email(conn.assigns.current_member, token) do
+    case Identity.update_member_email(conn.assigns.current_member, token) do
       :ok ->
         conn
         |> put_flash(:info, "Email changed successfully.")
@@ -68,7 +68,7 @@ defmodule WithoutCeasingWeb.MemberSettingsController do
     member = conn.assigns.current_member
 
     conn
-    |> assign(:email_changeset, Accounts.change_member_email(member))
-    |> assign(:password_changeset, Accounts.change_member_password(member))
+    |> assign(:email_changeset, Identity.change_member_email(member))
+    |> assign(:password_changeset, Identity.change_member_password(member))
   end
 end

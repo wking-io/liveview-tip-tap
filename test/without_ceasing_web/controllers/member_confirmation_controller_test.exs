@@ -1,9 +1,9 @@
 defmodule WithoutCeasingWeb.MemberConfirmationControllerTest do
   use WithoutCeasingWeb.ConnCase, async: true
 
-  alias WithoutCeasing.Accounts
+  alias WithoutCeasing.Identity
   alias WithoutCeasing.Repo
-  import WithoutCeasing.AccountsFixtures
+  import WithoutCeasing.IdentityFixtures
 
   setup do
     %{member: member_fixture()}
@@ -27,11 +27,11 @@ defmodule WithoutCeasingWeb.MemberConfirmationControllerTest do
 
       assert redirected_to(conn) == "/"
       assert get_flash(conn, :info) =~ "If your email is in our system"
-      assert Repo.get_by!(Accounts.MemberToken, member_id: member.id).context == "confirm"
+      assert Repo.get_by!(Identity.MemberToken, member_id: member.id).context == "confirm"
     end
 
     test "does not send confirmation token if Member is confirmed", %{conn: conn, member: member} do
-      Repo.update!(Accounts.Member.confirm_changeset(member))
+      Repo.update!(Identity.Member.confirm_changeset(member))
 
       conn =
         post(conn, Routes.member_confirmation_path(conn, :create), %{
@@ -40,7 +40,7 @@ defmodule WithoutCeasingWeb.MemberConfirmationControllerTest do
 
       assert redirected_to(conn) == "/"
       assert get_flash(conn, :info) =~ "If your email is in our system"
-      refute Repo.get_by(Accounts.MemberToken, member_id: member.id)
+      refute Repo.get_by(Identity.MemberToken, member_id: member.id)
     end
 
     test "does not send confirmation token if email is invalid", %{conn: conn} do
@@ -51,7 +51,7 @@ defmodule WithoutCeasingWeb.MemberConfirmationControllerTest do
 
       assert redirected_to(conn) == "/"
       assert get_flash(conn, :info) =~ "If your email is in our system"
-      assert Repo.all(Accounts.MemberToken) == []
+      assert Repo.all(Identity.MemberToken) == []
     end
   end
 
@@ -70,15 +70,15 @@ defmodule WithoutCeasingWeb.MemberConfirmationControllerTest do
     test "confirms the given token once", %{conn: conn, member: member} do
       token =
         extract_member_token(fn url ->
-          Accounts.deliver_member_confirmation_instructions(member, url)
+          Identity.deliver_member_confirmation_instructions(member, url)
         end)
 
       conn = post(conn, Routes.member_confirmation_path(conn, :update, token))
       assert redirected_to(conn) == "/"
       assert get_flash(conn, :info) =~ "Member confirmed successfully"
-      assert Accounts.get_member!(member.id).confirmed_at
+      assert Identity.get_member!(member.id).confirmed_at
       refute get_session(conn, :member_token)
-      assert Repo.all(Accounts.MemberToken) == []
+      assert Repo.all(Identity.MemberToken) == []
 
       # When not logged in
       conn = post(conn, Routes.member_confirmation_path(conn, :update, token))
@@ -99,7 +99,7 @@ defmodule WithoutCeasingWeb.MemberConfirmationControllerTest do
       conn = post(conn, Routes.member_confirmation_path(conn, :update, "oops"))
       assert redirected_to(conn) == "/"
       assert get_flash(conn, :error) =~ "Member confirmation link is invalid or it has expired"
-      refute Accounts.get_member!(member.id).confirmed_at
+      refute Identity.get_member!(member.id).confirmed_at
     end
   end
 end
