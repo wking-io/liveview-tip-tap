@@ -24,7 +24,7 @@ defmodule WithoutCeasingWeb.MemberAuth do
   disconnected on log out. The line can be safely removed
   if you are not using LiveView.
   """
-  def log_in_member(conn, member, params \\ %{}) do
+  def sign_in_member(conn, member, params \\ %{}) do
     token = Identity.generate_member_session_token(member)
     member_return_to = get_session(conn, :member_return_to)
 
@@ -70,7 +70,7 @@ defmodule WithoutCeasingWeb.MemberAuth do
 
   It clears all session data for safety. See renew_session.
   """
-  def log_out_member(conn) do
+  def sign_out_member(conn) do
     member_token = get_session(conn, :member_token)
     member_token && Identity.delete_session_token(member_token)
 

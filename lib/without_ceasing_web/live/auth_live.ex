@@ -12,12 +12,12 @@ defmodule WithoutCeasingWeb.MemberLiveAuth do
     if socket.assigns.current_member.confirmed_at do
       {:cont, socket}
     else
-      {:halt, redirect(socket, to: "/members/log_in")}
+      {:halt, redirect(socket, to: "/members/sign-in")}
     end
   end
 
   def mount(_params, _session, socket) do
-    {:halt, redirect(socket, to: "/members/log_in")}
+    {:halt, redirect(socket, to: "/members/sign-in")}
   end
 
   defp fetch_current_member(member_token) do

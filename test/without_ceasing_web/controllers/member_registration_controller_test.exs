@@ -15,7 +15,7 @@ defmodule WithoutCeasingWeb.MemberRegistrationControllerTest do
     test "redirects if already logged in", %{conn: conn} do
       conn =
         conn
-        |> log_in_member(member_fixture())
+        |> sign_in_member(member_fixture())
         |> get(Routes.member_registration_path(conn, :new))
 
       assert redirected_to(conn) == "/"

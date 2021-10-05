@@ -16,9 +16,9 @@ defmodule WithoutCeasingWeb.MemberAuthTest do
     %{member: member_fixture(), conn: conn}
   end
 
-  describe "log_in_member/3" do
+  describe "sign_in_member/3" do
     test "stores the member token in the session", %{conn: conn, member: member} do
-      conn = MemberAuth.log_in_member(conn, member)
+      conn = MemberAuth.sign_in_member(conn, member)
       assert token = get_session(conn, :member_token)
       assert get_session(conn, :live_socket_id) == "members_sessions:#{Base.url_encode64(token)}"
       assert redirected_to(conn) == "/"
@@ -26,18 +26,18 @@ defmodule WithoutCeasingWeb.MemberAuthTest do
     end
 
     test "clears everything previously stored in the session", %{conn: conn, member: member} do
-      conn = conn |> put_session(:to_be_removed, "value") |> MemberAuth.log_in_member(member)
+      conn = conn |> put_session(:to_be_removed, "value") |> MemberAuth.sign_in_member(member)
       refute get_session(conn, :to_be_removed)
     end
 
     test "redirects to the configured path", %{conn: conn, member: member} do
-      conn = conn |> put_session(:member_return_to, "/hello") |> MemberAuth.log_in_member(member)
+      conn = conn |> put_session(:member_return_to, "/hello") |> MemberAuth.sign_in_member(member)
       assert redirected_to(conn) == "/hello"
     end
 
     test "writes a cookie if remember_me is configured", %{conn: conn, member: member} do
       conn =
-        conn |> fetch_cookies() |> MemberAuth.log_in_member(member, %{"remember_me" => "true"})
+        conn |> fetch_cookies() |> MemberAuth.sign_in_member(member, %{"remember_me" => "true"})
 
       assert get_session(conn, :member_token) == conn.cookies[@remember_me_cookie]
 
@@ -56,7 +56,7 @@ defmodule WithoutCeasingWeb.MemberAuthTest do
         |> put_session(:member_token, member_token)
         |> put_req_cookie(@remember_me_cookie, member_token)
         |> fetch_cookies()
-        |> MemberAuth.log_out_member()
+        |> MemberAuth.sign_out_member()
 
       refute get_session(conn, :member_token)
       refute conn.cookies[@remember_me_cookie]
@@ -71,13 +71,13 @@ defmodule WithoutCeasingWeb.MemberAuthTest do
 
       conn
       |> put_session(:live_socket_id, live_socket_id)
-      |> MemberAuth.log_out_member()
+      |> MemberAuth.sign_out_member()
 
       assert_receive %Phoenix.Socket.Broadcast{event: "disconnect", topic: ^live_socket_id}
     end
 
     test "works even if member is already logged out", %{conn: conn} do
-      conn = conn |> fetch_cookies() |> MemberAuth.log_out_member()
+      conn = conn |> fetch_cookies() |> MemberAuth.sign_out_member()
       refute get_session(conn, :member_token)
       assert %{max_age: 0} = conn.resp_cookies[@remember_me_cookie]
       assert redirected_to(conn) == "/"
@@ -96,7 +96,7 @@ defmodule WithoutCeasingWeb.MemberAuthTest do
 
     test "authenticates member from cookies", %{conn: conn, member: member} do
       logged_in_conn =
-        conn |> fetch_cookies() |> MemberAuth.log_in_member(member, %{"remember_me" => "true"})
+        conn |> fetch_cookies() |> MemberAuth.sign_in_member(member, %{"remember_me" => "true"})
 
       member_token = logged_in_conn.cookies[@remember_me_cookie]
       %{value: signed_token} = logged_in_conn.resp_cookies[@remember_me_cookie]

@@ -7,7 +7,7 @@ defmodule WithoutCeasingWeb.MemberSessionControllerTest do
     %{member: member_fixture()}
   end
 
-  describe "GET /members/log_in" do
+  describe "GET /members/sign-in" do
     test "renders log in page", %{conn: conn} do
       conn = get(conn, Routes.member_session_path(conn, :new))
       response = html_response(conn, 200)
@@ -16,13 +16,13 @@ defmodule WithoutCeasingWeb.MemberSessionControllerTest do
       assert response =~ "Forgot your password?</a>"
     end
 
-    test "redirects if already logged in", %{conn: conn, member: member} do
-      conn = conn |> log_in_member(member) |> get(Routes.member_session_path(conn, :new))
+    test "redirects if already signed in", %{conn: conn, member: member} do
+      conn = conn |> sign_in_member(member) |> get(Routes.member_session_path(conn, :new))
       assert redirected_to(conn) == "/"
     end
   end
 
-  describe "POST /members/log_in" do
+  describe "POST /members/sign-in" do
     test "logs the member in", %{conn: conn, member: member} do
       conn =
         post(conn, Routes.member_session_path(conn, :create), %{
@@ -71,18 +71,18 @@ defmodule WithoutCeasingWeb.MemberSessionControllerTest do
     test "emits error message with invalid credentials", %{conn: conn, member: member} do
       conn =
         post(conn, Routes.member_session_path(conn, :create), %{
-          "member" => %{"email" => member.email, "password" => "invalid_password"}
+          "member" => %{"email" => member.email, "password" => "invalid"}
         })
 
       response = html_response(conn, 200)
-      assert response =~ "<h1>Log in</h1>"
+      assert response =~ "Sign into your account"
       assert response =~ "Invalid email or password"
     end
   end
 
-  describe "DELETE /members/log_out" do
+  describe "DELETE /members/sign-out" do
     test "logs the member out", %{conn: conn, member: member} do
-      conn = conn |> log_in_member(member) |> delete(Routes.member_session_path(conn, :delete))
+      conn = conn |> sign_in_member(member) |> delete(Routes.member_session_path(conn, :delete))
       assert redirected_to(conn) == "/"
       refute get_session(conn, :member_token)
       assert get_flash(conn, :info) =~ "Logged out successfully"

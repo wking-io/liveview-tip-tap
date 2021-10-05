@@ -88,7 +88,7 @@ defmodule WithoutCeasingWeb.MemberConfirmationControllerTest do
       # When logged in
       conn =
         build_conn()
-        |> log_in_member(member)
+        |> sign_in_member(member)
         |> post(Routes.member_confirmation_path(conn, :update, token))
 
       assert redirected_to(conn) == "/"

@@ -43,7 +43,7 @@ defmodule WithoutCeasingWeb.MemberSettingsController do
         conn
         |> put_flash(:info, "Password updated successfully.")
         |> put_session(:member_return_to, Routes.member_settings_path(conn, :edit))
-        |> MemberAuth.log_in_member(member)
+        |> MemberAuth.sign_in_member(member)
 
       {:error, changeset} ->
         render(conn, "edit.html", password_changeset: changeset)

@@ -10,8 +10,12 @@ defmodule WithoutCeasingWeb.ErrorHelpers do
   """
   def error_tag(form, field, opts \\ []) do
     Enum.map(Keyword.get_values(form.errors, field), fn error ->
-      opts = opts |> Keyword.put_new(:phx_feedback_for, input_name(form, field))
-      content_tag(:span, translate_error(error), opts)
+      opts =
+        opts
+        |> Keyword.put_new(:phx_feedback_for, input_name(form, field))
+        |> Keyword.put_new(:class, "mt-2 text-sm text-error-600")
+
+      content_tag(:p, translate_error(error), opts)
     end)
   end
 

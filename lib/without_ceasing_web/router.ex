@@ -24,12 +24,12 @@ defmodule WithoutCeasingWeb.Router do
 
     get "/members/register", MemberRegistrationController, :new
     post "/members/register", MemberRegistrationController, :create
-    get "/members/log_in", MemberSessionController, :new
-    post "/members/log_in", MemberSessionController, :create
-    get "/members/reset_password", MemberResetPasswordController, :new
-    post "/members/reset_password", MemberResetPasswordController, :create
-    get "/members/reset_password/:token", MemberResetPasswordController, :edit
-    put "/members/reset_password/:token", MemberResetPasswordController, :update
+    get "/members/sign-in", MemberSessionController, :new
+    post "/members/sign-in", MemberSessionController, :create
+    get "/members/reset-password", MemberResetPasswordController, :new
+    post "/members/reset-password", MemberResetPasswordController, :create
+    get "/members/reset-password/:token", MemberResetPasswordController, :edit
+    put "/members/reset-password/:token", MemberResetPasswordController, :update
   end
 
   scope "/", WithoutCeasingWeb do
@@ -39,7 +39,7 @@ defmodule WithoutCeasingWeb.Router do
       live "/", HomeLive, :index
       get "/members/settings", MemberSettingsController, :edit
       put "/members/settings", MemberSettingsController, :update
-      get "/members/settings/confirm_email/:token", MemberSettingsController, :confirm_email
+      get "/members/settings/confirm-email/:token", MemberSettingsController, :confirm_email
 
       live "/scribe", DashboardLive.Index, :index
       live "/scribe/editor/:translation/:book/:chapter", EditorLive.Show, :edit
@@ -53,7 +53,7 @@ defmodule WithoutCeasingWeb.Router do
   scope "/", WithoutCeasingWeb do
     pipe_through [:browser]
 
-    delete "/members/log_out", MemberSessionController, :delete
+    delete "/members/sign-out", MemberSessionController, :delete
     get "/members/confirm", MemberConfirmationController, :new
     post "/members/confirm", MemberConfirmationController, :create
     get "/members/confirm/:token", MemberConfirmationController, :edit

@@ -44,14 +44,14 @@ defmodule WithoutCeasingWeb.ConnCase do
   @doc """
   Setup helper that registers and logs in members.
 
-      setup :register_and_log_in_member
+      setup :register_and_sign_in_member
 
   It stores an updated connection and a registered member in the
   test context.
   """
-  def register_and_log_in_member(%{conn: conn}) do
+  def register_and_sign_in_member(%{conn: conn}) do
     member = WithoutCeasing.IdentityFixtures.member_fixture()
-    %{conn: log_in_member(conn, member), member: member}
+    %{conn: sign_in_member(conn, member), member: member}
   end
 
   @doc """
@@ -59,7 +59,7 @@ defmodule WithoutCeasingWeb.ConnCase do
 
   It returns an updated `conn`.
   """
-  def log_in_member(conn, member) do
+  def sign_in_member(conn, member) do
     token = WithoutCeasing.Identity.generate_member_session_token(member)
 
     conn

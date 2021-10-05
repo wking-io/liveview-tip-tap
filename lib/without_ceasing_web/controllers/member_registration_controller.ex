@@ -21,7 +21,7 @@ defmodule WithoutCeasingWeb.MemberRegistrationController do
 
         conn
         |> put_flash(:info, "Member created successfully.")
-        |> MemberAuth.log_in_member(member)
+        |> MemberAuth.sign_in_member(member)
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)

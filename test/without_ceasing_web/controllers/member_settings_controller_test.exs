@@ -4,7 +4,7 @@ defmodule WithoutCeasingWeb.MemberSettingsControllerTest do
   alias WithoutCeasing.Identity
   import WithoutCeasing.IdentityFixtures
 
-  setup :register_and_log_in_member
+  setup :register_and_sign_in_member
 
   describe "GET /members/settings" do
     test "renders settings page", %{conn: conn} do
