@@ -8,6 +8,7 @@ defmodule WithoutCeasing.Bible do
 
   alias WithoutCeasing.Repo
   alias WithoutCeasing.Bible.{Verse, VerseRevision, Book, Editor, VerseRevision}
+  alias Bible.Data
   require Logger
 
   @doc """
@@ -377,4 +378,6 @@ defmodule WithoutCeasing.Bible do
   def change_pending_verse(%VerseRevision{} = pending_verse, attrs \\ %{}) do
     VerseRevision.changeset(pending_verse, attrs)
   end
+
+  def get_chapter(book, chapter), do: Data.get_chapter(book, chapter)
 end

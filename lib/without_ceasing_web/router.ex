@@ -41,6 +41,8 @@ defmodule WithoutCeasingWeb.Router do
       put "/members/settings", MemberSettingsController, :update
       get "/members/settings/confirm-email/:token", MemberSettingsController, :confirm_email
 
+      live "/bible/:book/:chapter", BibleLive, :index
+
       live "/scribe", DashboardLive.Index, :index
       live "/scribe/editor/:translation/:book/:chapter", EditorLive.Show, :edit
 
