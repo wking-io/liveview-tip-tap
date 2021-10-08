@@ -7,8 +7,7 @@ defmodule WithoutCeasing.Bible do
   alias Ecto.Changeset
 
   alias WithoutCeasing.Repo
-  alias WithoutCeasing.Bible.{Verse, VerseRevision, Book, Editor, VerseRevision}
-  alias Bible.Data
+  alias WithoutCeasing.Bible.{Verse, VerseRevision, Book, Editor, VerseRevision, Data}
   require Logger
 
   @doc """
