@@ -20,7 +20,7 @@ defmodule WithoutCeasing.MixProject do
   def application do
     [
       mod: {WithoutCeasing.Application, []},
-      extra_applications: [:logger, :runtime_tools]
+      extra_applications: [:logger, :runtime_tools, :httpoison]
     ]
   end
 
@@ -49,7 +49,8 @@ defmodule WithoutCeasing.MixProject do
       {:finch, "~> 0.8"},
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
-      {:swoosh, "~> 1.4"}
+      {:swoosh, "~> 1.4"},
+      {:httpoison, "~> 1.8"}
     ]
   end
 
