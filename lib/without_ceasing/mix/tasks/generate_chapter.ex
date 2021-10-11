@@ -70,7 +70,7 @@ defmodule Mix.Tasks.GenerateChapter do
         chunk
         |> String.split("\n\n", trim: true)
 
-      [section_heading] ++ Enum.flat_map(paragraphs, &parse_verses(&1, book, chapter))
+      [section_heading] ++ Enum.map(paragraphs, &parse_verses(&1, book, chapter))
     end)
   end
 
@@ -78,21 +78,40 @@ defmodule Mix.Tasks.GenerateChapter do
     verses
     |> String.replace("  ", "")
     |> String.split(~r/\[[[:digit:]]+\]/, trim: true, include_captures: true)
-    |> Enum.chunk_every(2)
+    |> then(fn list ->
+      if Enum.count(list) > 1 do
+        [first | rest] = list
+
+        if Regex.match?(~r([\[\d+\]]), first) do
+          Enum.chunk_every(list, 2)
+        else
+          [[nil, first]] ++ Enum.chunk_every(rest, 2)
+        end
+      else
+        [[nil, List.first(list)]]
+      end
+    end)
     |> Enum.map(fn [num, text] ->
       parsed_text =
         text
         |> String.trim()
         |> String.replace(["“", "”", "‘", "’"], &replace_fancy/1)
 
-      number = num |> String.replace(~r([\[\]]), "") |> String.to_integer()
+      number =
+        unless is_nil(num),
+          do: num |> String.replace(~r([\[\]]), "") |> String.to_integer(),
+          else: 999
 
       id = String.to_integer("#{book_num}#{to_id(chapter_num)}#{to_id(number)}")
 
       %{
         id: id,
-        text: parsed_text,
-        number: number
+        text:
+          if(String.contains?(parsed_text, "\n"),
+            do: [{:poetry, parsed_text}],
+            else: [{:normal, parsed_text}]
+          ),
+        number: if(number == 999, do: nil, else: number)
       }
     end)
   end
