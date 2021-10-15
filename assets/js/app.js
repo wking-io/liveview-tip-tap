@@ -81,8 +81,22 @@ Alpine.data('menuButton', () => ({
 Alpine.data('accordion', () => ({
   selected: null,
   select() {
+    console.log(this.$el.id);
     this.selected = this.$el.id === this.selected ? null : this.$el.id;
   },
 }));
+
+Alpine.store('menu', {
+  open: true,
+  toggle() {
+    this.open = !this.open;
+  },
+  open() {
+    this.open = true;
+  },
+  close() {
+    this.open = false;
+  },
+});
 
 Alpine.start();

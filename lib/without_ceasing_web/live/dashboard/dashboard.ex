@@ -8,7 +8,6 @@ defmodule WithoutCeasingWeb.DashboardLive.Index do
     {:ok,
      socket
      |> assign(:books, Bible.get_book_summaries())
-     |> assign(:locked, false)
-     |> assign(:translation, "esv")}
+     |> assign(:locked, false)}
   end
 end

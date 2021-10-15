@@ -5,10 +5,10 @@
         <h3 class="font-bold flex-1"><%= book.name %></h3>
         <%= unless @locked do %>
           <div>progress</div>
-          <button @click="select" class="py-4 pr-6" id={"book-#{book.slug}"}>
-            <span x-show={"selected != 'book-#{book.slug}'"} class="sr-only">Open</span>
-            <span x-show={"selected == 'book-#{book.slug}'"} class="sr-only">Close</span>
-            <svg aria-hidden xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 stroke-current text-gray-500 transition-all duration-700" :class={"selected == 'book-#{book.slug}' && 'rotate-90'"} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <button @click="select" class="py-4 pr-6" id={"book-#{normalize_slug(book.slug)}"}>
+            <span x-show={"selected != 'book-#{normalize_slug(book.slug)}'"} class="sr-only">Open</span>
+            <span x-show={"selected == 'book-#{normalize_slug(book.slug)}'"} class="sr-only">Close</span>
+            <svg aria-hidden xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 stroke-current text-gray-500 transition-all duration-700" :class={"selected == 'book-#{normalize_slug(book.slug)}' && 'rotate-90'"} fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
             </svg>
           </button>
@@ -18,11 +18,11 @@
           </svg>
         <% end %>
       </div>
-      <div class="relative overflow-hidden transition-all max-h-0 duration-700" x-ref={"container#{book.slug}"} x-bind:style={"selected == 'book-#{book.slug}' ? 'max-height: ' + $refs.container#{book.slug}.scrollHeight + 'px' : ''"}>
+      <div class="relative overflow-hidden transition-all max-h-0 duration-700" x-ref={"container#{book.slug}"} x-bind:style={"selected == 'book-#{normalize_slug(book.slug)}' ? 'max-height: ' + $refs.container#{normalize_slug(book.slug)}.scrollHeight + 'px' : ''"}>
         <ul class="grid grid-cols-chapters gap-x-4 gap-y-2 p-6">
           <%= for chapter <- book.chapters do %>
             <li class="w-8 h-8">
-              <%= live_redirect to: Routes.editor_show_path(@socket, :edit, @translation, book.slug, chapter), class: "text-gray-700 hover:text-brand-300 flex items-center justify-center w-full h-full" do %>
+              <%= live_redirect to: Routes.bible_path(@socket, :edit, book.slug, chapter), class: "text-gray-700 hover:text-brand-300 flex items-center justify-center w-full h-full" do %>
                 <span class="sr-only">Chapter</span> <%= chapter %>
               <% end %>
             </li>

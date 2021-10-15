@@ -20,4 +20,20 @@ defmodule WithoutCeasingWeb.LiveHelpers do
     modal_opts = [id: :modal, return_to: path, component: component, opts: opts]
     live_component(WithoutCeasingWeb.ModalComponent, modal_opts)
   end
+
+  def normalize_slug(string) do
+    cond do
+      String.contains?(string, "-1") ->
+        String.replace(string, "-1", "one")
+
+      String.contains?(string, "-2") ->
+        String.replace(string, "-2", "two")
+
+      String.contains?(string, "-3") ->
+        String.replace(string, "-3", "three")
+
+      true ->
+        string
+    end
+  end
 end

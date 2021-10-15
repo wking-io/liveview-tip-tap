@@ -44,7 +44,7 @@ defmodule WithoutCeasingWeb.Router do
       live "/bible/:book/:chapter", BibleLive, :index
 
       live "/scribe", DashboardLive.Index, :index
-      live "/scribe/editor/:translation/:book/:chapter", EditorLive.Show, :edit
+      live "/scribe/editor/:book/:chapter", EditorLive.Show, :edit
 
       live "/scribe/translations", TranslationLive.Index, :index
       live "/scribe/translations/create", TranslationLive.Index, :new

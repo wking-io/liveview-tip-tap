@@ -1,8 +1,8 @@
 defmodule WithoutCeasing.Bible.Data do
-  alias Bible.Data.John
+  alias WithoutCeasing.Bible.Data.John
   require Logger
 
-  def get_chapter("john", "1") do
-    John.One.get()
+  def get_chapter("john", "12") do
+    John.Twelve.get()
   end
 end

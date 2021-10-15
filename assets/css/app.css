@@ -8,10 +8,6 @@
   display: none !important;
 }
 
-.menu-button-content {
-  min-width: 180px;
-}
-
 @screen lg {
   .lg\:min-w-xl {
     min-width: 260px;
@@ -69,19 +65,22 @@ Admin
 Admin Nav
 =================*/
 
-.nav-icon {
-  height: 28px;
+.top-nav {
+  width: calc(100% - theme('spacing.56'));
 }
 
-.nav-item::before {
-  @apply w-5 h-5 rounded-br-full bg-white absolute bottom-full right-0;
-  box-shadow: 5px 5px 0 5px theme('colors.gray.200');
+.top-nav.top-nav-full {
+  width: 100%;
+}
+
+.nav-link.nav-link--current::before {
+  @apply w-1 h-full rounded-r-lg bg-gray-800 absolute -left-8 top-0 shadow;
   content: "";
 }
 
-.nav-item::after {
-  @apply w-5 h-5 rounded-tr-full bg-white absolute top-full right-0;
-  box-shadow: 5px -5px 0 5px theme('colors.gray.200');
+.nav-link:hover::after {
+  @apply h-full rounded-lg bg-gray-800 absolute -left-4 top-0 shadow;
+  width: calc(100% + theme('spacing.16'));
   content: "";
 }
 
@@ -114,3 +113,21 @@ Admin Tables
 /*=================
 Admin Forms
 =================*/
+
+/*=================
+Bible
+=================*/
+
+.paragraph {
+  text-indent: theme('spacing.4');
+}
+
+.verse {
+  text-indent: 0;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
