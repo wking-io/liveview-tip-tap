@@ -23,6 +23,7 @@ module.exports = {
     colors,
     fontFamily: {
       sans: [ 'Inter var', ...defaultTheme.fontFamily.sans ],
+      display: [ 'Qanelas', 'Inter var', ...defaultTheme.fontFamily.sans ],
     },
     extend: {
       boxShadow: {

@@ -86,16 +86,45 @@ Alpine.data('accordion', () => ({
   },
 }));
 
-Alpine.store('menu', {
-  open: true,
-  toggle() {
-    this.open = !this.open;
+const NONE = 'none';
+const MENU = 'menu';
+const DETAILS = 'details';
+
+Alpine.store('panel', {
+  state: MENU,
+  init() {
+    this.state = MENU;
   },
-  open() {
-    this.open = true;
+  toggle(panel) {
+    this.state = this.state === panel ? NONE : panel;
+  },
+  open(panel) {
+    this.state = panel;
   },
   close() {
-    this.open = false;
+    this.state = NONE;
+  },
+  getClasses(component) {
+    switch (component) {
+      case 'workspace':
+        if (this.state === MENU) {
+          return '!ml-56';
+        } else if (this.state === DETAILS) {
+          return '!ml-0 !mr-[500px]';
+        } else {
+          return '!mx-0';
+        }
+      case 'topnav':
+        if (this.state === MENU) {
+          return '';
+        } else if (this.state === DETAILS) {
+          return '!left-0 !right-[500px]';
+        } else {
+          return '!left-0';
+        }
+      default:
+        return '';
+    }
   },
 });
 

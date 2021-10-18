@@ -2,11 +2,11 @@
   <nav 
     class="nav fixed h-full flex flex-col w-56 p-6 pt-10 top-0 right-full transition duration-300 transform translate-x-full"
     x-data
-    x-show="$store.menu.open"
-    :class="$store.menu.open ? '' : 'translate-x-0'"
+    x-show="$store.panel.state === 'menu'"
+    :class="$store.panel.state === 'menu' ? '' : '!translate-x-0'"
   >
     <div class="flex items-center justify-between">
-      <%= live_redirect to: Routes.dashboard_index_path(@socket, :index), class: "w-full" do %>
+      <%= live_redirect to: Routes.bible_index_path(@socket, :index), class: "w-full" do %>
         <span class="sr-only">Without Ceasing</span>
         <svg aria-hidden class="w-full h-auto" width="436" height="93" viewBox="0 0 436 93" fill="none" xmlns="http://www.w3.org/2000/svg">
           <rect x="0.402222" y="16.0008" width="432.104" height="76.6435" transform="rotate(-2.12215 0.402222 16.0008)" fill="url(#paint0_linear)"/>
@@ -46,7 +46,7 @@
     <div class="flex-1 mt-12 px-2">
       <ul class="">
         <li class="">
-          <%= live_redirect to: Routes.dashboard_index_path(@socket, :index), class: "nav-link nav-link--current flex items-center text-gray-700 group hover:text-white py-2 relative" do %>
+          <%= live_redirect to: Routes.bible_index_path(@socket, :index), class: "nav-link nav-link--current flex items-center text-gray-700 group hover:text-white py-2 relative" do %>
             <i
               class="w-auto h-[30px] py-1 mr-3 rounded-full relative z-10"
             >
@@ -63,7 +63,7 @@
           <% end %>
         </li>
         <li class="">
-          <%= live_redirect to: Routes.dashboard_index_path(@socket, :index), class: "nav-link flex items-center text-gray-700 group hover:text-white py-2 relative" do %>
+          <%= live_redirect to: Routes.bible_index_path(@socket, :index), class: "nav-link flex items-center text-gray-700 group hover:text-white py-2 relative" do %>
             <i
               class="w-auto h-[30px] py-1 mr-3 rounded-full relative z-10"
             >
@@ -80,7 +80,7 @@
           <% end %>
         </li>
         <li class="">
-          <%= live_redirect to: Routes.dashboard_index_path(@socket, :index), class: "nav-link flex items-center text-gray-700 group hover:text-white py-2 relative" do %>
+          <%= live_redirect to: Routes.bible_index_path(@socket, :index), class: "nav-link flex items-center text-gray-700 group hover:text-white py-2 relative" do %>
             <i
               class="w-auto h-[30px] py-1 mr-3 rounded-full relative z-10"
             >
@@ -97,7 +97,7 @@
           <% end %>
         </li>
         <li class="">
-          <%= live_redirect to: Routes.dashboard_index_path(@socket, :index), class: "nav-link flex items-center text-gray-700 group hover:text-white py-2 relative" do %>
+          <%= live_redirect to: Routes.bible_index_path(@socket, :index), class: "nav-link flex items-center text-gray-700 group hover:text-white py-2 relative" do %>
             <i
               class="w-auto h-[30px] py-1 mr-3 rounded-full relative z-10"
             >
@@ -114,7 +114,7 @@
           <% end %>
         </li>
         <li class="">
-          <%= live_redirect to: Routes.dashboard_index_path(@socket, :index), class: "nav-link flex items-center text-gray-700 group hover:text-white py-2 relative" do %>
+          <%= live_redirect to: Routes.bible_index_path(@socket, :index), class: "nav-link flex items-center text-gray-700 group hover:text-white py-2 relative" do %>
             <i
               class="w-auto h-[30px] py-1 mr-3 rounded-full relative z-10"
             >
@@ -161,11 +161,12 @@
   </nav>
   <div
     x-data
-    class="top-nav fixed top-0 left-56 pt-4 px-16 bg-white z-10"
-    :class="$store.menu.open ? '' : 'top-nav-full !left-0'"
+    class="top-nav fixed top-0 left-56 right-0 pt-4 px-16 bg-white z-10"
+    :class="$store.panel.getClasses('topnav')"
+    :class="$store.panel.state === 'menu' ? '' : 'top-nav-full !left-0'"
   >
     <div class="flex items-center border-b border-gray-300 pb-2">
-      <button x-data @click="$store.menu.toggle()" class="p-1 w-8 h-8 hover:bg-gray-100 rounded" aria-label="Toggle Nav">
+      <button x-data @click="$store.panel.toggle('menu')" class="p-1 w-8 h-8 hover:bg-gray-100 rounded" aria-label="Toggle Nav">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-auto w-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
         </svg>
@@ -177,7 +178,7 @@
         </svg>
         <input type="text" class="border-0 flex-1 focus:outline-none focus:ring-0" placeholder="Search"/>
       </label>
-      <button x-data @click="" class="p-1 w-8 h-8 hover:bg-gray-100 rounded" aria-label="Toggle Details">
+      <button x-data @click="$store.panel.toggle('details')" class="p-1 w-8 h-8 hover:bg-gray-100 rounded" aria-label="Toggle Details">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-auto w-full" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
         </svg>
@@ -187,9 +188,9 @@
 </header>
 <main
   role="main"
-  class="min-h-screen ml-56 bg-white mt-[73px]"
+  class="min-h-screen bg-white mt-[73px] ml-56"
   x-data
-  :class="$store.menu.open ? '' : 'ml-0'"
+  :class="$store.panel.getClasses('workspace')"
 >
   <div class="py-8 px-16 relative">
     <div class="">
@@ -220,6 +221,12 @@
       </div>
     </div>
   </div>
+  <aside
+    class="fixed h-full flex flex-col w-[500px] p-6 pt-10 top-0 left-full transition duration-300 transform translate-x-0" 
+    x-show="$store.panel.state === 'details'"
+    :class="$store.panel.state === 'details' ? '' : '!-translate-x-full'">
+    <h2>Details</h2>
+  </aside>
 </main>
 <!--
 <footer class="bg-brand-200">

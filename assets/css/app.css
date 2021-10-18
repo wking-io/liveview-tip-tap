@@ -3,6 +3,18 @@
 @tailwind components;
 @tailwind utilities;
 
+@font-face {
+  font-family: "Qanelas";
+  font-weight: 200;
+  src: url("../fonts/QanelasSoft-UltraLight.otf") format("otf");
+}
+
+@font-face {
+  font-family: "Qanelas";
+  font-weight: 800;
+  src: url("../fonts/QanelasSoft-ExtraBold.otf") format("otf");
+}
+
 [x-cloak],
 [hidden] {
   display: none !important;
@@ -64,14 +76,6 @@ Admin
 /*=================
 Admin Nav
 =================*/
-
-.top-nav {
-  width: calc(100% - theme('spacing.56'));
-}
-
-.top-nav.top-nav-full {
-  width: 100%;
-}
 
 .nav-link.nav-link--current::before {
   @apply w-1 h-full rounded-r-lg bg-gray-800 absolute -left-8 top-0 shadow;
