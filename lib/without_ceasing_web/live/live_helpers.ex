@@ -36,4 +36,18 @@ defmodule WithoutCeasingWeb.LiveHelpers do
         string
     end
   end
+
+  def get_workspace_classes("menu"), do: "ml-56"
+  def get_workspace_classes("details"), do: "mr-[500px]"
+  def get_workspace_classes(_), do: ""
+
+  def get_sidenav_classes("menu"), do: "translate-x-full"
+  def get_sidenav_classes(_), do: "translate-x-0"
+
+  def get_topnav_classes("menu"), do: "left-56 right-0"
+  def get_topnav_classes("details"), do: "left-0 right-[500px]"
+  def get_topnav_classes(_), do: "left-0 right-0"
+
+  def get_details_classes("details"), do: "-translate-x-full"
+  def get_details_classes(_), do: "translate-x-0"
 end

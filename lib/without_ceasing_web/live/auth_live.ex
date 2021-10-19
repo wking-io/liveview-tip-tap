@@ -10,7 +10,10 @@ defmodule WithoutCeasingWeb.MemberLiveAuth do
       end)
 
     if socket.assigns.current_member.confirmed_at do
-      {:cont, socket}
+      {:cont,
+       socket
+       |> assign(current_panel: "menu")
+       |> assign(current_verse: nil)}
     else
       {:halt, redirect(socket, to: "/members/sign-in")}
     end

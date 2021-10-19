@@ -1,5 +1,6 @@
 defmodule WithoutCeasingWeb.ResourceLive.Show do
   use WithoutCeasingWeb, :live_view
+  use WithoutCeasingWeb.UniversalEvents
 
   alias WithoutCeasing.Content
 

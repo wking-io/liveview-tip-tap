@@ -1,5 +1,6 @@
 defmodule WithoutCeasingWeb.HomeLive do
   use WithoutCeasingWeb, :live_view
+  use WithoutCeasingWeb.UniversalEvents
 
   alias WithoutCeasing.Newsletter
   alias WithoutCeasing.NewsletterForm

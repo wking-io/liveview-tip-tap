@@ -1,5 +1,6 @@
 defmodule WithoutCeasingWeb.VerseRevisionLive.Index do
   use WithoutCeasingWeb, :live_view
+  use WithoutCeasingWeb.UniversalEvents
 
   alias WithoutCeasing.Bible
   alias WithoutCeasing.Bible.VerseRevision
