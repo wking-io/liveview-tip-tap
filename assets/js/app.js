@@ -55,7 +55,10 @@ let liveSocket = new LiveSocket('/live', Socket, {
 });
 
 // Show progress bar on live navigation and form submits
-topbar.config({ barColors: { 0: '#29d' }, shadowColor: 'rgba(0, 0, 0, .3)' });
+topbar.config({
+  barColors: { 0: '#FFBA8F', 0.33: '#FF8B42', 0.66: '#F2673D', 1: '#E53A33' },
+  shadowColor: 'rgba(0, 0, 0, .3)',
+});
 window.addEventListener('phx:page-loading-start', (info) => topbar.show());
 window.addEventListener('phx:page-loading-stop', (info) => topbar.hide());
 
@@ -64,7 +67,7 @@ liveSocket.connect();
 
 // expose liveSocket on window for web console debug logs and latency simulation:
 // >> liveSocket.enableDebug()
-// >> liveSocket.enableLatencySim(1000)  // enabled for duration of browser session
+// >> liveSocket.enableLatencySim(1000); // enabled for duration of browser session
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket;
 
@@ -85,47 +88,5 @@ Alpine.data('accordion', () => ({
     this.selected = this.$el.id === this.selected ? null : this.$el.id;
   },
 }));
-
-const NONE = 'none';
-const MENU = 'menu';
-const DETAILS = 'details';
-
-Alpine.store('panel', {
-  state: MENU,
-  init() {
-    this.state = MENU;
-  },
-  toggle(panel) {
-    this.state = this.state === panel ? NONE : panel;
-  },
-  open(panel) {
-    this.state = panel;
-  },
-  close() {
-    this.state = NONE;
-  },
-  getClasses(component) {
-    switch (component) {
-      case 'workspace':
-        if (this.state === MENU) {
-          return '!ml-56';
-        } else if (this.state === DETAILS) {
-          return '!ml-0 !mr-[500px]';
-        } else {
-          return '!mx-0';
-        }
-      case 'topnav':
-        if (this.state === MENU) {
-          return '';
-        } else if (this.state === DETAILS) {
-          return '!left-0 !right-[500px]';
-        } else {
-          return '!left-0';
-        }
-      default:
-        return '';
-    }
-  },
-});
 
 Alpine.start();
