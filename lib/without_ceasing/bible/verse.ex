@@ -2,8 +2,8 @@ defmodule WithoutCeasing.Bible.Verse do
   use Ecto.Schema
   import Ecto.Changeset
 
-  @primary_key {:id, :binary_id, autogenerate: true}
-  @foreign_key_type :binary_id
+  @primary_key {:id, :id, autogenerate: false}
+  @foreign_key_type :id
   schema "verses" do
     field :book, :string
     field :chapter, :integer

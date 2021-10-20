@@ -157,7 +157,6 @@
     </div>
   </nav>
   <div
-    x-data
     class={"top-nav fixed top-0 pt-4 px-16 bg-white transition-all duration-300 z-10 #{get_topnav_classes(@current_panel)}"}
   >
     <div class="flex items-center border-b border-gray-300 pb-2">
@@ -228,6 +227,33 @@
   <aside
     class={"fixed h-full flex flex-col w-[500px] p-6 pt-10 top-0 left-full transition duration-300 transform #{get_details_classes(@current_panel)}"}>
     <h2>Details: <%= @current_verse %></h2>
+    <div phx-update="ignore">
+    <div x-data="editor('<p>Hello World! :-)</p>')">
+
+    <div class="menu">
+      <button
+        @click="toggleHeading({ level: 1 })"
+        :class="{ 'is-active': isActive('heading', { level: 1 }, updatedAt) }"
+      >
+        H1
+      </button>
+      <button
+        @click="toggleBold()"
+        :class="{ 'is-active': isActive('bold', updatedAt) }"
+      >
+        Bold
+      </button>
+      <button
+        @click="toggleItalic()"
+        :class="{ 'is-active': isActive('italic', updatedAt) }"
+      >
+        Italic
+      </button>
+    </div>
+
+    <div x-ref="element"></div>
+  </div>
+  </div>
   </aside>
 </main>
 <!--

@@ -36,19 +36,22 @@ defmodule WithoutCeasingWeb.Router do
     live_session :app, on_mount: WithoutCeasingWeb.MemberLiveAuth do
       pipe_through [:browser, :require_authenticated_member]
 
-      live "/", HomeLive, :index
       get "/members/settings", MemberSettingsController, :edit
       put "/members/settings", MemberSettingsController, :update
       get "/members/settings/confirm-email/:token", MemberSettingsController, :confirm_email
 
+      live "/dashboard", DashboardLive.Index, :index
+
       live "/bible", BibleLive.Index, :index
       live "/bible/:book/:chapter", BibleLive.Show, :show
 
-      live "/scribe/editor/:book/:chapter", EditorLive.Show, :edit
+      live "/entries", EntryLive.Index, :index
+      live "/entries/:entry", EntryLive.Show, :show
+      live "/entries/:entry/edit", EntryLive.Show, :edit
 
-      live "/scribe/translations", TranslationLive.Index, :index
-      live "/scribe/translations/create", TranslationLive.Index, :new
-      live "/scribe/translations/:translation", TranslationLive.Index, :edit
+      live "/resources", ResourceLive.Index, :index
+      live "/resources/:resource", ResourceLive.Show, :show
+      live "/resources/:resource/edit", ResourceLive.Show, :edit
     end
   end
 

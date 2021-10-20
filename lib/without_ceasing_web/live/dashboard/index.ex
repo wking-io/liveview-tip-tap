@@ -1,4 +1,4 @@
-defmodule WithoutCeasingWeb.HomeLive do
+defmodule WithoutCeasingWeb.DashboardLive.Index do
   use WithoutCeasingWeb, :live_view
   use WithoutCeasingWeb.UniversalEvents
 

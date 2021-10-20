@@ -19,4 +19,18 @@ defmodule WithoutCeasing.ContentFixtures do
 
     resource
   end
+
+  @doc """
+  Generate a entry.
+  """
+  def entry_fixture(attrs \\ %{}) do
+    {:ok, entry} =
+      attrs
+      |> Enum.into(%{
+        content: %{}
+      })
+      |> WithoutCeasing.Content.create_entry()
+
+    entry
+  end
 end

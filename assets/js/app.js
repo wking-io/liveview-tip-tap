@@ -13,6 +13,8 @@ import '../css/app.css';
 //     import socket from "./socket"
 //
 import Alpine from 'alpinejs';
+import { Editor } from '@tiptap/core';
+import StarterKit from '@tiptap/starter-kit';
 import 'phoenix_html';
 import { Socket } from 'phoenix';
 import topbar from 'topbar';
@@ -71,6 +73,58 @@ liveSocket.connect();
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket;
 
+Alpine.data('editor', (content) => {
+  let instance;
+  return {
+    isActive(type, opts = {}, updatedAt) {
+      return instance.isActive(type, opts);
+    },
+    toggleBold() {
+      instance.chain().toggleBold().focus().run();
+    },
+    toggleItalic() {
+      instance.chain().toggleItalic().focus().run();
+    },
+    toggleHeading(opts = { level: 1 }) {
+      instance.chain().toggleHeading(opts).focus().run();
+    },
+    content,
+    updatedAt: Date.now(), // force Alpine to rerender on selection change
+    init() {
+      const _this = this;
+      instance = new Editor({
+        element: this.$refs.element,
+        extensions: [ StarterKit ],
+        content,
+        onCreate({ editor }) {
+          _this.updatedAt = Date.now();
+        },
+        onUpdate({ editor }) {
+          _this.updatedAt = Date.now();
+        },
+        onSelectionUpdate({ editor }) {
+          _this.updatedAt = Date.now();
+        },
+      });
+      this.$watch('content', (content) => {
+        // If the new content matches TipTap's then we just skip.
+        if (content === instance.getHTML()) return;
+
+        /*
+          Otherwise, it means that a force external to TipTap
+          is modifying the data on this Alpine component,
+          which could be Livewire itself.
+          In this case, we just need to update TipTap's
+          content and we're good to do.
+          For more information on the `setContent()` method, see:
+            https://www.tiptap.dev/api/commands/set-content
+        */
+        instance.commands.setContent(content, false);
+      });
+    },
+  };
+});
+
 Alpine.data('menuButton', () => ({
   show: false,
   toggle() {
@@ -89,4 +143,5 @@ Alpine.data('accordion', () => ({
   },
 }));
 
+window.Alpine = Alpine;
 Alpine.start();

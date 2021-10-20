@@ -2,12 +2,12 @@ defmodule WithoutCeasing.Repo.Migrations.CreateVerseRevisions do
   use Ecto.Migration
 
   def up do
-    execute("CREATE TYPE verse_revision_status AS ENUM ('pending','approved')")
+    execute("CREATE TYPE status AS ENUM ('pending','approved','rejected')")
     create table(:verse_revisions, primary_key: false) do
       add :id, :binary_id, primary_key: true
       add :text, :string, null: false
-      add :status, :verse_revision_status, null: false, default: "pending"
-      add :verse_id, references(:verses, on_delete: :nothing, type: :binary_id), null: false
+      add :status, :status, null: false, default: "pending"
+      add :verse_id, references(:verses, on_delete: :nothing, type: :id), null: false
 
       timestamps()
     end
@@ -17,7 +17,7 @@ defmodule WithoutCeasing.Repo.Migrations.CreateVerseRevisions do
   end
 
   def down do
+    execute("DROP TYPE status")
     drop table(:verse_revisions)
-    execute("DROP TYPE account_user_role")
   end
 end
