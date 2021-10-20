@@ -12,8 +12,6 @@ defmodule WithoutCeasing.Bible.Verse do
     has_many :verse_revisions, WithoutCeasing.Bible.VerseRevision
     many_to_many :resources, WithoutCeasing.Content.Resource, join_through: "verse_resources"
     many_to_many :entries, WithoutCeasing.Content.Entry, join_through: "verse_entries"
-
-    timestamps()
   end
 
   @doc false

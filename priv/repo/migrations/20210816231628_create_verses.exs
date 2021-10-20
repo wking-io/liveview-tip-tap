@@ -7,8 +7,6 @@ defmodule WithoutCeasing.Repo.Migrations.CreateVerses do
       add :book, :string, null: false
       add :chapter, :integer, null: false
       add :verse, :integer, null: false
-
-      timestamps()
     end
 
     create unique_index(:verses, [:book, :chapter, :verse])

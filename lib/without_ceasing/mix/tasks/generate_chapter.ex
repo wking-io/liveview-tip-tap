@@ -24,7 +24,7 @@ defmodule Mix.Tasks.GenerateChapter do
 
     structure =
       fetch(book, chapter_num)
-      |> parse(book_num(book), chapter_num)
+      |> parse(book, chapter_num)
 
     File.write(
       new_file_path,
@@ -74,7 +74,7 @@ defmodule Mix.Tasks.GenerateChapter do
     end)
   end
 
-  defp parse_verses(verses, book_num, chapter_num) do
+  defp parse_verses(verses, book, chapter_num) do
     verses
     |> String.replace("  ", "")
     |> String.split(~r/\[[[:digit:]]+\]/, trim: true, include_captures: true)
@@ -102,7 +102,7 @@ defmodule Mix.Tasks.GenerateChapter do
           do: num |> String.replace(~r([\[\]]), "") |> String.to_integer(),
           else: 999
 
-      id = String.to_integer("#{book_num}#{to_id(chapter_num)}#{to_id(number)}")
+      id = get_verse_id(book, chapter_num, number)
 
       %{
         id: id,
@@ -115,6 +115,9 @@ defmodule Mix.Tasks.GenerateChapter do
       }
     end)
   end
+
+  def get_verse_id(book, chapter, verse),
+    do: String.to_integer("#{book_num(book)}#{to_id(chapter)}#{to_id(verse)}")
 
   @spec book_num(String.t()) :: integer()
   defp book_num("genesis"), do: 1
