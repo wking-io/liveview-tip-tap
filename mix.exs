@@ -50,7 +50,8 @@ defmodule WithoutCeasing.MixProject do
       {:jason, "~> 1.2"},
       {:plug_cowboy, "~> 2.5"},
       {:swoosh, "~> 1.4"},
-      {:httpoison, "~> 1.8"}
+      {:httpoison, "~> 1.8"},
+      {:nimble_parsec, "~> 1.1"}
     ]
   end
 
