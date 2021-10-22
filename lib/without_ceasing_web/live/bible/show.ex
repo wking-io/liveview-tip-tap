@@ -25,11 +25,7 @@ defmodule WithoutCeasingWeb.BibleLive.Show do
     )
   end
 
-  def handle_event(
-        "unselect_verse",
-        %{"verse" => verse},
-        socket
-      ) do
+  def handle_event("unselect_verse", %{"verse" => verse}, socket) do
     socket =
       socket
       |> update(:current_verses, &Enum.filter(&1, fn id -> id != verse end))
@@ -40,11 +36,7 @@ defmodule WithoutCeasingWeb.BibleLive.Show do
   end
 
   # TODO: Check for shift key press and select all verses in between too
-  def handle_event(
-        "select_verse",
-        %{"verse" => verse},
-        socket
-      ) do
+  def handle_event("select_verse", %{"verse" => verse}, socket) do
     {:noreply,
      socket
      |> assign(:current_panel, "details")

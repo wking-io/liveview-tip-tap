@@ -35,6 +35,9 @@ module.exports = {
         'box-500-lg': `14px 14px 0 ${colors.brand[500]}`,
         'box-error-sm': `4px 4px 0 ${colors.error[700]}`,
       },
+      gridTemplateColumns: {
+        books: 'repeat(auto-fit, minmax(150px, 1fr))',
+      },
     },
   },
   variants: {

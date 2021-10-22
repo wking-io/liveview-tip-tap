@@ -30,6 +30,7 @@ defmodule WithoutCeasing.Bible.Book do
     %{
       slug: slug,
       name: book.name,
+      testament: book.testament,
       chapters: Enum.with_index(book.chapters, fn _, i -> i + 1 end),
       locked: false
     }
