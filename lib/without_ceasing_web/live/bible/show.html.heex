@@ -4,35 +4,38 @@
     <.chapter chapter={@chapter} current_verses={@current_verses} />
   </div>
   <aside
-      class={"fixed h-full flex flex-col w-[500px] p-6 pt-10 top-0 left-full transition duration-300 transform #{get_details_classes(@current_panel)}"}
-    >
-      <h2>Details: <%= inspect(@current_verses) %></h2>
+    class={"fixed h-full flex flex-col w-[500px] p-6 pt-10 top-0 left-full transition duration-300 transform #{get_details_classes(@current_panel)}"}
+  >
+    <h2>Details: <%= inspect(@current_verses) %></h2>
+    <%= if (@current_verses) do %>
+      <!-- TODO: Figure out how to submit editor data via live view -->
       <div phx-update="ignore">
         <div x-data={"editor(#{@content})"}>
 
-        <div class="menu">
-          <button
-            @click="toggleHeading({ level: 1 })"
-            :class="{ 'is-active': isActive('heading', { level: 1 }, updatedAt) }"
-          >
-            H1
-          </button>
-          <button
-            @click="toggleBold()"
-            :class="{ 'is-active': isActive('bold', updatedAt) }"
-          >
-            Bold
-          </button>
-          <button
-            @click="toggleItalic()"
-            :class="{ 'is-active': isActive('italic', updatedAt) }"
-          >
-            Italic
-          </button>
-        </div>
+          <div class="menu">
+            <button
+              @click="toggleHeading({ level: 1 })"
+              :class="{ 'is-active': isActive('heading', { level: 1 }, updatedAt) }"
+            >
+              H1
+            </button>
+            <button
+              @click="toggleBold()"
+              :class="{ 'is-active': isActive('bold', updatedAt) }"
+            >
+              Bold
+            </button>
+            <button
+              @click="toggleItalic()"
+              :class="{ 'is-active': isActive('italic', updatedAt) }"
+            >
+              Italic
+            </button>
+          </div>
 
-        <div x-ref="element"></div>
+          <div x-ref="element"></div>
+        </div>
       </div>
-    </div>
-    </aside>
-  </.full>
+    <% end %>
+  </aside>
+</.full>

@@ -100,7 +100,6 @@ Alpine.data('editor', (content) => {
           _this.updatedAt = Date.now();
         },
         onUpdate({ editor }) {
-          console.log(editor.getJSON());
           _this.updatedAt = Date.now();
         },
         onSelectionUpdate({ editor }) {
