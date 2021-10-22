@@ -226,7 +226,7 @@
   </div>
   <aside
     class={"fixed h-full flex flex-col w-[500px] p-6 pt-10 top-0 left-full transition duration-300 transform #{get_details_classes(@current_panel)}"}>
-    <h2>Details: <%= @current_verse %></h2>
+    <h2>Details: <%= inspect(@current_verses) %></h2>
     <div phx-update="ignore">
     <div x-data="editor('<p>Hello World! :-)</p>')">
 

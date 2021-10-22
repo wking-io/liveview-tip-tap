@@ -40,7 +40,8 @@ defmodule WithoutCeasingWeb.Router do
       put "/members/settings", MemberSettingsController, :update
       get "/members/settings/confirm-email/:token", MemberSettingsController, :confirm_email
 
-      live "/dashboard", DashboardLive.Index, :index
+      live "/", DashboardLive.Index, :index
+      # live "/dashboard", DashboardLive.Index, :index
 
       live "/bible", BibleLive.Index, :index
       live "/bible/:book/:chapter", BibleLive.Show, :show
@@ -82,7 +83,7 @@ defmodule WithoutCeasingWeb.Router do
 
     scope "/" do
       pipe_through :browser
-      live_dashboard "/dashboard", metrics: WithoutCeasingWeb.Telemetry
+      live_dashboard "/metrics", metrics: WithoutCeasingWeb.Telemetry
     end
   end
 

@@ -9,7 +9,7 @@ defmodule WithoutCeasingWeb.UniversalEvents do
         {:noreply,
          socket
          |> update(:current_panel, &toggle_panel(&1))
-         |> assign(:current_verse, nil)}
+         |> assign(:current_verses, [])}
       end
 
       defp toggle_panel(current) when current == "menu", do: nil

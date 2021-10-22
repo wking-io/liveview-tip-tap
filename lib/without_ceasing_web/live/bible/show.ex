@@ -21,29 +21,36 @@ defmodule WithoutCeasingWeb.BibleLive.Show do
       page_title: "#{book} #{chapter}",
       book: book,
       chapter: Bible.get_chapter(book, chapter),
-      current_verse: nil
+      current_verses: []
     )
   end
 
   def handle_event(
-        "close_details",
-        _value,
+        "unselect_verse",
+        %{"verse" => verse},
         socket
       ) do
+    socket =
+      socket
+      |> update(:current_verses, &Enum.filter(&1, fn id -> id != verse end))
+
     {:noreply,
      socket
-     |> assign(:current_panel, nil)
-     |> assign(:current_verse, nil)}
+     |> assign(:current_panel, maybe_close(socket.assigns.current_verses))}
   end
 
+  # TODO: Check for shift key press and select all verses in between too
   def handle_event(
-        "open_details",
+        "select_verse",
         %{"verse" => verse},
         socket
       ) do
     {:noreply,
      socket
      |> assign(:current_panel, "details")
-     |> assign(:current_verse, verse)}
+     |> update(:current_verses, &(&1 ++ [verse]))}
   end
+
+  defp maybe_close([]), do: nil
+  defp maybe_close(_), do: "details"
 end

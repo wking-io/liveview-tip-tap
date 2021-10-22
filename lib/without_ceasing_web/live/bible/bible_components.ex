@@ -11,7 +11,7 @@ defmodule BibleComponents do
         <%= if is_list(element) do %>
           <p class="paragraph">
             <%= for verse <- element do %>
-              <span class={"verse pl-4 relative cursor-pointer #{maybe_highlight(@current_verse, verse.id)}"} phx-click={if is_current_verse(@current_verse, verse.id), do: "close_details", else: "open_details"} phx-value-verse={"#{verse.id}"}>
+              <span class={"verse pl-4 relative cursor-pointer #{maybe_highlight(@current_verses, verse.id)}"} phx-click={if is_current_verse(@current_verses, verse.id), do: "unselect_verse", else: "select_verse"} phx-value-verse={"#{verse.id}"}>
               <%= unless is_nil(verse.number) do %>
                 <span class="absolute text-[10px] top-0 left-0 w-4 flex justify-end pr-1"><%= verse.number %></span>
               <% end %>
@@ -28,7 +28,8 @@ defmodule BibleComponents do
     """
   end
 
-  defp is_current_verse(current, instance), do: current == to_string(instance)
+  defp is_current_verse([], _), do: false
+  defp is_current_verse(current, instance), do: Enum.member?(current, to_string(instance))
 
   defp maybe_highlight(current, instance),
     do: if(is_current_verse(current, instance), do: "bg-brand-200 bg-opacity-40", else: "")

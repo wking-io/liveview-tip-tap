@@ -13,7 +13,7 @@ defmodule WithoutCeasingWeb.MemberLiveAuth do
       {:cont,
        socket
        |> assign(current_panel: "menu")
-       |> assign(current_verse: nil)}
+       |> assign(current_verses: [])}
     else
       {:halt, redirect(socket, to: "/members/sign-in")}
     end
