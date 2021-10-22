@@ -2,7 +2,7 @@ defmodule WithoutCeasingWeb.BibleLive.Show do
   use WithoutCeasingWeb, :live_view
   use WithoutCeasingWeb.UniversalEvents
 
-  import BibleComponents
+  import WithoutCeasingWeb.Components.{Bible, Layout}
   alias WithoutCeasing.Bible
 
   @impl true
@@ -21,7 +21,8 @@ defmodule WithoutCeasingWeb.BibleLive.Show do
       page_title: "#{book} #{chapter}",
       book: book,
       chapter: Bible.get_chapter(book, chapter),
-      current_verses: []
+      current_verses: [],
+      content: ""
     )
   end
 

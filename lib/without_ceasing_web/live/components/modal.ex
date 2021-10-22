@@ -1,4 +1,4 @@
-defmodule WithoutCeasingWeb.ModalComponent do
+defmodule WithoutCeasingWeb.Components.Modal do
   use WithoutCeasingWeb, :live_component
 
   @impl true

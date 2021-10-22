@@ -1,6 +1,5 @@
-defmodule BibleComponents do
+defmodule WithoutCeasingWeb.Components.Bible do
   use Phoenix.Component
-  require Logger
 
   # Optionally also bring the HTML helpers
   # use Phoenix.HTML

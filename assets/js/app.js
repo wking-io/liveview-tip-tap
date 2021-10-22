@@ -100,26 +100,12 @@ Alpine.data('editor', (content) => {
           _this.updatedAt = Date.now();
         },
         onUpdate({ editor }) {
+          console.log(editor.getJSON());
           _this.updatedAt = Date.now();
         },
         onSelectionUpdate({ editor }) {
           _this.updatedAt = Date.now();
         },
-      });
-      this.$watch('content', (content) => {
-        // If the new content matches TipTap's then we just skip.
-        if (content === instance.getHTML()) return;
-
-        /*
-          Otherwise, it means that a force external to TipTap
-          is modifying the data on this Alpine component,
-          which could be Livewire itself.
-          In this case, we just need to update TipTap's
-          content and we're good to do.
-          For more information on the `setContent()` method, see:
-            https://www.tiptap.dev/api/commands/set-content
-        */
-        instance.commands.setContent(content, false);
       });
     },
   };

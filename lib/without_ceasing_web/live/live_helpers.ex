@@ -18,7 +18,7 @@ defmodule WithoutCeasingWeb.LiveHelpers do
   def live_modal(component, opts) do
     path = Keyword.fetch!(opts, :return_to)
     modal_opts = [id: :modal, return_to: path, component: component, opts: opts]
-    live_component(WithoutCeasingWeb.ModalComponent, modal_opts)
+    live_component(WithoutCeasingWeb.Component.Modal, modal_opts)
   end
 
   def normalize_slug(string) do

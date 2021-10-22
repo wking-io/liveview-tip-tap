@@ -3,7 +3,7 @@ defmodule WithoutCeasingWeb.MemberLiveAuth do
 
   alias WithoutCeasing.Identity
 
-  def mount(_params, %{"member_token" => member_token} = _session, socket) do
+  def on_mount(:default, _params, %{"member_token" => member_token} = _session, socket) do
     socket =
       assign_new(socket, :current_member, fn ->
         fetch_current_member(member_token)
@@ -19,7 +19,7 @@ defmodule WithoutCeasingWeb.MemberLiveAuth do
     end
   end
 
-  def mount(_params, _session, socket) do
+  def on_mount(:default, _params, _session, socket) do
     {:halt, redirect(socket, to: "/members/sign-in")}
   end
 

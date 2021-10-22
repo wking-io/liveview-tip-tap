@@ -195,66 +195,7 @@
   role="main"
   class={"min-h-screen bg-white mt-[73px] transition-all duration-300 #{get_workspace_classes(@current_panel)}"}
 >
-  <div class="py-8 px-16 relative">
-    <div class="">
-      <div class="">
-        <%= if info = live_flash(@flash, :info) do %>
-        <p
-          class="alert alert-info"
-          role="alert"
-          phx-click="lv:clear-flash"
-          phx-value-key="info"
-        >
-          <%= info %>
-        </p>
-        <% end %>
-
-        <%= if error = live_flash(@flash, :error) do %>
-        <p
-          class="alert alert-danger"
-          role="alert"
-          phx-click="lv:clear-flash"
-          phx-value-key="error"
-        >
-          <%= error %>
-        </p>
-        <% end %>
-
-        <%= @inner_content %>
-      </div>
-    </div>
-  </div>
-  <aside
-    class={"fixed h-full flex flex-col w-[500px] p-6 pt-10 top-0 left-full transition duration-300 transform #{get_details_classes(@current_panel)}"}>
-    <h2>Details: <%= inspect(@current_verses) %></h2>
-    <div phx-update="ignore">
-    <div x-data="editor('<p>Hello World! :-)</p>')">
-
-    <div class="menu">
-      <button
-        @click="toggleHeading({ level: 1 })"
-        :class="{ 'is-active': isActive('heading', { level: 1 }, updatedAt) }"
-      >
-        H1
-      </button>
-      <button
-        @click="toggleBold()"
-        :class="{ 'is-active': isActive('bold', updatedAt) }"
-      >
-        Bold
-      </button>
-      <button
-        @click="toggleItalic()"
-        :class="{ 'is-active': isActive('italic', updatedAt) }"
-      >
-        Italic
-      </button>
-    </div>
-
-    <div x-ref="element"></div>
-  </div>
-  </div>
-  </aside>
+  <%= @inner_content %>
 </main>
 <!--
 <footer class="bg-brand-200">
