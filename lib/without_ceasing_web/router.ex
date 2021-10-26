@@ -45,7 +45,10 @@ defmodule WithoutCeasingWeb.Router do
 
       live "/bible", BibleLive.Index, :index
       live "/bible/:book", BibleLive.Index, :index
-      live "/bible/:book/:chapter", BibleLive.Show, :show
+      live "/bible/:book/:chapter", BibleLive.Chapter, :index
+      live "/bible/:book/:chapter/show", BibleLive.Chapter, :show
+      live "/bible/:book/:chapter/create", BibleLive.Chapter, :create
+      live "/bible/:book/:chapter/:entry/edit", BibleLive.Chapter, :edit
 
       live "/entries", EntryLive.Index, :index
       live "/entries/:entry", EntryLive.Show, :show

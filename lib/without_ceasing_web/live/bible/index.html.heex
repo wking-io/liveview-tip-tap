@@ -1,3 +1,4 @@
+<.full flash={@flash} class="pb-24">
 <%= unless @current_book do %>
 <h2 class="font-xl font-bold mt-8">Old Testament</h2>
 <ul role="list" class="grid grid-cols-books gap-6 mt-10">
@@ -26,10 +27,11 @@
   <ul class="grid grid-cols-chapters gap-x-4 gap-y-2 mt-8 -mx-1">
     <%= for chapter <- @current_book.chapters do %>
       <li class="w-8 h-8 flex items-center justify-start">
-        <%= live_redirect to: Routes.bible_show_path(@socket, :show, @current_book.slug, chapter), class: "text-gray-700 p-2 hover:bg-brand-200 hover:bg-opacity-30 focus:outline-none focus:bg-brand-200 focus:bg-opacity-30 leading-none" do %>
+        <%= live_redirect to: Routes.bible_chapter_path(@socket, :index, @current_book.slug, chapter), class: "text-gray-700 p-2 hover:bg-brand-200 hover:bg-opacity-30 focus:outline-none focus:bg-brand-200 focus:bg-opacity-30 leading-none" do %>
           <span class="sr-only">Chapter</span> <%= chapter %>
         <% end %>
       </li>
     <% end %>
   </ul>
 <% end %>
+</.full>

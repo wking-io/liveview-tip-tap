@@ -7,12 +7,26 @@ defmodule WithoutCeasing.Content.Entry do
   schema "entries" do
     field :content, :map
 
+    belongs_to :member, WithoutCeasing.Identity.Member
+
+    many_to_many :verses, WithoutCeasing.Bible.Verse,
+      join_through: "verse_entries",
+      on_replace: :delete
+
     timestamps()
   end
 
   @doc false
-  def changeset(note, attrs) do
-    note
+  def create_changeset(entry, attrs, verses, member) do
+    entry
+    |> cast(attrs, [:content])
+    |> validate_required([:content])
+    |> put_assoc(:verses, verses)
+    |> put_assoc(:member, member)
+  end
+
+  def changeset(entry, attrs) do
+    entry
     |> cast(attrs, [:content])
     |> validate_required([:content])
   end

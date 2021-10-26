@@ -7,7 +7,7 @@ defmodule WithoutCeasingWeb.Components.Layout do
 
   def full(assigns) do
     ~H"""
-      <div class="py-8 px-16 relative">
+      <div class={"py-8 px-16 relative #{assigns[:class]}"}>
         <%= if info = live_flash(@flash, :info) do %>
         <p
           class="alert alert-info"

@@ -3,10 +3,13 @@ defmodule WithoutCeasing.Content do
   The Content context.
   """
 
-  import Ecto.Query, warn: false
-  alias WithoutCeasing.Repo
+  require Logger
 
+  import Ecto.Query, warn: false
+
+  alias WithoutCeasing.Repo
   alias WithoutCeasing.Content.Resource
+  alias WithoutCeasing.Bible.Verse
 
   @doc """
   Returns the list of resources.
@@ -145,9 +148,20 @@ defmodule WithoutCeasing.Content do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_entry(attrs \\ %{}) do
+  def create_entry(attrs \\ %{}, verse_ids, user) when is_list(verse_ids) do
+    verses =
+      Verse
+      |> where([verse], verse.id in ^verse_ids)
+      |> Repo.all()
+
+    attrs =
+      attrs
+      |> Map.update!("content", &Jason.decode!(&1))
+
+    Logger.debug(inspect(attrs))
+
     %Entry{}
-    |> Entry.changeset(attrs)
+    |> Entry.create_changeset(attrs, verses, user)
     |> Repo.insert()
   end
 

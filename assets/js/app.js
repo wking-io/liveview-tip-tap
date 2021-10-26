@@ -13,13 +13,13 @@ import '../css/app.css';
 //     import socket from "./socket"
 //
 import Alpine from 'alpinejs';
-import { Editor } from '@tiptap/core';
-import StarterKit from '@tiptap/starter-kit';
 import 'phoenix_html';
 import { Socket } from 'phoenix';
 import topbar from 'topbar';
 import { LiveSocket } from 'phoenix_live_view';
 import { setupPopup } from './modules/popup';
+import { tabs } from './modules/tabs';
+import { editor } from './modules/editor';
 
 /*=================
 Hermes Editor Setup
@@ -49,10 +49,15 @@ let liveSocket = new LiveSocket('/live', Socket, {
   hooks: Hooks,
   dom: {
     onBeforeElUpdated(from, to) {
-      if (from.__x) {
-        window.Alpine.clone(from.__x, to);
+      if (from._x_dataStack) {
+        window.Alpine.clone(from, to);
       }
     },
+  },
+  metadata: {
+    click: (e, el) => ({
+      shiftKey: e.shiftKey,
+    }),
   },
 });
 
@@ -73,43 +78,6 @@ liveSocket.connect();
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket;
 
-Alpine.data('editor', (content) => {
-  let instance;
-  return {
-    isActive(type, opts = {}, updatedAt) {
-      return instance.isActive(type, opts);
-    },
-    toggleBold() {
-      instance.chain().toggleBold().focus().run();
-    },
-    toggleItalic() {
-      instance.chain().toggleItalic().focus().run();
-    },
-    toggleHeading(opts = { level: 1 }) {
-      instance.chain().toggleHeading(opts).focus().run();
-    },
-    content,
-    updatedAt: Date.now(), // force Alpine to rerender on selection change
-    init() {
-      const _this = this;
-      instance = new Editor({
-        element: this.$refs.element,
-        extensions: [ StarterKit ],
-        content,
-        onCreate({ editor }) {
-          _this.updatedAt = Date.now();
-        },
-        onUpdate({ editor }) {
-          _this.updatedAt = Date.now();
-        },
-        onSelectionUpdate({ editor }) {
-          _this.updatedAt = Date.now();
-        },
-      });
-    },
-  };
-});
-
 Alpine.data('menuButton', () => ({
   show: false,
   toggle() {
@@ -127,6 +95,9 @@ Alpine.data('accordion', () => ({
     this.selected = this.$el.id === this.selected ? null : this.$el.id;
   },
 }));
+
+Alpine.data('editor', editor);
+Alpine.data('tabs', tabs);
 
 window.Alpine = Alpine;
 Alpine.start();

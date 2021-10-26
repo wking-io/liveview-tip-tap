@@ -11,6 +11,10 @@ defmodule WithoutCeasing.Content.Resource do
 
     belongs_to :member, WithoutCeasing.Identity.Member
 
+    many_to_many :verses, WithoutCeasing.Bible.Verse,
+      join_through: "verse_resources",
+      on_replace: :delete
+
     timestamps()
   end
 

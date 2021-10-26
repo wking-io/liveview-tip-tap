@@ -10,16 +10,16 @@ defmodule WithoutCeasing.Bible.Verse do
     field :verse, :integer
 
     has_many :verse_revisions, WithoutCeasing.Bible.VerseRevision
-    many_to_many :resources, WithoutCeasing.Content.Resource, join_through: "verse_resources"
-    many_to_many :entries, WithoutCeasing.Content.Entry, join_through: "verse_entries"
+
+    many_to_many :resources, WithoutCeasing.Content.Resource,
+      join_through: "verse_resources",
+      on_replace: :delete
   end
 
   @doc false
   def changeset(verse, attrs) do
     verse
-    |> cast(attrs, [:book, :chapter, :order, :translation_id])
-    |> cast_assoc(:translation)
-    |> validate_required([:book, :chapter, :order])
+    |> cast(attrs, [])
   end
 
   @doc false
