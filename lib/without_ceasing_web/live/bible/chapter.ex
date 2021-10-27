@@ -154,4 +154,10 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
         )
     )
   end
+
+  defp parse_verses(verses) do
+    verses
+    |> Enum.map(& &1.id)
+    |> Enum.join(", ")
+  end
 end

@@ -51,7 +51,8 @@ defmodule WithoutCeasing.MixProject do
       {:plug_cowboy, "~> 2.5"},
       {:swoosh, "~> 1.4"},
       {:httpoison, "~> 1.8"},
-      {:nimble_parsec, "~> 1.1"}
+      {:nimble_parsec, "~> 1.1"},
+      {:timex, "~> 3.0"}
     ]
   end
 

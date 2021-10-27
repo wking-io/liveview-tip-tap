@@ -136,6 +136,7 @@ defmodule WithoutCeasing.Content do
     |> join(:inner, [e, v], m in assoc(e, :member))
     |> where([e, v, m], v.id in ^verses)
     |> where([e, v, m], m.id == ^member.id)
+    |> preload([], [:verses])
     |> Repo.all()
   end
 

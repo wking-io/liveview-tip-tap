@@ -16,10 +16,14 @@
                 Resources
             </button>
         </div>
-        <div :tabindex="setTabindex('entries')" x-show="isTab('entries')" role="tabpanel" id="entries-panel" aria-labelledby="entries-label">
+        <div :tabindex="setTabindex('entries')" x-show="isTab('entries')" role="tabpanel" id="entries-panel" aria-labelledby="entries-label" class="p-6 pt-10">
             <%= for entry <- @entries do %>
-              <div x-data={"render(#{Jason.encode!(entry.content)})"} >
-                <div phx-update="ignore" x-ref="content">Loading...</div>
+              <div x-data={"render(#{Jason.encode!(entry.content)})"} class="rounded border border-gray-300 p-4 space-y-4">
+                <div class="flex items-center justify-between text-xs text-gray-700 italic">
+                  <p><%= parse_verses(entry.verses) %></p>
+                  <p><%= Timex.format!(entry.updated_at, "{Mshort} {D}, {YYYY}") %></p>
+                </div>
+                <div phx-update="ignore" x-ref="content" class="prose">Loading...</div>
               </div>
             <% end %>
         </div>
