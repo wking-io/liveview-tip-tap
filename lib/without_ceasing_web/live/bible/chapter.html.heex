@@ -4,20 +4,24 @@
     <.chapter chapter={@chapter} current_verses={@current_verses} />
   </div>
   <aside
-    class={"fixed h-full flex flex-col w-[500px] p-6 pt-10 top-0 left-full transition duration-300 transform #{get_details_classes(@current_panel)}"}
+    class={"fixed flex flex-col w-[500px] top-0 bottom-0 bg-white border-l border-gray-300 left-full transition duration-300 transform #{get_details_classes(@current_panel)}"}
   >
     <%= if @live_action == :show do %>
       <div class="relative" x-data={"tabs()"}>
-        <div class="mx-6 max-w-4xl md:w-5/6 md:mx-auto flex items-center text-xs sm:text-sm shadow-lg transform -translate-y-1/2" role="tablist">
-            <button class="flex flex-col sm:flex-row items-center justify-center flex-1 text-center font-display font-bold py-4 md:py-6 px-6 relative z-10 border-b-4 border-transparent bg-grey-light hover:bg-grey focus:outline-none focus:ring-2 focus:ring-grey-dark focus:z-20" role="tab" aria-controls="entries-panel" id="entries-label" tabindex="0" :aria-selected="isTab('entries')" :tabindex="setTabindex('entries')" @click="select('entries')" @keyup="navigate">
+        <div class="flex items-center text-xs sm:text-sm" role="tablist">
+            <button class="flex flex-col sm:flex-row items-center justify-center flex-1 text-center font-display font-bold py-4 px-6 relative z-10 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-200 focus:z-20" :class="isTab('entries') ? 'text-gray-900' : 'bg-gray-100 text-gray-500'" role="tab" aria-controls="entries-panel" id="entries-label" tabindex="0" :aria-selected="isTab('entries')" :tabindex="setTabindex('entries')" @click="select('entries')" @keyup="navigate">
                 Entries
             </button>
-            <button class="flex flex-col sm:flex-row items-center justify-center flex-1 text-center font-display font-bold py-4 md:py-6 px-6 relative z-10 border-b-4 border-transparent bg-grey-light hover:bg-grey focus:outline-none focus:ring-2 focus:ring-grey-dark focus:z-20" role="tab" aria-controls="resources-panel" id="resources-label" tabindex="0" :aria-selected="isTab('resources')" :tabindex="setTabindex('resources')" @click="select('resources')" @keyup="navigate">
+            <button class="flex flex-col sm:flex-row items-center justify-center flex-1 text-center font-display font-bold py-4 px-6 relative z-10 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-200 focus:z-20" :class="isTab('resources') ? 'text-gray-900' : 'bg-gray-100 text-gray-500'" role="tab" aria-controls="resources-panel" id="resources-label" tabindex="0" :aria-selected="isTab('resources')" :tabindex="setTabindex('resources')" @click="select('resources')" @keyup="navigate">
                 Resources
             </button>
         </div>
         <div :tabindex="setTabindex('entries')" x-show="isTab('entries')" role="tabpanel" id="entries-panel" aria-labelledby="entries-label">
-            Entry List
+            <%= for entry <- @entries do %>
+              <div x-data={"render(#{Jason.encode!(entry.content)})"} >
+                <div phx-update="ignore" x-ref="content">Loading...</div>
+              </div>
+            <% end %>
         </div>
         <div :tabindex="setTabindex('resources')" x-show="isTab('resources')" role="tabpanel" id="resources-panel" aria-labelledby="resources-label">
             Resource List
@@ -26,7 +30,7 @@
     <% end %>
     <%= if @live_action in [:edit, :create] do %>
       <!-- TODO: Figure out how to submit editor data via live view -->
-      <div x-data={"editor(#{@content})"}>
+      <div x-data={"editor(#{@content})"} class="p-6 pt-10">
 
         <div class="menu">
           <button

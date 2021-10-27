@@ -41,6 +41,11 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
          :show,
          %{"book" => book, "chapter" => chapter, "verses" => verses}
        ) do
+    entries =
+      verses
+      |> Enum.map(&String.to_integer/1)
+      |> Content.get_entries(socket.assigns.current_member)
+
     socket
     |> assign(
       page_title: "#{book} #{chapter}",
@@ -50,6 +55,7 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
       content: "",
       changeset: nil,
       entry: %Entry{},
+      entries: entries,
       current_panel: "details"
     )
   end

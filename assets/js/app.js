@@ -19,11 +19,9 @@ import topbar from 'topbar';
 import { LiveSocket } from 'phoenix_live_view';
 import { setupPopup } from './modules/popup';
 import { tabs } from './modules/tabs';
-import { editor } from './modules/editor';
+import { editor, render } from './modules/editor';
 
-/*=================
-Hermes Editor Setup
-=================*/
+window.Alpine = Alpine;
 
 let Hooks = {};
 
@@ -97,7 +95,6 @@ Alpine.data('accordion', () => ({
 }));
 
 Alpine.data('editor', editor);
+Alpine.data('render', render);
 Alpine.data('tabs', tabs);
-
-window.Alpine = Alpine;
 Alpine.start();

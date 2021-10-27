@@ -1,4 +1,4 @@
-import { Editor } from '@tiptap/core';
+import { Editor, generateHTML } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
 
 export function editor(content) {
@@ -36,6 +36,15 @@ export function editor(content) {
           _this.updatedAt = Date.now();
         },
       });
+    },
+  };
+}
+
+export function render(json) {
+  return {
+    json,
+    init() {
+      this.$refs.content.innerHTML = generateHTML(json, [ StarterKit ]);
     },
   };
 }

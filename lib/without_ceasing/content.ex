@@ -10,6 +10,7 @@ defmodule WithoutCeasing.Content do
   alias WithoutCeasing.Repo
   alias WithoutCeasing.Content.Resource
   alias WithoutCeasing.Bible.Verse
+  alias WithoutCeasing.Identity.Member
 
   @doc """
   Returns the list of resources.
@@ -118,6 +119,24 @@ defmodule WithoutCeasing.Content do
   """
   def list_entries do
     Repo.all(Entry)
+  end
+
+  @doc """
+  Returns the list of Entries based on member and list of associated verses.
+
+  ## Examples
+
+      iex> list_Entrys()
+      [%Entry{}, ...]
+
+  """
+  def get_entries(verses, %Member{} = member) do
+    Entry
+    |> join(:inner, [e], v in assoc(e, :verses))
+    |> join(:inner, [e, v], m in assoc(e, :member))
+    |> where([e, v, m], v.id in ^verses)
+    |> where([e, v, m], m.id == ^member.id)
+    |> Repo.all()
   end
 
   @doc """

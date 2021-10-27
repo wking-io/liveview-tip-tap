@@ -1,6 +1,6 @@
 <header>
   <nav 
-    class={"nav fixed h-full flex flex-col w-56 p-6 pt-10 top-0 right-full transition duration-300 transform #{get_sidenav_classes(@current_panel)}"}
+    class={"nav fixed h-full flex flex-col w-56 p-6 pt-10 top-0 bg-gray-100 right-full transition duration-300 transform #{get_sidenav_classes(@current_panel)}"}
   >
     <div class="flex items-center justify-between">
       <%= live_redirect to: Routes.bible_index_path(@socket, :index), class: "w-full" do %>
