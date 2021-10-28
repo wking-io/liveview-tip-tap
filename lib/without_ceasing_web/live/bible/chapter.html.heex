@@ -4,7 +4,7 @@
     <.chapter chapter={@chapter} current_verses={@current_verses} />
   </div>
   <aside
-    class={"fixed flex flex-col w-[500px] top-0 bottom-0 bg-white border-l border-gray-300 left-full transition duration-300 transform #{get_details_classes(@current_panel)}"}
+    class={"fixed flex flex-col w-[500px] top-0 bottom-0 bg-white left-full transition duration-300 transform #{get_details_classes(@current_panel)}"}
   >
     <%= if @live_action == :show do %>
       <div class="relative" x-data={"tabs()"}>
@@ -18,10 +18,63 @@
         </div>
         <div :tabindex="setTabindex('entries')" x-show="isTab('entries')" role="tabpanel" id="entries-panel" aria-labelledby="entries-label" class="p-6 pt-10">
             <%= for entry <- @entries do %>
-              <div x-data={"render(#{Jason.encode!(entry.content)})"} class="rounded border border-gray-300 p-4 space-y-4">
-                <div class="flex items-center justify-between text-xs text-gray-700 italic">
-                  <p><%= parse_verses(entry.verses) %></p>
-                  <p><%= Timex.format!(entry.updated_at, "{Mshort} {D}, {YYYY}") %></p>
+              <div x-data={"render(#{Jason.encode!(entry.content)})"} class="rounded border border-gray-900 p-4 space-y-4">
+                <div class="flex items-center justify-between">
+                  <p class="text-xs text-gray-900 italic"><%= parse_verses(entry.verses) %></p>
+                  <div class="flex items-center justify-end">
+                    <p class="text-xs text-gray-900 italic mr-4"><%= Timex.format!(entry.updated_at, "{Mshort} {D}, {YYYY}") %></p>
+                    <div
+                      class="relative inline-block"
+                      x-data="menuButton()"
+                    >
+                      <button
+                        aria-controls="menu-account-manager"
+                        aria-haspopup="true"
+                        class="menu-button rounded-full p-1 focus:outline-none focus:ring-2 text-gray-900 hover:bg-gray-100 focus:ring-brand-200 transition ease-in duration-75 transform"
+                        id="menu-account-manager-title"
+                        type="button"
+                        x-on:click="toggle"
+                        x-on:click.away="close"
+                        x-bind:aria-expanded="isOpen()"
+                        :class="{'rotate-0': isOpen(), 'rotate-90': !isOpen()}"
+                      >
+                        <p class="sr-only">Actions</p>
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          class="h-5 w-5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          x-bind:aria-expanded="isOpen()"
+                        >
+                          <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M12 5v.01M12 12v.01M12 19v.01M12 6a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2zm0 7a1 1 0 110-2 1 1 0 010 2z"
+                          />
+                        </svg>
+                      </button>
+                      <div
+                        aria-lablledby="menu-account-manager-title"
+                        class="menu-button-content origin-top-right absolute right-0 mt-2 py-1 w-24 text-left rounded-md shadow-lg bg-white ring-1 ring-gray-300 focus:outline-none z-50"
+                        id="menu-account-manager"
+                        role="menu"
+                        x-cloak="true"
+                        x-show="isOpen()"
+                        x-transition:enter="transition ease-out duration-100"
+                        x-transition:enter-start="opacity-0 transform scale-95"
+                        x-transition:enter-end="opacity-100 transform scale-100"
+                        x-transition:leave="transition ease-in duration-75"
+                        x-transition:leave-start="opacity-100 transform scale-100"
+                        x-transition:leave-end="opacity-0 transform scale-95"
+                      >
+                        <%= live_redirect "View", to: Routes.entry_show_path(@socket, :show, entry.id), class: "text-gray-700 block px-4 py-1 text-sm rounded-sm hover:text-brand-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-200", role: "menuitem", id: "menu-item-0" %>
+                        <%= live_redirect "Edit", to: Routes.entry_show_path(@socket, :edit, entry.id), class: "text-gray-700 block px-4 py-1 text-sm rounded-sm hover:text-brand-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-200", role: "menuitem", id: "menu-item-0" %>
+                        <%= link "Delete", to: "#", phx_click: "delete_entry", phx_value_id: entry.id, data: [confirm: "Are you sure?"], class: "text-error-500 font-medium block px-4 py-1 text-sm rounded-sm hover:text-error-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-error-200", role: "menuitem", id: "menu-item-2" %>
+                      </div>
+                    </div>
+                  </div>
                 </div>
                 <div phx-update="ignore" x-ref="content" class="prose">Loading...</div>
               </div>
