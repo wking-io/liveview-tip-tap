@@ -6,7 +6,6 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
 
   import WithoutCeasingWeb.Components.Bible
 
-  alias Ecto.Changeset
   alias WithoutCeasing.Bible
   alias WithoutCeasing.Content
   alias WithoutCeasing.Content.Entry

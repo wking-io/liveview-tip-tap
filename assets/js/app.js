@@ -81,6 +81,9 @@ Alpine.data('menuButton', () => ({
   toggle() {
     this.show = !this.show;
   },
+  close() {
+    this.show = false;
+  },
   isOpen() {
     return this.show === true;
   },
