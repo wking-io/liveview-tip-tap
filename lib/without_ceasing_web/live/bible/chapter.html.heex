@@ -8,17 +8,17 @@
   >
     <%= if @live_action == :show do %>
       <div class="relative" x-data={"tabs()"}>
-        <div class="flex items-center text-xs sm:text-sm" role="tablist">
-            <button class="flex flex-col sm:flex-row items-center justify-center flex-1 text-center font-display font-bold py-4 px-6 relative z-10 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-200 focus:z-20" :class="isTab('entries') ? 'text-gray-900' : 'bg-gray-100 text-gray-500'" role="tab" aria-controls="entries-panel" id="entries-label" tabindex="0" :aria-selected="isTab('entries')" :tabindex="setTabindex('entries')" @click="select('entries')" @keyup="navigate">
+        <div class="flex items-center text-xs sm:text-sm mt-4 mx-6 bg-gray-100 rounded-lg" role="tablist">
+            <button class="flex flex-col sm:flex-row items-center justify-center flex-1 text-center font-display font-bold py-4 px-6 relative z-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-200 focus:z-20" :class="isTab('entries') ? 'text-white bg-gray-900' : 'text-gray-500 hover:text-gray-900 focus:bg-gray-200 focus:text-gray-900'" role="tab" aria-controls="entries-panel" id="entries-label" tabindex="0" :aria-selected="isTab('entries')" :tabindex="setTabindex('entries')" @click="select('entries')" @keyup="navigate">
                 Entries
             </button>
-            <button class="flex flex-col sm:flex-row items-center justify-center flex-1 text-center font-display font-bold py-4 px-6 relative z-10 hover:text-gray-900 focus:outline-none focus:ring-2 focus:ring-brand-200 focus:z-20" :class="isTab('resources') ? 'text-gray-900' : 'bg-gray-100 text-gray-500'" role="tab" aria-controls="resources-panel" id="resources-label" tabindex="0" :aria-selected="isTab('resources')" :tabindex="setTabindex('resources')" @click="select('resources')" @keyup="navigate">
+            <button class="flex flex-col sm:flex-row items-center justify-center flex-1 text-center font-display font-bold py-4 px-6 relative z-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-200 focus:z-20" :class="isTab('resources') ? 'text-white bg-gray-900' : 'text-gray-500 hover:text-gray-900 focus:bg-gray-200 focus:text-gray-900'" role="tab" aria-controls="resources-panel" id="resources-label" tabindex="0" :aria-selected="isTab('resources')" :tabindex="setTabindex('resources')" @click="select('resources')" @keyup="navigate">
                 Resources
             </button>
         </div>
         <div :tabindex="setTabindex('entries')" x-show="isTab('entries')" role="tabpanel" id="entries-panel" aria-labelledby="entries-label" class="p-6 pt-10">
             <%= for entry <- @entries do %>
-              <div x-data={"render(#{Jason.encode!(entry.content)})"} class="rounded border border-gray-900 p-4 space-y-4">
+              <div x-data={"render(#{Jason.encode!(entry.content)})"} class="rounded-lg border border-gray-900 p-4 space-y-4">
                 <div class="flex items-center justify-between">
                   <p class="text-xs text-gray-900 italic"><%= parse_verses(entry.verses) %></p>
                   <div class="flex items-center justify-end">
