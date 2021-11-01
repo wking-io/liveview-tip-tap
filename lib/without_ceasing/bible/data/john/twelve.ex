@@ -43,7 +43,7 @@ defmodule WithoutCeasing.Bible.Data.John.Twelve do
             number: 5,
             text: [
               normal:
-                "\"Why was this ointment not sold for three hundred denarii and given to the poor?\""
+                "“Why was this ointment not sold for three hundred denarii and given to the poor?”"
             ]
           },
           %{
@@ -59,14 +59,14 @@ defmodule WithoutCeasing.Bible.Data.John.Twelve do
             number: 7,
             text: [
               normal:
-                "Jesus said, \"Leave her alone, so that she may keep it for the day of my burial."
+                "Jesus said, “Leave her alone, so that she may keep it for the day of my burial."
             ]
           },
           %{
             id: 43_012_008,
             number: 8,
             text: [
-              normal: "For the poor you always have with you, but you do not always have me.\""
+              normal: "For the poor you always have with you, but you do not always have me.”"
             ]
           }
         ],
@@ -109,7 +109,7 @@ defmodule WithoutCeasing.Bible.Data.John.Twelve do
             number: 13,
             text: [
               normal:
-                "So they took branches of palm trees and went out to meet him, crying out, \"Hosanna! Blessed is he who comes in the name of the Lord, even the King of Israel!\""
+                "So they took branches of palm trees and went out to meet him, crying out, “Hosanna! Blessed is he who comes in the name of the Lord, even the King of Israel!”"
             ]
           },
           %{
@@ -123,10 +123,15 @@ defmodule WithoutCeasing.Bible.Data.John.Twelve do
             id: 43_012_015,
             number: 15,
             text: [
-              poetry:
-                "\"Fear not, daughter of Zion;\nbehold, your king is coming,\nsitting on a donkey's colt!\""
+              poetry: [
+                "“Fear not, daughter of Zion;",
+                "behold, your king is coming,",
+                "sitting on a donkey’s colt!”"
+              ]
             ]
-          },
+          }
+        ],
+        [
           %{
             id: 43_012_016,
             number: 16,
@@ -156,7 +161,7 @@ defmodule WithoutCeasing.Bible.Data.John.Twelve do
             number: 19,
             text: [
               normal:
-                "So the Pharisees said to one another, \"You see that you are gaining nothing. Look, the world has gone after him.\""
+                "So the Pharisees said to one another, “You see that you are gaining nothing. Look, the world has gone after him.”"
             ]
           }
         ],
@@ -174,7 +179,7 @@ defmodule WithoutCeasing.Bible.Data.John.Twelve do
             number: 21,
             text: [
               normal:
-                "So these came to Philip, who was from Bethsaida in Galilee, and asked him, \"Sir, we wish to see Jesus.\""
+                "So these came to Philip, who was from Bethsaida in Galilee, and asked him, “Sir, we wish to see Jesus.”"
             ]
           },
           %{
@@ -187,7 +192,7 @@ defmodule WithoutCeasing.Bible.Data.John.Twelve do
             number: 23,
             text: [
               normal:
-                "And Jesus answered them, \"The hour has come for the Son of Man to be glorified."
+                "And Jesus answered them, “The hour has come for the Son of Man to be glorified."
             ]
           },
           %{
@@ -222,7 +227,7 @@ defmodule WithoutCeasing.Bible.Data.John.Twelve do
             number: 27,
             text: [
               normal:
-                "\"Now is my soul troubled. And what shall I say? 'Father, save me from this hour'? But for this purpose I have come to this hour."
+                "“Now is my soul troubled. And what shall I say? ‘Father, save me from this hour’? But for this purpose I have come to this hour."
             ]
           },
           %{
@@ -230,7 +235,7 @@ defmodule WithoutCeasing.Bible.Data.John.Twelve do
             number: 28,
             text: [
               normal:
-                "Father, glorify your name.\" Then a voice came from heaven: \"I have glorified it, and I will glorify it again.\""
+                "Father, glorify your name.” Then a voice came from heaven: “I have glorified it, and I will glorify it again.”"
             ]
           },
           %{
@@ -238,13 +243,13 @@ defmodule WithoutCeasing.Bible.Data.John.Twelve do
             number: 29,
             text: [
               normal:
-                "The crowd that stood there and heard it said that it had thundered. Others said, \"An angel has spoken to him.\""
+                "The crowd that stood there and heard it said that it had thundered. Others said, “An angel has spoken to him.”"
             ]
           },
           %{
             id: 43_012_030,
             number: 30,
-            text: [normal: "Jesus answered, \"This voice has come for your sake, not mine."]
+            text: [normal: "Jesus answered, “This voice has come for your sake, not mine."]
           },
           %{
             id: 43_012_031,
@@ -259,7 +264,7 @@ defmodule WithoutCeasing.Bible.Data.John.Twelve do
             number: 32,
             text: [
               normal:
-                "And I, when I am lifted up from the earth, will draw all people to myself.\""
+                "And I, when I am lifted up from the earth, will draw all people to myself.”"
             ]
           },
           %{
@@ -272,7 +277,7 @@ defmodule WithoutCeasing.Bible.Data.John.Twelve do
             number: 34,
             text: [
               normal:
-                "So the crowd answered him, \"We have heard from the Law that the Christ remains forever. How can you say that the Son of Man must be lifted up? Who is this Son of Man?\""
+                "So the crowd answered him, “We have heard from the Law that the Christ remains forever. How can you say that the Son of Man must be lifted up? Who is this Son of Man?”"
             ]
           },
           %{
@@ -280,7 +285,7 @@ defmodule WithoutCeasing.Bible.Data.John.Twelve do
             number: 35,
             text: [
               normal:
-                "So Jesus said to them, \"The light is among you for a little while longer. Walk while you have the light, lest darkness overtake you. The one who walks in the darkness does not know where he is going."
+                "So Jesus said to them, “The light is among you for a little while longer. Walk while you have the light, lest darkness overtake you. The one who walks in the darkness does not know where he is going."
             ]
           },
           %{
@@ -288,7 +293,7 @@ defmodule WithoutCeasing.Bible.Data.John.Twelve do
             number: 36,
             text: [
               normal:
-                "While you have the light, believe in the light, that you may become sons of light.\""
+                "While you have the light, believe in the light, that you may become sons of light.”"
             ]
           }
         ],
@@ -313,9 +318,19 @@ defmodule WithoutCeasing.Bible.Data.John.Twelve do
             id: 43_012_038,
             number: 38,
             text: [
-              normal: "so that the word spoken by the prophet Isaiah might be fulfilled:",
-              poetry:
-                "\"Lord, who has believed what he heard from us,\nand to whom has the arm of the Lord been revealed?\""
+              normal: "so that the word spoken by the prophet Isaiah might be fulfilled:"
+            ]
+          }
+        ],
+        [
+          %{
+            id: 43_012_038,
+            number: nil,
+            text: [
+              poetry: [
+                "“Lord, who has believed what he heard from us,",
+                "and to whom has the arm of the Lord been revealed?”"
+              ]
             ]
           }
         ],
@@ -331,10 +346,17 @@ defmodule WithoutCeasing.Bible.Data.John.Twelve do
             id: 43_012_040,
             number: 40,
             text: [
-              poetry:
-                "\"He has blinded their eyes\nand hardened their heart,\nlest they see with their eyes,\nand understand with their heart, and turn,\nand I would heal them.\""
+              poetry: [
+                "“He has blinded their eyes",
+                "and hardened their heart,",
+                "lest they see with their eyes,",
+                "and understand with their heart, and turn,",
+                "and I would heal them.”"
+              ]
             ]
-          },
+          }
+        ],
+        [
           %{
             id: 43_012_041,
             number: 41,
@@ -364,7 +386,7 @@ defmodule WithoutCeasing.Bible.Data.John.Twelve do
             number: 44,
             text: [
               normal:
-                "And Jesus cried out and said, \"Whoever believes in me, believes not in me but in him who sent me."
+                "And Jesus cried out and said, “Whoever believes in me, believes not in me but in him who sent me."
             ]
           },
           %{
@@ -409,7 +431,7 @@ defmodule WithoutCeasing.Bible.Data.John.Twelve do
             number: 50,
             text: [
               normal:
-                "And I know that his commandment is eternal life. What I say, therefore, I say as the Father has told me.\""
+                "And I know that his commandment is eternal life. What I say, therefore, I say as the Father has told me.”"
             ]
           }
         ]

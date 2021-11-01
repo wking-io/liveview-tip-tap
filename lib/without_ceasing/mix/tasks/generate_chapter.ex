@@ -95,7 +95,6 @@ defmodule Mix.Tasks.GenerateChapter do
       parsed_text =
         text
         |> String.trim()
-        |> String.replace(["“", "”", "‘", "’"], &replace_fancy/1)
 
       number =
         unless is_nil(num),
@@ -108,7 +107,7 @@ defmodule Mix.Tasks.GenerateChapter do
         id: id,
         text:
           if(String.contains?(parsed_text, "\n"),
-            do: [{:poetry, parsed_text}],
+            do: [{:poetry, String.split(parsed_text, "\n", trim: true)}],
             else: [{:normal, parsed_text}]
           ),
         number: if(number == 999, do: nil, else: number)
@@ -192,10 +191,4 @@ defmodule Mix.Tasks.GenerateChapter do
   defp to_id(num) when num < 10, do: "00#{num}"
   defp to_id(num) when num < 100, do: "0#{num}"
   defp to_id(num), do: "#{num}"
-
-  @spec replace_fancy(String.t()) :: String.t()
-  defp replace_fancy("“"), do: "\""
-  defp replace_fancy("”"), do: "\""
-  defp replace_fancy("‘"), do: "'"
-  defp replace_fancy("’"), do: "'"
 end

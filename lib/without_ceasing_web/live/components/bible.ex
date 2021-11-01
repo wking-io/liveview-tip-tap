@@ -8,14 +8,14 @@ defmodule WithoutCeasingWeb.Components.Bible do
     ~H"""
       <%= for element <- @chapter.structure do %>
         <%= if is_list(element) do %>
-          <p class="paragraph font-serif">
+          <p class="paragraph font-serif leading-relaxed">
             <%= for verse <- element do %>
               <span class={"verse pl-4 relative cursor-pointer #{maybe_highlight(@current_verses, verse.id)}"} phx-click={verse_action(@current_verses, verse.id)} phx-value-verse={"#{verse.id}"}>
               <%= unless is_nil(verse.number) do %>
                 <span class="absolute text-[10px] top-0 left-0 w-4 flex justify-end pr-1"><%= verse.number %></span>
               <% end %>
               <%= for part <- verse.text do %>
-                <%= render_verse(part) %>
+                <.verse content={part} />
               <% end %>
             </span>
             <% end %>
@@ -51,6 +51,19 @@ defmodule WithoutCeasingWeb.Components.Bible do
   defp maybe_highlight(current, instance),
     do: if(is_current_verse(current, instance), do: "bg-brand-200 bg-opacity-40", else: "")
 
-  defp render_verse({:normal, text}), do: text
-  defp render_verse({:poetry, text}), do: text
+  defp verse(%{content: {:normal, text}} = assigns) do
+    ~H"""
+      <%= text %>
+    """
+  end
+
+  defp verse(%{content: {:poetry, lines}} = assigns) do
+    ~H"""
+      <span class="inline-flex flex-col py-6">
+      <%= for line <- lines do %>
+        <span><%= line %></span>
+      <% end %>
+      </span>
+    """
+  end
 end

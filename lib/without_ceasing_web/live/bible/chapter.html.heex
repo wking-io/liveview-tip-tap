@@ -286,7 +286,7 @@
           <div class="pl-2">
             <button
               class="rounded-sm p-1 hover:bg-gray-300 hover:text-gray-900 focus:bg-gray-300 focus:outline-none"
-              @click="toggleBulletList()"
+              @click="toggleBulletList"
               :class="{ 'is-active': isActive('bulletList', updatedAt) }"
               aria-label="bullet list"
             >
@@ -405,9 +405,8 @@
 
                   <button
                     class="flex items-center w-full text-left rounded-sm py-2 px-4 hover:bg-gray-300 hover:text-gray-900 focus:bg-gray-300 focus:outline-none"
-                    @click="toggleBlockquote"
-                    :class="{ 'is-active': isActive('blockquote', updatedAt) }"
-                    aria-label="blockquote"
+                    @click="setHorizontalRule"
+                    aria-label="seperator"
                   >
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
@@ -503,7 +502,7 @@
         
           <div class="flex justify-end space-x-4">
             <%= live_redirect "Cancel", to: Routes.bible_chapter_path(@socket, :show, @book, @chapter.chapter, verses: @current_verses), class: "flex items-center justify-center py-2 px-4 border border-gray-300 rounded-lg font-medium hover:bg-gray-300 hover:shadow-sm focus:outline-none focus:ring-2 focus:ring-brand-100" %>
-            <%= submit "Save", phx_disable_with: "Saving...", class: "flex items-center justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-brand-300 hover:bg-brand-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-100" %>
+            <%= submit "Save Entry", phx_disable_with: "Saving...", class: "flex items-center justify-center py-2 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-brand-300 hover:bg-brand-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-100" %>
           </div>
         </.form>
       </div>

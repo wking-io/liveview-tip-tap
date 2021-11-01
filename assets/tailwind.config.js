@@ -23,7 +23,7 @@ module.exports = {
     colors,
     fontFamily: {
       sans: [ 'Inter var', ...defaultTheme.fontFamily.sans ],
-      serif: [ 'Merriweather', ...defaultTheme.fontFamily.serif ],
+      serif: [ 'Bitter', ...defaultTheme.fontFamily.serif ],
     },
     extend: {
       boxShadow: {

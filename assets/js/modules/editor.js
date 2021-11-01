@@ -40,6 +40,9 @@ export function editor(content) {
     toggleStrike() {
       instance.chain().toggleStrike().focus().run();
     },
+    toggleStrike() {
+      instance.chain().setHorizontalRule().focus().run();
+    },
     content,
     updatedAt: Date.now(), // force Alpine to rerender on selection change
     init() {
