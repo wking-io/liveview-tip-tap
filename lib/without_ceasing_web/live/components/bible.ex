@@ -8,7 +8,7 @@ defmodule WithoutCeasingWeb.Components.Bible do
     ~H"""
       <%= for element <- @chapter.structure do %>
         <%= if is_list(element) do %>
-          <p class="paragraph">
+          <p class="paragraph font-serif">
             <%= for verse <- element do %>
               <span class={"verse pl-4 relative cursor-pointer #{maybe_highlight(@current_verses, verse.id)}"} phx-click={verse_action(@current_verses, verse.id)} phx-value-verse={"#{verse.id}"}>
               <%= unless is_nil(verse.number) do %>
@@ -21,7 +21,7 @@ defmodule WithoutCeasingWeb.Components.Bible do
             <% end %>
           </p>
         <% else %>
-          <h3 class="font-bold mt-6 mb-3"><%= element %></h3>
+          <h3 class="font-bold mt-6 mb-3 font-serif"><%= element %></h3>
         <% end %>
       <% end %>
     """
