@@ -37,17 +37,11 @@ defmodule WithoutCeasingWeb.LiveHelpers do
     end
   end
 
-  def get_workspace_classes("menu"), do: "md:ml-64 md:pl-8"
-  def get_workspace_classes("details"), do: "lg:mr-[500px] xl:mr-[700px]"
-  def get_workspace_classes(_), do: ""
+  def focus_classes(:offset),
+    do: "rounded focus:outline-none focus:ring-offset-2 focus:ring-1 focus:ring-gray-900"
 
-  def get_sidenav_classes("menu"), do: "translate-x-full"
-  def get_sidenav_classes(_), do: "translate-x-0"
+  def focus_classes(:within),
+    do: "rounded focus-within:outline-none focus-within:ring-1 focus-within:ring-gray-900"
 
-  def get_topnav_classes("menu"), do: "left-56 right-0"
-  def get_topnav_classes("details"), do: "left-0 right-0 lg:mr-[500px] xl:mr-[700px]"
-  def get_topnav_classes(_), do: "left-0 right-0"
-
-  def get_details_classes("details"), do: "-translate-x-full"
-  def get_details_classes(_), do: "translate-x-0"
+  def focus_classes(), do: "rounded focus:outline-none focus:ring-1 focus:ring-gray-900"
 end

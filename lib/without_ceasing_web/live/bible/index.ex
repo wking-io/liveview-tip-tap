@@ -2,7 +2,7 @@ defmodule WithoutCeasingWeb.BibleLive.Index do
   use WithoutCeasingWeb, :live_view
   use WithoutCeasingWeb.UniversalEvents
 
-  import WithoutCeasingWeb.Components.{Layout}
+  import WithoutCeasingWeb.Components.Layout
 
   alias WithoutCeasing.Bible
 

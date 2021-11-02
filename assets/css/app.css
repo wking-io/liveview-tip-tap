@@ -77,17 +77,6 @@ Admin
 Admin Nav
 =================*/
 
-.nav-link.nav-link--current::before {
-  @apply w-1 h-full rounded-r-lg bg-gray-800 absolute -left-8 top-0 shadow;
-  content: "";
-}
-
-.nav-link:hover::after {
-  @apply h-full rounded-lg bg-gray-800 absolute -left-4 top-0 shadow;
-  width: calc(100% + theme('spacing.16'));
-  content: "";
-}
-
 /*=================
 Admin Workspace
 =================*/

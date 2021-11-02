@@ -76,18 +76,20 @@ liveSocket.connect();
 // >> liveSocket.disableLatencySim()
 window.liveSocket = liveSocket;
 
-Alpine.data('menuButton', () => ({
-  show: false,
-  toggle() {
-    this.show = !this.show;
-  },
-  close() {
-    this.show = false;
-  },
-  isOpen() {
-    return this.show === true;
-  },
-}));
+window.addEventListener('menu-button:toggle', (e) => {
+  const parent = document.getElementById(`menu-button-${e.detail.id}`);
+  if (parent) {
+    const isExpanded = e.target.getAttribute('aria-expanded') === 'true';
+    parent.setAttribute('aria-expanded', !isExpanded);
+  }
+});
+
+window.addEventListener('menu-button:hide', (e) => {
+  const parent = document.getElementById(`menu-button-${e.detail.id}`);
+  if (parent) {
+    parent.setAttribute('aria-expanded', false);
+  }
+});
 
 Alpine.data('accordion', () => ({
   selected: null,

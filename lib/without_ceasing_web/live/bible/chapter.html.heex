@@ -4,7 +4,7 @@
     <.chapter chapter={@chapter} current_verses={@current_verses} />
   </div>
   <aside
-    class={"w-full lg:w-[500px] xl:w-[700px] fixed flex flex-col top-[73px] lg:top-0 bottom-0 bg-white left-full transition duration-300 transform #{get_details_classes(@current_panel)}"}
+    class={"w-full lg:w-[500px] xl:w-[700px] fixed flex flex-col top-[73px] lg:top-0 bottom-0 bg-white left-full transition duration-300 transform"}
   >
     <%= if @live_action == :show do %>
       <div class="relative h-full flex flex-col" x-data={"tabs()"} id="panel-show">
