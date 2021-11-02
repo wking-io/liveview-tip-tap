@@ -37,7 +37,7 @@ defmodule WithoutCeasingWeb.LiveHelpers do
     end
   end
 
-  def get_workspace_classes("menu"), do: "md:ml-56"
+  def get_workspace_classes("menu"), do: "md:ml-64 md:pl-8"
   def get_workspace_classes("details"), do: "lg:mr-[500px] xl:mr-[700px]"
   def get_workspace_classes(_), do: ""
 

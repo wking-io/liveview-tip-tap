@@ -11,6 +11,7 @@ export function editor(content) {
       return instance.isActive(type, opts);
     },
     toggleBold() {
+      console.log('bold');
       instance.chain().toggleBold().focus().run();
     },
     toggleItalic() {

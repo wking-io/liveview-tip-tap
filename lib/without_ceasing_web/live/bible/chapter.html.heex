@@ -1,5 +1,5 @@
 <Layout.full flash={@flash}>
-  <div class="max-w-2xl mx-auto w-5/6 mt-8">
+  <div class="max-w-2xl w-5/6 mt-8">
     <h1 class="font-bold text-4xl font-serif"><%= "#{@chapter.book} #{@chapter.chapter}" %></h1>
     <.chapter chapter={@chapter} current_verses={@current_verses} />
   </div>
@@ -7,7 +7,7 @@
     class={"w-full lg:w-[500px] xl:w-[700px] fixed flex flex-col top-[73px] lg:top-0 bottom-0 bg-white left-full transition duration-300 transform #{get_details_classes(@current_panel)}"}
   >
     <%= if @live_action == :show do %>
-      <div class="relative h-full flex flex-col" x-data={"tabs()"}>
+      <div class="relative h-full flex flex-col" x-data={"tabs()"} id="panel-show">
         <div class="flex items-center text-xs sm:text-sm mt-4 mx-6 bg-gray-100 rounded-lg" role="tablist">
             <button class="flex flex-col sm:flex-row items-center justify-center flex-1 text-center font-display font-bold py-4 px-6 relative z-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-100 focus:z-20" :class="isTab('entries') ? 'text-white bg-gray-900' : 'text-gray-500 hover:text-gray-900 focus:bg-gray-200 focus:text-gray-900'" role="tab" aria-controls="entries-panel" id="entries-label" tabindex="0" :aria-selected="isTab('entries')" :tabindex="setTabindex('entries')" @click="select('entries')" @keyup="navigate">
                 Entries
@@ -29,7 +29,7 @@
             </div>
             <div class="space-y-4 mt-8 overflow-y-auto">
               <%= for entry <- @entries do %>
-                <div x-data={"render(#{Jason.encode!(entry.content)})"} class="rounded-lg border border-gray-900 space-y-4">
+                <div x-data={"render(#{Jason.encode!(entry.content)})"} class="rounded-lg border border-gray-900 space-y-4" id={"entry-card-#{entry.id}"}>
                   <div phx-update="ignore" x-ref="content" class="prose p-4">Loading...</div>
                   <div class="flex items-center justify-between px-4 py-2 bg-gray-100 rounded-b-lg">
                     <div class="flex items-center space-x-4">
@@ -81,6 +81,7 @@
           <div
             class="relative z-50 inline-block text-left"
             x-data="menuButton()"
+            id="menu-button-typography-styles-wrapper"
           >
             <button
               aria-controls="menu-typography-styles"
@@ -324,6 +325,7 @@
           <div
             class="relative z-50 inline-block text-left pl-2"
             x-data="menuButton()"
+            id="menu-button-typography-styles-wrapper"
           >
             <button
               aria-controls="menu-editor-extras"
