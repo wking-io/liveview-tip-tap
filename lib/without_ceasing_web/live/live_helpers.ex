@@ -38,10 +38,11 @@ defmodule WithoutCeasingWeb.LiveHelpers do
   end
 
   def focus_classes(:offset),
-    do: "rounded focus:outline-none focus:ring-offset-2 focus:ring-1 focus:ring-gray-900"
+    do:
+      "focus:outline-none focus:ring-offset-2 focus:ring-offset-gray-300 focus:ring-1 focus:ring-gray-900"
 
   def focus_classes(:within),
-    do: "rounded focus-within:outline-none focus-within:ring-1 focus-within:ring-gray-900"
+    do: "focus-within:outline-none focus-within:ring-1 focus-within:ring-gray-900"
 
-  def focus_classes(), do: "rounded focus:outline-none focus:ring-1 focus:ring-gray-900"
+  def focus_classes(), do: "focus:outline-none focus:ring-1 focus:ring-gray-900"
 end

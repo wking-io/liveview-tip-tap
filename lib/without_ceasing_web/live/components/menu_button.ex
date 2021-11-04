@@ -11,7 +11,7 @@ defmodule WithoutCeasingWeb.Components.MenuButtons do
         <button
           aria-controls={"menu-content-#{@id}"}
           aria-haspopup="true"
-          class={"inline-flex justify-center w-full border border-transparent bg-gray-200 px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-100 #{focus_classes()}"}
+          class={"flex items-center justify-center w-full h-full border border-transparent bg-gray-200 px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-200 #{focus_classes()}"}
           id={"menu-button-#{@id}"}
           type="button"
           phx-click={toggle(@id)}
@@ -34,7 +34,7 @@ defmodule WithoutCeasingWeb.Components.MenuButtons do
         </button>
         <div
           aria-labledby={"menu-button-#{@id}"}
-          class={"hidden origin-top-left absolute left-0 mt-2 shadow-lg bg-white #{focus_classes()}"}
+          class={"hidden origin-top-left absolute left-0 mt-2 shadow-lg bg-gray-200 border border-gray-900 #{focus_classes()}"}
           id={"menu-content-#{@id}"}
           role="menu"
         >
@@ -50,7 +50,7 @@ defmodule WithoutCeasingWeb.Components.MenuButtons do
         <button
           aria-controls={"menu-content-#{@id}"}
           aria-haspopup="true"
-          class={"inline-flex justify-center w-full border border-transparent p-2 text-sm font-medium text-gray-700 hover:bg-gray-100 #{focus_classes()}"}
+          class={"flex items-center justify-center w-full h-full border border-transparent p-2 text-sm font-medium text-gray-700 hover:bg-gray-200 #{focus_classes()}"}
           id={"menu-button-#{@id}"}
           type="button"
           phx-click={toggle(@id)}
@@ -60,7 +60,7 @@ defmodule WithoutCeasingWeb.Components.MenuButtons do
         </button>
         <div
           aria-labledby={"menu-button-#{@id}"}
-          class={"hidden origin-top-right absolute right-0 mt-2 shadow-lg bg-white #{focus_classes()}"}
+          class={"hidden origin-top-right absolute right-0 mt-2 shadow-lg bg-gray-200 border border-gray-900 #{focus_classes()}"}
           id={"menu-content-#{@id}"}
           role="menu"
         >
