@@ -69,6 +69,10 @@ Popovers
 Admin
 =================*/
 
+.main {
+  height: calc(100vh - 75px);
+}
+
 .grid-cols-chapters {
   grid-template-columns: repeat(auto-fill, minmax(32px, 1fr));
 }

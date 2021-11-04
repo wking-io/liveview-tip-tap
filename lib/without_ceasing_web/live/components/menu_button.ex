@@ -1,4 +1,4 @@
-defmodule WithoutCeasingWeb.Components.MenuButton do
+defmodule WithoutCeasingWeb.Components.MenuButtons do
   use Phoenix.Component
 
   import WithoutCeasingWeb.LiveHelpers
@@ -11,7 +11,7 @@ defmodule WithoutCeasingWeb.Components.MenuButton do
         <button
           aria-controls={"menu-content-#{@id}"}
           aria-haspopup="true"
-          class={"inline-flex justify-center w-full border border-transparent bg-gray-200 shadow-sm px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-100 #{focus_classes()}"}
+          class={"inline-flex justify-center w-full border border-transparent bg-gray-200 px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-100 #{focus_classes()}"}
           id={"menu-button-#{@id}"}
           type="button"
           phx-click={toggle(@id)}
@@ -34,7 +34,33 @@ defmodule WithoutCeasingWeb.Components.MenuButton do
         </button>
         <div
           aria-labledby={"menu-button-#{@id}"}
-          class={"hidden origin-top-right absolute left-0 mt-2 shadow-lg bg-white #{focus_classes()}"}
+          class={"hidden origin-top-left absolute left-0 mt-2 shadow-lg bg-white #{focus_classes()}"}
+          id={"menu-content-#{@id}"}
+          role="menu"
+        >
+          <%= render_slot(@inner_block) %>
+        </div>
+      </div>
+    """
+  end
+
+  def menu_icon_button(assigns) do
+    ~H"""
+      <div class={"relative text-left #{@class}"} phx-click-away={hide(@id)}>
+        <button
+          aria-controls={"menu-content-#{@id}"}
+          aria-haspopup="true"
+          class={"inline-flex justify-center w-full border border-transparent p-2 text-sm font-medium text-gray-700 hover:bg-gray-100 #{focus_classes()}"}
+          id={"menu-button-#{@id}"}
+          type="button"
+          phx-click={toggle(@id)}
+          aria-expanded="false"
+        >
+          <%= render_slot(@label) %>
+        </button>
+        <div
+          aria-labledby={"menu-button-#{@id}"}
+          class={"hidden origin-top-right absolute right-0 mt-2 shadow-lg bg-white #{focus_classes()}"}
           id={"menu-content-#{@id}"}
           role="menu"
         >

@@ -91,7 +91,7 @@ defmodule WithoutCeasingWeb do
       import WithoutCeasingWeb.ErrorHelpers
       import WithoutCeasingWeb.InputHelpers
       import WithoutCeasingWeb.Gettext
-      import WithoutCeasingWeb.Components.MenuButton
+      import WithoutCeasingWeb.Components.MenuButtons
 
       alias WithoutCeasingWeb.Router.Helpers, as: Routes
     end
