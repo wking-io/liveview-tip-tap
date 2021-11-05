@@ -5,11 +5,12 @@ const colors = {
   white: '#ffffff',
   transparent: 'transparent',
   brand: {
-    100: '#FFBA8F',
-    200: '#FF8B42',
-    300: '#F2673D',
-    400: '#00707A',
-    500: '#E53A33',
+    100: '#CFD8E1',
+    200: '#B1C1CC',
+    300: '#92A6B1',
+    400: '#617A7F',
+    500: '#3C4B4E',
+    600: '#2A3336',
   },
   gray: {
     100: '#D8E0D7',

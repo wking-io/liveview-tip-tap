@@ -49,7 +49,7 @@ defmodule WithoutCeasingWeb.Components.Bible do
   end
 
   defp maybe_highlight(current, instance),
-    do: if(is_current_verse(current, instance), do: "bg-brand-200 bg-opacity-40", else: "")
+    do: if(is_current_verse(current, instance), do: "bg-brand-400 bg-opacity-40", else: "")
 
   defp verse(%{content: {:normal, text}} = assigns) do
     ~H"""
