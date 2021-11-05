@@ -12,18 +12,13 @@ defmodule WithoutCeasingWeb.Components.Editor do
       <div id="editor-root" class="h-full flex flex-col" phx-hook="Editor" data-content={@content}>
         <div class="border-b border-gray-900 flex-1 flex flex-col overflow-y-auto overflow-x-hidden">
           <div class="border-b border-gray-900 flex divide-x divide-gray-900">
-            <.menu_button id="typography-styles" class="h-full w-36">
-              <:label>
-                <span>Normal text</span>
-              </:label>
-              <div class="py-1 w-36" role="none">
-                <.dropdown_button name="Normal text" action={:paragraph} />
-                <.dropdown_button name="Heading 1" action={:heading_one} />
-                <.dropdown_button name="Heading 2" action={:heading_two} />
-                <.dropdown_button name="Heading 3" action={:heading_three} />
-                <.dropdown_button name="Heading 4" action={:heading_four} />
-              </div>
-            </.menu_button>
+            <div class="flex">
+              <.editor_button name="Heading 1" action={:heading_one} icon="M13 20h-2v-7H4v7H2V4h2v7h7V4h2v16zm8-12v12h-2v-9.796l-2 .536V8.67L19.5 8H21z" />
+              <.editor_button name="Heading 2" action={:heading_two} icon="M4 4v7h7V4h2v16h-2v-7H4v7H2V4h2zm14.5 4c2.071 0 3.75 1.679 3.75 3.75 0 .857-.288 1.648-.772 2.28l-.148.18L18.034 18H22v2h-7v-1.556l4.82-5.546c.268-.307.43-.709.43-1.148 0-.966-.784-1.75-1.75-1.75-.918 0-1.671.707-1.744 1.606l-.006.144h-2C14.75 9.679 16.429 8 18.5 8z" />
+              <.editor_button name="Heading 3" action={:heading_three} icon="M22 8l-.002 2-2.505 2.883c1.59.435 2.757 1.89 2.757 3.617 0 2.071-1.679 3.75-3.75 3.75-1.826 0-3.347-1.305-3.682-3.033l1.964-.382c.156.806.866 1.415 1.718 1.415.966 0 1.75-.784 1.75-1.75s-.784-1.75-1.75-1.75c-.286 0-.556.069-.794.19l-1.307-1.547L19.35 10H15V8h7zM4 4v7h7V4h2v16h-2v-7H4v7H2V4h2z" />
+              <.editor_button name="Heading 4" action={:heading_four} icon="M13 20h-2v-7H4v7H2V4h2v7h7V4h2v16zm9-12v8h1.5v2H22v2h-2v-2h-5.5v-1.34l5-8.66H22zm-2 3.133L17.19 16H20v-4.867z" />
+              <.editor_button name="Normal text" action={:paragraph} icon="M12 6v15h-2v-5a6 6 0 1 1 0-12h10v2h-3v15h-2V6h-3zm-2 0a4 4 0 1 0 0 8V6z" />
+            </div>
             <div class="flex">
               <.editor_button name="Bold" action={:bold} icon="M8 11h4.5a2.5 2.5 0 1 0 0-5H8v5zm10 4.5a4.5 4.5 0 0 1-4.5 4.5H6V4h6.5a4.5 4.5 0 0 1 3.256 7.606A4.498 4.498 0 0 1 18 15.5zM8 13v5h5.5a2.5 2.5 0 1 0 0-5H8z" />
               <.editor_button name="Italic" action={:italic} icon="M15 20H7v-2h2.927l2.116-12H9V4h8v2h-2.927l-2.116 12H15z" />
