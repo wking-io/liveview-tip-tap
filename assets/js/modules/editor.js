@@ -4,6 +4,16 @@ import Highlight from '@tiptap/extension-highlight';
 import Underline from '@tiptap/extension-underline';
 import Link from '@tiptap/extension-link';
 
+function updateButtonState(buttons, editor) {
+  buttons.forEach((btn) => {
+    if (btn.dataset.editorAction.includes('heading')) {
+      const [ action, level ] = btn.dataset.editorAction.split('-');
+      btn.classList.toggle('is-active', editor.isActive(action, { level: parseInt(level) }));
+    } else {
+      btn.classList.toggle('is-active', editor.isActive(btn.dataset.editorAction));
+    }
+  });
+}
 export function setupEditor() {
   let instance;
   let actionListener;
@@ -12,7 +22,7 @@ export function setupEditor() {
     mounted() {
       const _this = this;
       const element = this.el.querySelector('[phx-ref="element"]');
-      console.log(element);
+      const editorActions = this.el.querySelectorAll('[data-editor-action]');
 
       if (element) {
         instance = new Editor({
@@ -25,10 +35,14 @@ export function setupEditor() {
           extensions: [ StarterKit, Highlight, Underline ],
           content: this.el.dataset.content,
           onUpdate({ editor }) {
+            updateButtonState(editorActions, editor);
+
             const input = _this.el.querySelector('[phx-ref="content"]');
             if (input) input.value = JSON.stringify(editor.getJSON());
           },
-          onSelectionUpdate({ editor }) {},
+          onSelectionUpdate({ editor }) {
+            updateButtonState(editorActions, editor);
+          },
         });
 
         actionListener = window.addEventListener('editor-button:action', (e) => {

@@ -11,7 +11,7 @@ defmodule WithoutCeasingWeb.Components.MenuButtons do
         <button
           aria-controls={"menu-content-#{@id}"}
           aria-haspopup="true"
-          class={"flex items-center justify-between w-full h-full border border-transparent bg-gray-200 px-4 py-2 bg-white text-sm font-medium hover:bg-gray-200 #{focus_classes()}"}
+          class={"flex items-center justify-between w-full h-full border border-transparent bg-gray-200 px-4 py-2 text-sm font-medium hover:bg-gray-200 #{focus_classes()}"}
           id={"menu-button-#{@id}"}
           type="button"
           phx-click={toggle(@id)}
