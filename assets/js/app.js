@@ -19,7 +19,7 @@ import topbar from 'topbar';
 import { LiveSocket } from 'phoenix_live_view';
 import { setupPopup } from './modules/popup';
 import { tabs } from './modules/tabs';
-import { editor, render } from './modules/editor';
+import { setupEditor, render } from './modules/editor';
 
 window.Alpine = Alpine;
 
@@ -40,6 +40,8 @@ Hooks.EarlyAccessEvent = {
     });
   },
 };
+
+Hooks.Editor = setupEditor();
 
 let csrfToken = document.querySelector("meta[name='csrf-token']").getAttribute('content');
 let liveSocket = new LiveSocket('/live', Socket, {
@@ -99,7 +101,6 @@ Alpine.data('accordion', () => ({
   },
 }));
 
-Alpine.data('editor', editor);
 Alpine.data('render', render);
 Alpine.data('tabs', tabs);
 Alpine.start();

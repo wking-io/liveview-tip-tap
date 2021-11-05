@@ -5,6 +5,7 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
   require Logger
 
   import WithoutCeasingWeb.Components.Bible
+  import WithoutCeasingWeb.Components.Editor
 
   alias WithoutCeasing.Bible
   alias WithoutCeasing.Content

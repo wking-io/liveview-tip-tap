@@ -11,7 +11,7 @@ defmodule WithoutCeasingWeb.Components.MenuButtons do
         <button
           aria-controls={"menu-content-#{@id}"}
           aria-haspopup="true"
-          class={"flex items-center justify-center w-full h-full border border-transparent bg-gray-200 px-4 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-200 #{focus_classes()}"}
+          class={"flex items-center justify-between w-full h-full border border-transparent bg-gray-200 px-4 py-2 bg-white text-sm font-medium hover:bg-gray-200 #{focus_classes()}"}
           id={"menu-button-#{@id}"}
           type="button"
           phx-click={toggle(@id)}
@@ -34,7 +34,7 @@ defmodule WithoutCeasingWeb.Components.MenuButtons do
         </button>
         <div
           aria-labledby={"menu-button-#{@id}"}
-          class={"hidden origin-top-left absolute left-0 mt-2 shadow-lg bg-gray-200 border border-gray-900 #{focus_classes()}"}
+          class={"hidden origin-top-left absolute -left-px mt-2 shadow-lg bg-gray-200 border border-gray-900 z-50 #{focus_classes()}"}
           id={"menu-content-#{@id}"}
           role="menu"
         >
@@ -60,7 +60,7 @@ defmodule WithoutCeasingWeb.Components.MenuButtons do
         </button>
         <div
           aria-labledby={"menu-button-#{@id}"}
-          class={"hidden origin-top-right absolute right-0 mt-2 shadow-lg bg-gray-200 border border-gray-900 #{focus_classes()}"}
+          class={"hidden origin-top-right absolute right-0 mt-2 shadow-lg bg-gray-200 border border-gray-900 z-50 #{focus_classes()}"}
           id={"menu-content-#{@id}"}
           role="menu"
         >
@@ -71,8 +71,7 @@ defmodule WithoutCeasingWeb.Components.MenuButtons do
   end
 
   defp toggle(id) do
-    %JS{}
-    |> JS.toggle(
+    JS.toggle(
       to: "#menu-content-#{id}",
       in:
         {"transition ease-out duration-100", "opacity-0 transform scale-95",
@@ -85,8 +84,7 @@ defmodule WithoutCeasingWeb.Components.MenuButtons do
   end
 
   defp hide(id) do
-    %JS{}
-    |> JS.hide(
+    JS.hide(
       to: "#menu-content-#{id}",
       transition:
         {"transition ease-in duration-75", "opacity-100 transform scale-100",

@@ -70,7 +70,7 @@ Admin
 =================*/
 
 .main {
-  height: calc(100vh - 75px);
+  height: calc(100vh - theme('spacing.16'));
 }
 
 .grid-cols-chapters {
