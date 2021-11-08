@@ -17,7 +17,13 @@
     <% end %>
     <.menu_button id="bible-selection" class="ml-6 h-full">
       <:label>
-        <span class="w-32 text-left">John 12</span>
+        <span class="w-32 text-left">
+          <%= if assigns[:chapter] do %>
+            <%= "#{@chapter.book} #{@chapter.chapter}" %>
+          <% else %>
+            Choose Passage
+          <% end %>
+        </span>
       </:label>
       <div
         class="px-8 py-6 w-[700px]"
