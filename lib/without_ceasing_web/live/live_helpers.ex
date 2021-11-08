@@ -1,6 +1,8 @@
 defmodule WithoutCeasingWeb.LiveHelpers do
   import Phoenix.LiveView.Helpers
 
+  alias Phoenix.LiveView.JS
+
   @doc """
   Renders a component inside the `WithoutCeasingWeb.ModalComponent` component.
 
@@ -45,4 +47,19 @@ defmodule WithoutCeasingWeb.LiveHelpers do
     do: "focus-within:outline-none focus-within:ring-1 focus-within:ring-gray-900"
 
   def focus_classes(), do: "focus:outline-none focus:ring-1 focus:ring-gray-900"
+
+  def select_tab(tab, others) do
+    JS.show(to: "##{tab}-panel")
+    |> then(fn js -> Enum.reduce(others, js, &unselect_tab/2) end)
+    |> JS.dispatch("tab:select", detail: %{tab: tab})
+  end
+
+  defp unselect_tab(tab, js) do
+    JS.hide(js, to: "##{tab}-panel")
+    |> JS.dispatch("tab:unselect", detail: %{tab: tab})
+  end
+
+  def navigate(tab) do
+    JS.dispatch("tab:navigate", detail: %{tab: tab})
+  end
 end

@@ -20,6 +20,7 @@ import { LiveSocket } from 'phoenix_live_view';
 import { setupPopup } from './modules/popup';
 import { tabs } from './modules/tabs';
 import { setupEditor, render } from './modules/editor';
+import { getAllSiblings } from './modules/utils';
 
 window.Alpine = Alpine;
 
@@ -93,13 +94,16 @@ window.addEventListener('menu-button:hide', (e) => {
   }
 });
 
-Alpine.data('accordion', () => ({
-  selected: null,
-  select() {
-    console.log(this.$el.id);
-    this.selected = this.$el.id === this.selected ? null : this.$el.id;
-  },
-}));
+window.addEventListener('tab:select', (e) => {
+  e.target.setAttribute('aria-selected', true);
+  e.target.setAttribute('tabindex', false);
+});
+
+window.addEventListener('tab:unselect', (e) => {
+  const tab = document.getElementById(`${e.detail.tab}-tab-label`);
+  tab.setAttribute('aria-selected', false);
+  tab.setAttribute('tabindex', -1);
+});
 
 Alpine.data('render', render);
 Alpine.data('tabs', tabs);
