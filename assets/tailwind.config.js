@@ -47,7 +47,7 @@ module.exports = {
         'box-error-sm': `4px 4px 0 ${colors.error[700]}`,
       },
       gridTemplateColumns: {
-        books: 'repeat(auto-fit, minmax(150px, 1fr))',
+        books: 'repeat(auto-fit, minmax(120px, 1fr))',
       },
     },
   },

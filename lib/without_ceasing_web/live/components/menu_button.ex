@@ -34,7 +34,7 @@ defmodule WithoutCeasingWeb.Components.MenuButtons do
         </button>
         <div
           aria-labledby={"menu-button-#{@id}"}
-          class={"hidden origin-top-left absolute -left-px mt-2 shadow-lg bg-gray-200 border border-gray-900 z-50 #{focus_classes()}"}
+          class={"hidden origin-top-left absolute -left-px mt-2 shadow-lg bg-gray-200 border border-gray-900 z-50 max-h-96 overflow-y-auto overflow-x-hidden #{focus_classes()}"}
           id={"menu-content-#{@id}"}
           role="menu"
         >
@@ -60,7 +60,7 @@ defmodule WithoutCeasingWeb.Components.MenuButtons do
         </button>
         <div
           aria-labledby={"menu-button-#{@id}"}
-          class={"hidden origin-top-right absolute right-0 mt-2 shadow-lg bg-gray-200 border border-gray-900 z-50 #{focus_classes()}"}
+          class={"hidden origin-top-right absolute right-0 mt-2 shadow-lg bg-gray-200 border border-gray-900 z-50 max-h-60 overflow-y-auto overflow-x-hidden #{focus_classes()}"}
           id={"menu-content-#{@id}"}
           role="menu"
         >

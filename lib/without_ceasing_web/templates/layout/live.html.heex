@@ -2,7 +2,7 @@
   <div
     class={"fixed flex items-center border-b border-gray-900 top-0 pl-6 transition-all duration-300 z-10 w-full h-16"}
   >
-    <%= live_redirect to: Routes.bible_index_path(@socket, :index), class: "w-auto #{focus_classes(:offset)}" do %>
+    <%= live_redirect to: Routes.dashboard_index_path(@socket, :index), class: "w-auto #{focus_classes(:offset)}" do %>
       <span class="sr-only">Without Ceasing</span>
       <svg
         height="32"
@@ -20,26 +20,26 @@
         <span class="w-32 text-left">John 12</span>
       </:label>
       <div
-        class="py-2 space-y-4 w-[700px]"
+        class="px-8 py-6 w-[700px]"
         role="none"
       >
-        Bible
+        <.live_component module={TableOfContents} id="table_of_contents" />
       </div>
     </.menu_button>
     <nav class="flex-1 ml-6">
       <ul class="flex items-center space-x-3 text-sm">
         <li class="">
-          <%= live_redirect to: Routes.bible_index_path(@socket, :index), class: "nav-link flex items-center text-gray-900 group hover:text-gray-700 py-1 px-4 relative #{focus_classes()}" do %>
+          <%= live_redirect to: Routes.dashboard_index_path(@socket, :index), class: "nav-link flex items-center text-gray-900 group hover:text-gray-700 py-1 px-4 relative #{focus_classes()}" do %>
             <span class="relative z-10">Entries</span>
           <% end %>
         </li>
         <li class="">
-          <%= live_redirect to: Routes.bible_index_path(@socket, :index), class: "nav-link flex items-center text-gray-900 group hover:text-gray-700 py-1 px-4 relative #{focus_classes()}" do %>
+          <%= live_redirect to: Routes.dashboard_index_path(@socket, :index), class: "nav-link flex items-center text-gray-900 group hover:text-gray-700 py-1 px-4 relative #{focus_classes()}" do %>
             <span class="relative z-10">Resources</span>
           <% end %>
         </li>
         <li class="">
-          <%= live_redirect to: Routes.bible_index_path(@socket, :index), class: "nav-link flex items-center text-gray-900 group hover:text-gray-700 py-1 px-4 relative #{focus_classes()}" do %>
+          <%= live_redirect to: Routes.dashboard_index_path(@socket, :index), class: "nav-link flex items-center text-gray-900 group hover:text-gray-700 py-1 px-4 relative #{focus_classes()}" do %>
             <span class="relative z-10">Collections</span>
           <% end %>
         </li>

@@ -141,6 +141,26 @@ defmodule WithoutCeasing.Content do
   end
 
   @doc """
+  Returns the list of Entries based on member and list of associated verses.
+
+  ## Examples
+
+      iex> list_Entrys()
+      [%Entry{}, ...]
+
+  """
+  def get_chapter_entries(book, chapter, %Member{} = member) do
+    Entry
+    |> join(:inner, [e], v in assoc(e, :verses))
+    |> join(:inner, [e, v], m in assoc(e, :member))
+    |> where([e, v, m], v.book == ^book)
+    |> where([e, v, m], v.chapter == ^chapter)
+    |> where([e, v, m], m.id == ^member.id)
+    |> preload([], [:verses])
+    |> Repo.all()
+  end
+
+  @doc """
   Gets a single Entry.
 
   Raises `Ecto.NoResultsError` if the Entry does not exist.

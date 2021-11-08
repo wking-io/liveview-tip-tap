@@ -23,6 +23,8 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
   end
 
   defp apply_action(socket, :index, %{"book" => book, "chapter" => chapter}) do
+    entries = Content.get_chapter_entries(book, chapter, socket.assigns.current_member)
+
     socket
     |> assign(
       page_title: "#{book} #{chapter}",
@@ -31,9 +33,9 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
       current_verses: [],
       content: "",
       changeset: nil,
-      entry: %Entry{}
+      entry: %Entry{},
+      entries: entries
     )
-    |> update(:current_panel, &if(&1 == "menu", do: &1, else: nil))
   end
 
   defp apply_action(
@@ -55,8 +57,7 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
       content: "",
       changeset: nil,
       entry: %Entry{},
-      entries: entries,
-      current_panel: "details"
+      entries: entries
     )
   end
 
@@ -75,8 +76,7 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
       current_verses: verses,
       content: "",
       changeset: Content.change_entry(entry),
-      entry: entry,
-      current_panel: "details"
+      entry: entry
     )
   end
 
@@ -95,8 +95,7 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
       current_verses: verses,
       content: entry.content,
       entry: entry,
-      changeset: Content.change_entry(entry),
-      current_panel: "details"
+      changeset: Content.change_entry(entry)
     )
   end
 

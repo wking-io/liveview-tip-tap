@@ -6,7 +6,7 @@
   <div
     class={"w-full h-full"}
   >
-    <%= if @live_action == :show do %>
+    <%= unless @live_action in [:edit, :create] do %>
       <div class="relative h-full flex flex-col" x-data={"tabs()"} id="panel-show">
         <div class="flex items-center text-xs sm:text-sm mt-4 mx-6 bg-gray-100 rounded-lg" role="tablist">
             <button class="flex flex-col sm:flex-row items-center justify-center flex-1 text-center font-display font-bold py-4 px-6 relative z-10 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-100 focus:z-20" :class="isTab('entries') ? 'text-white bg-gray-900' : 'text-gray-500 hover:text-gray-900 focus:bg-gray-200 focus:text-gray-900'" role="tab" aria-controls="entries-panel" id="entries-label" tabindex="0" :aria-selected="isTab('entries')" :tabindex="setTabindex('entries')" @click="select('entries')" @keyup="navigate">
@@ -73,8 +73,7 @@
             Resource List
         </div>
       </div>
-    <% end %>
-    <%= if @live_action in [:edit, :create] do %>
+    <% else %>
       <.editor content={@content} changeset={@changeset}>
         <:cancel_button>
             <%= live_redirect "Cancel", to: Routes.bible_chapter_path(@socket, :show, @book, @chapter.chapter, verses: @current_verses), class: "flex items-center justify-center py-2 px-6 font-medium hover:bg-gray-200 focus:bg-gray-200 #{focus_classes()}" %>

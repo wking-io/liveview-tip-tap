@@ -43,8 +43,6 @@ defmodule WithoutCeasingWeb.Router do
       live "/", DashboardLive.Index, :index
       # live "/dashboard", DashboardLive.Index, :index
 
-      live "/bible", BibleLive.Index, :index
-      live "/bible/:book", BibleLive.Index, :index
       live "/bible/:book/:chapter", BibleLive.Chapter, :index
       live "/bible/:book/:chapter/show", BibleLive.Chapter, :show
       live "/bible/:book/:chapter/create", BibleLive.Chapter, :create
