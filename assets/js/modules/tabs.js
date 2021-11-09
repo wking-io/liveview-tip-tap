@@ -34,15 +34,10 @@ function focusLastTab(tabEls) {
   tabEls[tabEls.length - 1].focus();
 }
 
-// This is an AlpineJS reusable function for tabs we use on the BIT dashboard
-export function tabs() {
-  const tabEls = [ ...document.querySelectorAll('[role="tab"]') ].map((tab, i) => {
-    tab.index = i;
-    return tab;
-  });
+export function setupTabs() {
+  let listeners = [];
 
-  // For easy reference
-  var keys = {
+  const keys = {
     end: 35,
     home: 36,
     left: 37,
@@ -52,35 +47,50 @@ export function tabs() {
   };
 
   return {
-    tab: 'entries',
-    select(tab) {
-      this.tab = tab;
-      document.body.dataset.current_tab = tab;
-    },
-    setTabindex(tab) {
-      return this.tab === tab ? 'false' : '-1';
-    },
-    isTab(tab) {
-      return this.tab === tab;
-    },
-    navigate(event) {
-      const key = event.keyCode;
+    mounted() {
+      const tabs = [ ...this.el.querySelectorAll('[role="tab"]') ].map((tab, i) => {
+        tab.index = i;
+        return tab;
+      });
 
-      switch (key) {
-        case keys.left:
-        case keys.right:
-          event.preventDefault();
-          switchTabOnArrowPress(tabEls, keys, event);
-          break;
-        case keys.end:
-          event.preventDefault();
-          focusLastTab(tabEls);
-          break;
-        case keys.home:
-          event.preventDefault();
-          focusFirstTab(tabEls);
-          break;
-      }
+      tabs.forEach((tab) => {
+        listeners.push([
+          'keyup',
+          tab.addEventListener('keyup', (event) => {
+            const key = event.keyCode;
+
+            switch (key) {
+              case keys.left:
+              case keys.right:
+                event.preventDefault();
+                switchTabOnArrowPress(tabs, keys, event);
+                break;
+              case keys.end:
+                event.preventDefault();
+                focusLastTab(tabs);
+                break;
+              case keys.home:
+                event.preventDefault();
+                focusFirstTab(tabs);
+                break;
+            }
+          }),
+        ]);
+      });
+
+      listeners.push([
+        'tab:select',
+        window.addEventListener('tab:select', (e) => {
+          tabs.forEach((tab) => {
+            const isSelected = tab.id === e.target.id;
+            tab.setAttribute('aria-selected', isSelected);
+            tab.setAttribute('tabindex', isSelected ? false : -1);
+          });
+        }),
+      ]);
+    },
+    destroyed() {
+      listeners.forEach(([ type, id ]) => window.removeEventListener(type, id));
     },
   };
 }

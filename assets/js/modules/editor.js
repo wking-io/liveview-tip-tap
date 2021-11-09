@@ -14,6 +14,7 @@ function updateButtonState(buttons, editor) {
     }
   });
 }
+
 export function setupEditor() {
   let instance;
   let actionListener;
@@ -56,7 +57,7 @@ export function setupEditor() {
     },
     destroyed() {
       instance = null;
-      window.removeEventListener(actionListener);
+      window.removeEventListener('editor-button:action', actionListener);
     },
   };
 }

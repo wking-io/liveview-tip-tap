@@ -78,8 +78,14 @@ Admin
 }
 
 /*=================
-Admin Nav
+Admin Tabs
 =================*/
+
+[role="tab"][aria-selected="true"]::after {
+  @apply absolute bottom-0 w-full bg-gray-900;
+  content: '';
+  height: 2px;
+}
 
 /*=================
 Admin Workspace

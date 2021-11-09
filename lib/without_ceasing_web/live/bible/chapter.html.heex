@@ -7,27 +7,14 @@
     class={"w-full h-full"}
   >
     <%= unless @live_action in [:edit, :create] do %>
-      <div class="relative h-full flex flex-col">
-        <div class="flex items-end sm:text-sm bg-gray-100" role="tablist">
-            <button class="flex flex-col sm:flex-row items-center justify-center text-center font-display font-bold py-2 px-6 relative z-10 focus:outline-none focus:ring-2 focus:ring-brand-100 focus:z-20" role="tab" aria-controls="entries-panel" id="entries-tab-label" tabindex="0" aria-selected="true" phx-click={select_tab("entries", ["resources"])} phx-keyup={navigate("entries")}>
-                Entries
-            </button>
-            <button class="flex flex-col sm:flex-row items-center justify-center text-center font-display font-bold py-2 px-6 relative z-10 focus:outline-none focus:ring-2 focus:ring-brand-100 focus:z-20" role="tab" aria-controls="resources-panel" id="resources-tab-label" tabindex="-1" aria-selected="true" phx-click={select_tab("resources", ["resources"])} phx-keyup={navigate("resources")}>
-                Resources
-            </button>
+      <div class="relative h-full flex flex-col" id="tabs" phx-hook="Tabs">
+        <div class="flex items-end sm:text-sm border-b border-gray-900" role="tablist">
+            <button class={"relative flex flex-col sm:flex-row items-center justify-center text-center font-display font-bold py-3 px-6 relative z-10 hover:bg-gray-200 focus:bg-gray-200 focus:z-20 #{focus_classes()}"} role="tab" aria-controls="entries-panel" id="entries-tab-label" tabindex="0" aria-selected="true" phx-click={select_tab("entries", ["resources"])}>Entries</button>
+            <button class={"relative flex flex-col sm:flex-row items-center justify-center text-center font-display font-bold py-3 px-6 relative z-10 hover:bg-gray-200 focus:bg-gray-200 focus:z-20 #{focus_classes()}"} role="tab" aria-controls="resources-panel" id="resources-tab-label" tabindex="-1" aria-selected="false" phx-click={select_tab("resources", ["entries"])}>Resources</button>
         </div>
-        <div tabindex="0" class="block" role="tabpanel" id="entries-panel" aria-labelledby="entries-label" class="flex-1">
+        <div tabindex="0" role="tabpanel" id="entries-panel" aria-labelledby="entries-label" class="flex-1 min-h-0 flex flex-col">
           <%= unless @entries == [] do %>
-            <div class="flex items-center justify-between">
-              <h3 class="text-sm font-bold">Your Entries</h3>
-              <%= live_redirect to: Routes.bible_chapter_path(@socket, :create, @book, @chapter.chapter, verses: @current_verses), class: "flex items-center justify-center text-sm py-1 pl-2 pr-3 border border-gray-300 font-medium hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-100" do %>
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
-                </svg>
-                <span>Add Entry</span>
-              <% end %>
-            </div>
-            <div class="divide-y divide-gray-900 mt-8 overflow-y-auto border-t border-gray-900">
+            <div class="divide-y divide-gray-900 overflow-y-auto flex-1 min-h-0">
               <%= for entry <- @entries do %>
                 <div x-data={"render(#{Jason.encode!(entry.content)})"} class="space-y-4" id={"entry-card-#{entry.id}"}>
                   <div phx-update="ignore" x-ref="content" class="prose p-4">Loading...</div>
@@ -55,6 +42,14 @@
                 </div>
               <% end %>
             </div>
+            <div class="">
+              <%= live_redirect to: Routes.bible_chapter_path(@socket, :create, @book, @chapter.chapter, verses: @current_verses), class: "flex items-center text-white justify-center text-sm py-2 pl-2 pr-3 border border-transparent font-medium bg-gray-900 hover:bg-gray-700 #{focus_classes()}" do %>
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+                </svg>
+                <span>Add Entry</span>
+              <% end %>
+            </div>
           <% else %>
             <div class="flex flex-col items-center justify-center h-full space-y-4">
               <img src={Routes.static_path(@socket, "/images/empty.png")} class="max-w-sm -mb-12 -mt-32" />
@@ -76,7 +71,7 @@
     <% else %>
       <.editor content={@content} changeset={@changeset}>
         <:cancel_button>
-            <%= live_redirect "Cancel", to: Routes.bible_chapter_path(@socket, :show, @book, @chapter.chapter, verses: @current_verses), class: "flex items-center justify-center py-2 px-6 font-medium hover:bg-gray-200 focus:bg-gray-200 #{focus_classes()}" %>
+            <%= live_redirect "Cancel", to: Routes.bible_chapter_path(@socket, :index, @book, @chapter.chapter, verses: @current_verses), class: "flex items-center justify-center py-2 px-6 font-medium hover:bg-gray-200 focus:bg-gray-200 #{focus_classes()}" %>
         </:cancel_button>
       </.editor>
     <% end %>

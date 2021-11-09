@@ -18,9 +18,8 @@ import { Socket } from 'phoenix';
 import topbar from 'topbar';
 import { LiveSocket } from 'phoenix_live_view';
 import { setupPopup } from './modules/popup';
-import { tabs } from './modules/tabs';
 import { setupEditor, render } from './modules/editor';
-import { getAllSiblings } from './modules/utils';
+import { setupTabs } from './modules/tabs';
 
 window.Alpine = Alpine;
 
@@ -31,6 +30,8 @@ Hooks.Modal = {
     setupPopup(this.el);
   },
 };
+
+Hooks.Tabs = setupTabs();
 
 Hooks.EarlyAccessEvent = {
   mounted() {
@@ -94,17 +95,5 @@ window.addEventListener('menu-button:hide', (e) => {
   }
 });
 
-window.addEventListener('tab:select', (e) => {
-  e.target.setAttribute('aria-selected', true);
-  e.target.setAttribute('tabindex', false);
-});
-
-window.addEventListener('tab:unselect', (e) => {
-  const tab = document.getElementById(`${e.detail.tab}-tab-label`);
-  tab.setAttribute('aria-selected', false);
-  tab.setAttribute('tabindex', -1);
-});
-
 Alpine.data('render', render);
-Alpine.data('tabs', tabs);
 Alpine.start();

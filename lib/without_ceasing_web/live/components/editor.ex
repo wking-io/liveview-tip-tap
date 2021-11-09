@@ -36,108 +36,17 @@ defmodule WithoutCeasingWeb.Components.Editor do
                 <:label>Extras</:label>
                 <div class="py-1" role="none">
                   <div>
-                    <button
-                      class="flex items-center w-full text-left rounded-sm py-2 px-4 hover:bg-gray-300 hover:text-gray-900 focus:bg-gray-300 focus:outline-none"
-                      @click="toggleBlockquote"
-                      :class="{ 'is-active': isActive('blockquote', updatedAt) }"
-                      aria-label="blockquote"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="16"
-                        height="16"
-                        class="fill-current mr-2"
-                      >
-                        <path
-                          d="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 0 1-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 0 1-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z"
-                        />
-                      </svg>
-                      <span>Blockquote</span>
-                    </button>
-
-                    <button
-                      class="flex items-center w-full text-left rounded-sm py-2 px-4 hover:bg-gray-300 hover:text-gray-900 focus:bg-gray-300 focus:outline-none"
-                      @click="setHorizontalRule"
-                      aria-label="seperator"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="16"
-                        height="16"
-                        class="fill-current mr-2"
-                      >
-                        <path
-                          d="M2 11h2v2H2v-2zm4 0h12v2H6v-2zm14 0h2v2h-2v-2z"
-                        />
-                      </svg>
-                      <span>Seperator</span>
-                    </button>
+                    <.dropdown_button name="Blockquote" action={:blockquote} icon="M4.583 17.321C3.553 16.227 3 15 3 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 0 1-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179zm10 0C13.553 16.227 13 15 13 13.011c0-3.5 2.457-6.637 6.03-8.188l.893 1.378c-3.335 1.804-3.987 4.145-4.247 5.621.537-.278 1.24-.375 1.929-.311 1.804.167 3.226 1.648 3.226 3.489a3.5 3.5 0 0 1-3.5 3.5c-1.073 0-2.099-.49-2.748-1.179z" />
+                    <.dropdown_button name="Separator" action={:separator} icon="M2 11h2v2H2v-2zm4 0h12v2H6v-2zm14 0h2v2h-2v-2z" />
                   </div>
                   <div>
                     <h6
                       class="block px-4 py-2 text-xs font-semibold tracking-wider text-gray-700 uppercase"
                       role="none"
                     >Reference</h6>
-                    <button
-                      class="flex items-center w-full text-left rounded-sm py-2 px-4 hover:bg-gray-300 hover:text-gray-900 focus:bg-gray-300 focus:outline-none"
-                      @click="toggleBlockquote"
-                      :class="{ 'is-active': isActive('blockquote', updatedAt) }"
-                      aria-label="blockquote"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="16"
-                        height="16"
-                        class="fill-current mr-2"
-                      >
-                        <path
-                          d="M3 18.5V5a3 3 0 0 1 3-3h14a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5A3.5 3.5 0 0 1 3 18.5zM19 20v-3H6.5a1.5 1.5 0 0 0 0 3H19zM10 4H6a1 1 0 0 0-1 1v10.337A3.486 3.486 0 0 1 6.5 15H19V4h-2v8l-3.5-2-3.5 2V4z"
-                        />
-                      </svg>
-                      <span>Verse</span>
-                    </button>
-                    <button
-                      class="flex items-center w-full text-left rounded-sm py-2 px-4 hover:bg-gray-300 hover:text-gray-900 focus:bg-gray-300 focus:outline-none"
-                      @click="toggleBlockquote"
-                      :class="{ 'is-active': isActive('blockquote', updatedAt) }"
-                      aria-label="blockquote"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="16"
-                        height="16"
-                        class="fill-current mr-2"
-                      >
-                        <path
-                          d="M20.005 2C21.107 2 22 2.898 22 3.99v16.02c0 1.099-.893 1.99-1.995 1.99H4v-4H2v-2h2v-3H2v-2h2V8H2V6h2V2h16.005zM8 4H6v16h2V4zm12 0H10v16h10V4z"
-                        />
-                      </svg>
-                      <span>Entry</span>
-                    </button>
+                    <.dropdown_button name="Verse" action={:verse} icon="M3 18.5V5a3 3 0 0 1 3-3h14a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5A3.5 3.5 0 0 1 3 18.5zM19 20v-3H6.5a1.5 1.5 0 0 0 0 3H19zM10 4H6a1 1 0 0 0-1 1v10.337A3.486 3.486 0 0 1 6.5 15H19V4h-2v8l-3.5-2-3.5 2V4z" />
+                    <.dropdown_button name="Entry" action={:entry} icon="M20.005 2C21.107 2 22 2.898 22 3.99v16.02c0 1.099-.893 1.99-1.995 1.99H4v-4H2v-2h2v-3H2v-2h2V8H2V6h2V2h16.005zM8 4H6v16h2V4zm12 0H10v16h10V4z" />
                     <.dropdown_button name="Resource" action={:resource} icon="M3 21a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h7.414l2 2H20a1 1 0 0 1 1 1v3h-2V7h-7.414l-2-2H4v11.998L5.5 11h17l-2.31 9.243a1 1 0 0 1-.97.757H3zm16.938-8H7.062l-1.5 6h12.876l1.5-6z" />
-                    <button
-                      class="flex items-center w-full text-left rounded-sm py-2 px-4 hover:bg-gray-300 hover:text-gray-900 focus:bg-gray-300 focus:outline-none"
-                      @click="toggleBlockquote"
-                      :class="{ 'is-active': isActive('blockquote', updatedAt) }"
-                      aria-label="blockquote"
-                    >
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        width="16"
-                        height="16"
-                        class="fill-current mr-2"
-                      >
-                        <path
-                          d="M3 21a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h7.414l2 2H20a1 1 0 0 1 1 1v3h-2V7h-7.414l-2-2H4v11.998L5.5 11h17l-2.31 9.243a1 1 0 0 1-.97.757H3zm16.938-8H7.062l-1.5 6h12.876l1.5-6z"
-                        />
-                      </svg>
-                      <span>Resource</span>
-                    </button>
                   </div>
                 </div>
               </.menu_button>

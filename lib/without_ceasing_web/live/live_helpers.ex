@@ -49,17 +49,12 @@ defmodule WithoutCeasingWeb.LiveHelpers do
   def focus_classes(), do: "focus:outline-none focus:ring-1 focus:ring-gray-900"
 
   def select_tab(tab, others) do
-    JS.show(to: "##{tab}-panel")
+    JS.show(to: "##{tab}-panel", display: "flex")
     |> then(fn js -> Enum.reduce(others, js, &unselect_tab/2) end)
     |> JS.dispatch("tab:select", detail: %{tab: tab})
   end
 
   defp unselect_tab(tab, js) do
     JS.hide(js, to: "##{tab}-panel")
-    |> JS.dispatch("tab:unselect", detail: %{tab: tab})
-  end
-
-  def navigate(tab) do
-    JS.dispatch("tab:navigate", detail: %{tab: tab})
   end
 end

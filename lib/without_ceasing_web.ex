@@ -93,6 +93,7 @@ defmodule WithoutCeasingWeb do
       import WithoutCeasingWeb.Gettext
       import WithoutCeasingWeb.Components.MenuButtons
 
+      alias Phoenix.LiveView.JS
       alias WithoutCeasingWeb.Components.TableOfContents
       alias WithoutCeasingWeb.Router.Helpers, as: Routes
     end

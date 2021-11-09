@@ -68,12 +68,35 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
        ) do
     entry = %Entry{}
 
+    Logger.debug("here")
+
     socket
     |> assign(
       page_title: "#{book} #{chapter}",
       book: book,
       chapter: Bible.get_chapter(book, chapter),
       current_verses: verses,
+      content: "",
+      changeset: Content.change_entry(entry),
+      entry: entry
+    )
+  end
+
+  defp apply_action(
+         socket,
+         :create,
+         %{"book" => book, "chapter" => chapter}
+       ) do
+    entry = %Entry{}
+
+    Logger.debug("or here")
+
+    socket
+    |> assign(
+      page_title: "#{book} #{chapter}",
+      book: book,
+      chapter: Bible.get_chapter(book, chapter),
+      current_verses: [],
       content: "",
       changeset: Content.change_entry(entry),
       entry: entry
