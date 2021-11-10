@@ -137,6 +137,7 @@ defmodule WithoutCeasing.Content do
     |> where([e, v, m], v.id in ^verses)
     |> where([e, v, m], m.id == ^member.id)
     |> preload([], [:verses])
+    |> group_by([e], [e.id])
     |> Repo.all()
   end
 
@@ -157,6 +158,7 @@ defmodule WithoutCeasing.Content do
     |> where([e, v, m], v.chapter == ^chapter)
     |> where([e, v, m], m.id == ^member.id)
     |> preload([], [:verses])
+    |> group_by([e], [e.id])
     |> Repo.all()
   end
 
@@ -197,8 +199,6 @@ defmodule WithoutCeasing.Content do
     attrs =
       attrs
       |> Map.update!("content", &Jason.decode!(&1))
-
-    Logger.debug(inspect(attrs))
 
     %Entry{}
     |> Entry.create_changeset(attrs, verses, user)

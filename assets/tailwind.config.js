@@ -1,5 +1,18 @@
-const { red, blueGray } = require('tailwindcss/colors');
+const { red, coolGray } = require('tailwindcss/colors');
 const defaultTheme = require('tailwindcss/defaultTheme');
+
+const greenGray = {
+  50: '#F9FAF9',
+  100: '#F4F5F4',
+  200: '#E5E7E4',
+  300: '#D2D6D1',
+  400: '#A0A89E',
+  500: '#6E786C',
+  600: '#50574E',
+  700: '#3D443C',
+  800: '#252924',
+  900: '#181C17',
+};
 
 const colors = {
   white: '#ffffff',
@@ -12,17 +25,7 @@ const colors = {
     500: '#3C4B4E',
     600: '#2A3336',
   },
-  gray: {
-    100: '#D8E0D7',
-    200: '#C5CFC4',
-    300: '#ADBAAE',
-    400: '#8A978B',
-    500: '#8A978B',
-    600: '#5B665C',
-    700: '#5B665C',
-    800: '#394039',
-    900: '#394039',
-  },
+  gray: greenGray,
   error: red,
 };
 

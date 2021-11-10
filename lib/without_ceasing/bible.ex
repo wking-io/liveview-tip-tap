@@ -42,13 +42,23 @@ defmodule WithoutCeasing.Bible do
 
   defp verse_grouper(verse, []), do: [{verse}]
 
-  defp verse_grouper(verse, [{first, last} | rest] = groups),
-    do: if(last + 1 == verse, do: [{first, verse}, rest], else: [{verse} | groups])
+  defp verse_grouper(verse, [{first, last} | rest] = groups) do
+    if last + 1 == verse do
+      [{first, verse} | rest]
+    else
+      [{verse} | groups]
+    end
+  end
 
-  defp verse_grouper(verse, [{first} | rest] = groups),
-    do: if(first + 1 == verse, do: [{first, verse}, rest], else: [{verse} | groups])
+  defp verse_grouper(verse, [{first} | rest] = groups) do
+    if first + 1 == verse do
+      [{first, verse} | rest]
+    else
+      [{verse} | groups]
+    end
+  end
 
-  defp group_stringify({first, last}, string) do
+  defp group_stringify({first, last}, acc) do
     %{book: book, chapter: chapter, verse: first_verse} =
       first
       |> Integer.digits()
@@ -59,7 +69,7 @@ defmodule WithoutCeasing.Bible do
       |> Integer.digits()
       |> get_verse_data()
 
-    ["#{book} #{chapter}:#{first_verse}-#{last_verse}"]
+    ["#{book} #{chapter}:#{first_verse}-#{last_verse}" | acc]
   end
 
   defp group_stringify({first}, acc) do

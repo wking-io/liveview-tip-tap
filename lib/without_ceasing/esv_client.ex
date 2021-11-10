@@ -23,13 +23,11 @@ defmodule WithoutCeasing.EsvClient do
     |> Enum.fetch!(0)
   end
 
-  defp handle_chapter_response!({:ok, %Response{body: body, status: 200} = response}) do
-    Logger.debug("Response: #{inspect(response)}")
+  defp handle_chapter_response!({:ok, %Response{body: body, status: 200}}) do
     Jason.decode!(body)
   end
 
-  defp handle_chapter_response!({:ok, %Response{body: body} = response}) do
-    Logger.debug("Response: #{inspect(response)}")
+  defp handle_chapter_response!({:ok, %Response{body: body}}) do
     Jason.decode!(body)
   end
 
@@ -40,15 +38,10 @@ defmodule WithoutCeasing.EsvClient do
       @base_url <>
         endpoint
 
-    build =
-      Finch.build(
-        :get,
-        url,
-        [{"Authorization", "Token #{Application.fetch_env!(:without_ceasing, :esv_api_key)}"}]
-      )
-
-    Logger.debug(build)
-
-    build
+    Finch.build(
+      :get,
+      url,
+      [{"Authorization", "Token #{Application.fetch_env!(:without_ceasing, :esv_api_key)}"}]
+    )
   end
 end

@@ -53,7 +53,7 @@ defmodule WithoutCeasingWeb.Components.Editor do
             </div>
           </div>
 
-          <div id="editor-element" phx-ref="element" class="flex-1 overflow-auto"></div>
+          <div id="editor-element" phx-ref="element" class="bg-gray-100 flex-1 overflow-auto"></div>
         </div>
         <.form
           let={f}
@@ -75,7 +75,7 @@ defmodule WithoutCeasingWeb.Components.Editor do
   def editor_button(assigns) do
     ~H"""
     <button
-      class={"h-full w-[38px] flex items-center justify-center hover:bg-gray-200 hover:text-gray-900 focus:bg-gray-200 #{focus_classes()}"}
+      class={"h-full w-[38px] flex items-center justify-center hover:bg-gray-50 hover:text-gray-900 focus:bg-gray-50 #{focus_classes()}"}
       phx-click={editor_action(@action)}
       data-editor-action={action_name(@action)}
       aria-label={@name}

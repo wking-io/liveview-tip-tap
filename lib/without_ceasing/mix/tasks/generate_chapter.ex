@@ -2,6 +2,8 @@ defmodule Mix.Tasks.GenerateChapter do
   use Mix.Task
   require Logger
 
+  alias WithoutCeasing.Bible.Book
+
   @requirements ["app.start"]
 
   def run([book, chapter_text, chapter_num]) do
@@ -22,6 +24,8 @@ defmodule Mix.Tasks.GenerateChapter do
 
     {chapter_num, _} = Integer.parse(chapter_num)
 
+    verses = get_verse_list(book, chapter_num)
+
     structure =
       fetch(book, chapter_num)
       |> parse(book, chapter_num)
@@ -34,6 +38,7 @@ defmodule Mix.Tasks.GenerateChapter do
           %{
             book: "#{capitalized_book}",
             chapter: #{chapter_num},
+            verses: #{inspect(verses)},
             structure: #{inspect(structure, limit: :infinity)}
           }
         end
@@ -113,6 +118,12 @@ defmodule Mix.Tasks.GenerateChapter do
         number: if(number == 999, do: nil, else: number)
       }
     end)
+  end
+
+  def get_verse_list(book, chapter) do
+    book_data = Book.List.find(book)
+    verse_total = Enum.fetch!(book_data.chapters, chapter)
+    Enum.map(Enum.to_list(1..verse_total), &get_verse_id(book, chapter, &1))
   end
 
   def get_verse_id(book, chapter, verse),

@@ -36,7 +36,7 @@ defmodule WithoutCeasingWeb.InputHelpers do
       value: value,
       id: new_id,
       class:
-        "flex-1 border-none py-2 px-3 bg-gray-100 rounded focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-200 focus:ring-brand-200",
+        "flex-1 border-none py-2 px-3 bg-gray-100 rounded focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-50 focus:ring-brand-200",
       placeholder: "Enter verse text here..."
     ]
 

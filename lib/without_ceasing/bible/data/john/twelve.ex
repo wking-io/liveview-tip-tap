@@ -3,6 +3,46 @@ defmodule WithoutCeasing.Bible.Data.John.Twelve do
     %{
       book: "John",
       chapter: 12,
+      verses: [
+        43_012_001,
+        43_012_002,
+        43_012_003,
+        43_012_004,
+        43_012_005,
+        43_012_006,
+        43_012_007,
+        43_012_008,
+        43_012_009,
+        43_012_010,
+        43_012_011,
+        43_012_012,
+        43_012_013,
+        43_012_014,
+        43_012_015,
+        43_012_016,
+        43_012_017,
+        43_012_018,
+        43_012_019,
+        43_012_020,
+        43_012_021,
+        43_012_022,
+        43_012_023,
+        43_012_024,
+        43_012_025,
+        43_012_026,
+        43_012_027,
+        43_012_028,
+        43_012_029,
+        43_012_030,
+        43_012_031,
+        43_012_032,
+        43_012_033,
+        43_012_034,
+        43_012_035,
+        43_012_036,
+        43_012_037,
+        43_012_038
+      ],
       structure: [
         "Mary Anoints Jesus at Bethany",
         [
@@ -317,9 +357,7 @@ defmodule WithoutCeasing.Bible.Data.John.Twelve do
           %{
             id: 43_012_038,
             number: 38,
-            text: [
-              normal: "so that the word spoken by the prophet Isaiah might be fulfilled:"
-            ]
+            text: [normal: "so that the word spoken by the prophet Isaiah might be fulfilled:"]
           }
         ],
         [

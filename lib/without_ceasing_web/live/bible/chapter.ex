@@ -25,6 +25,8 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
   defp apply_action(socket, :index, %{"book" => book, "chapter" => chapter}) do
     entries = Content.get_chapter_entries(book, chapter, socket.assigns.current_member)
 
+    Logger.debug(Enum.count(entries))
+
     socket
     |> assign(
       page_title: "#{book} #{chapter}",
@@ -68,8 +70,6 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
        ) do
     entry = %Entry{}
 
-    Logger.debug("here")
-
     socket
     |> assign(
       page_title: "#{book} #{chapter}",
@@ -85,17 +85,16 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
   defp apply_action(
          socket,
          :create,
-         %{"book" => book, "chapter" => chapter}
+         %{"book" => book, "chapter" => chapter_num}
        ) do
     entry = %Entry{}
-
-    Logger.debug("or here")
+    chapter = Bible.get_chapter(book, chapter_num)
 
     socket
     |> assign(
-      page_title: "#{book} #{chapter}",
+      page_title: "#{book} #{chapter_num}",
       book: book,
-      chapter: Bible.get_chapter(book, chapter),
+      chapter: chapter,
       current_verses: [],
       content: "",
       changeset: Content.change_entry(entry),
@@ -106,15 +105,16 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
   defp apply_action(
          socket,
          :edit,
-         %{"book" => book, "chapter" => chapter, "entry" => entry_id, "verses" => verses}
+         %{"book" => book, "chapter" => chapter_num, "entry" => entry_id, "verses" => verses}
        ) do
     entry = Content.get_entry!(entry_id)
+    chapter = Bible.get_chapter(book, chapter_num)
 
     socket
     |> assign(
-      page_title: "#{book} #{chapter}",
+      page_title: "#{book} #{chapter_num}",
       book: book,
-      chapter: Bible.get_chapter(book, chapter),
+      chapter: chapter,
       current_verses: verses,
       content: entry.content,
       entry: entry,
@@ -136,9 +136,11 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
   end
 
   def handle_event("save", %{"entry" => entry_params}, socket) do
+    verses = get_current_verses(socket.assigns)
+
     case Content.create_entry(
            entry_params,
-           socket.assigns.current_verses,
+           verses,
            socket.assigns.current_member
          ) do
       {:ok, entry} ->
@@ -151,6 +153,9 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
         {:noreply, assign(socket, changeset: changeset)}
     end
   end
+
+  defp get_current_verses(%{current_verses: [], chapter: chapter}), do: chapter.verses
+  defp get_current_verses(%{current_verses: verses}), do: verses
 
   defp update_page(socket) do
     push_patch(socket,
