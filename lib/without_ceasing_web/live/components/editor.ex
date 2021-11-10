@@ -96,7 +96,7 @@ defmodule WithoutCeasingWeb.Components.Editor do
   def dropdown_button(assigns) do
     ~H"""
     <button
-      class={"flex items-center w-full text-left py-2 px-4 hover:bg-gray-300 hover:text-gray-900 focus:bg-gray-300 #{focus_classes()}"}
+      class={"flex items-center w-full text-left py-2 px-4 hover:bg-gray-100 hover:text-gray-900 focus:bg-gray-300 #{focus_classes()}"}
       phx-click={editor_action(@action)}
       data-editor-action={action_name(@action)}
     >

@@ -9,8 +9,8 @@
     <%= unless @live_action in [:edit, :create] do %>
       <div class="relative h-full flex flex-col" id="tabs" phx-hook="Tabs">
         <div class="flex items-end sm:text-sm border-b border-gray-900" role="tablist">
-            <button class={"relative flex flex-col sm:flex-row items-center justify-center text-center font-display font-bold py-3 px-6 relative z-10 hover:bg-gray-200 focus:bg-gray-200 focus:z-20 #{focus_classes()}"} role="tab" aria-controls="entries-panel" id="entries-tab-label" tabindex="0" aria-selected="true" phx-click={select_tab("entries", ["resources"])}>Entries</button>
-            <button class={"relative flex flex-col sm:flex-row items-center justify-center text-center font-display font-bold py-3 px-6 relative z-10 hover:bg-gray-200 focus:bg-gray-200 focus:z-20 #{focus_classes()}"} role="tab" aria-controls="resources-panel" id="resources-tab-label" tabindex="-1" aria-selected="false" phx-click={select_tab("resources", ["entries"])}>Resources</button>
+            <button class={"relative flex flex-col sm:flex-row items-center justify-center text-center font-display font-bold py-3 px-6 relative z-10 hover:bg-gray-100 focus:bg-gray-100 focus:z-20 #{focus_classes()}"} role="tab" aria-controls="entries-panel" id="entries-tab-label" tabindex="0" aria-selected="true" phx-click={select_tab("entries", ["resources"])} phx-keyup={navigate()}>Entries</button>
+            <button class={"relative flex flex-col sm:flex-row items-center justify-center text-center font-display font-bold py-3 px-6 relative z-10 hover:bg-gray-100 focus:bg-gray-200 focus:z-20 #{focus_classes()}"} role="tab" aria-controls="resources-panel" id="resources-tab-label" tabindex="-1" aria-selected="false" phx-click={select_tab("resources", ["entries"])} phx-keyup={navigate()}>Resources</button>
         </div>
         <div tabindex="0" role="tabpanel" id="entries-panel" aria-labelledby="entries-label" class="flex-1 min-h-0 flex flex-col">
           <%= unless @entries == [] do %>

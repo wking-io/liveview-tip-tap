@@ -55,8 +55,9 @@ export function setupTabs() {
 
       tabs.forEach((tab) => {
         listeners.push([
-          'keyup',
-          tab.addEventListener('keyup', (event) => {
+          'tab:navigate',
+          tab.addEventListener('tab:navigate', (event) => {
+            console.log(event);
             const key = event.keyCode;
 
             switch (key) {

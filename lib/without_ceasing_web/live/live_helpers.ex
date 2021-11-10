@@ -57,4 +57,8 @@ defmodule WithoutCeasingWeb.LiveHelpers do
   defp unselect_tab(tab, js) do
     JS.hide(js, to: "##{tab}-panel")
   end
+
+  def navigate() do
+    JS.dispatch("tab:navigate", [])
+  end
 end

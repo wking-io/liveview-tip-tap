@@ -60,6 +60,9 @@ let liveSocket = new LiveSocket('/live', Socket, {
     click: (e, el) => ({
       shiftKey: e.shiftKey,
     }),
+    keyup: (e, el) => ({
+      keyCode: e.keyCode,
+    }),
   },
 });
 
