@@ -9,7 +9,7 @@ defmodule WithoutCeasingWeb.Components.Editor do
 
   def editor(assigns) do
     ~H"""
-      <div id="editor-root" class="h-full flex flex-col" phx-hook="Editor" data-content={@content}>
+      <div id="editor-root" class="h-full flex flex-col" phx-hook="Editor" data-content={Jason.encode!(@content)}>
         <div class="border-b border-gray-900 flex-1 flex flex-col overflow-y-auto overflow-x-hidden">
           <div class="border-b border-gray-900 flex divide-x divide-gray-900">
             <div class="flex">
@@ -61,7 +61,7 @@ defmodule WithoutCeasingWeb.Components.Editor do
           id="entry-form"
           phx-submit="save"
         >
-          <%= hidden_input f, :content, ["phx-ref": "content"] %>
+          <%= hidden_input f, :content, [value: Jason.encode!(@content), "phx-ref": "content"] %>
 
           <div class="flex justify-end">
             <%= render_slot(@cancel_button) %>

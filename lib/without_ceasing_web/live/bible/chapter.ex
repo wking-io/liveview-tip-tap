@@ -6,6 +6,7 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
 
   import WithoutCeasingWeb.Components.Bible
   import WithoutCeasingWeb.Components.Editor
+  import WithoutCeasingWeb.Components.Entry
 
   alias WithoutCeasing.Bible
   alias WithoutCeasing.Content
@@ -22,27 +23,9 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
     {:noreply, apply_action(socket, socket.assigns.live_action, params)}
   end
 
-  defp apply_action(socket, :index, %{"book" => book, "chapter" => chapter}) do
-    entries = Content.get_chapter_entries(book, chapter, socket.assigns.current_member)
-
-    Logger.debug(Enum.count(entries))
-
-    socket
-    |> assign(
-      page_title: "#{book} #{chapter}",
-      book: book,
-      chapter: Bible.get_chapter(book, chapter),
-      current_verses: [],
-      content: "",
-      changeset: nil,
-      entry: %Entry{},
-      entries: entries
-    )
-  end
-
   defp apply_action(
          socket,
-         :show,
+         :index,
          %{"book" => book, "chapter" => chapter, "verses" => verses}
        ) do
     entries =
@@ -56,6 +39,22 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
       book: book,
       chapter: Bible.get_chapter(book, chapter),
       current_verses: verses,
+      content: "",
+      changeset: nil,
+      entry: %Entry{},
+      entries: entries
+    )
+  end
+
+  defp apply_action(socket, :index, %{"book" => book, "chapter" => chapter}) do
+    entries = Content.get_chapter_entries(book, chapter, socket.assigns.current_member)
+
+    socket
+    |> assign(
+      page_title: "#{book} #{chapter}",
+      book: book,
+      chapter: Bible.get_chapter(book, chapter),
+      current_verses: [],
       content: "",
       changeset: nil,
       entry: %Entry{},
@@ -104,6 +103,25 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
 
   defp apply_action(
          socket,
+         :show,
+         %{"book" => book, "chapter" => chapter_num, "entry" => entry_id, "verses" => verses}
+       ) do
+    entry = Content.get_entry!(entry_id)
+    chapter = Bible.get_chapter(book, chapter_num)
+
+    socket
+    |> assign(
+      page_title: "#{book} #{chapter_num}",
+      book: book,
+      chapter: chapter,
+      current_verses: verses,
+      entry: entry,
+      changeset: Content.change_entry(entry)
+    )
+  end
+
+  defp apply_action(
+         socket,
          :edit,
          %{"book" => book, "chapter" => chapter_num, "entry" => entry_id, "verses" => verses}
        ) do
@@ -116,7 +134,6 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
       book: book,
       chapter: chapter,
       current_verses: verses,
-      content: entry.content,
       entry: entry,
       changeset: Content.change_entry(entry)
     )
@@ -154,6 +171,8 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
     end
   end
 
+  def verses_to_param(%Entry{verses: verses}), do: Enum.map(verses, & &1.id)
+
   defp get_current_verses(%{current_verses: [], chapter: chapter}), do: chapter.verses
   defp get_current_verses(%{current_verses: verses}), do: verses
 
@@ -174,7 +193,7 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
       to:
         Routes.bible_chapter_path(
           socket,
-          :show,
+          :index,
           socket.assigns.book,
           socket.assigns.chapter.chapter,
           verses: verses

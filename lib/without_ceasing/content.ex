@@ -176,7 +176,7 @@ defmodule WithoutCeasing.Content do
       ** (Ecto.NoResultsError)
 
   """
-  def get_entry!(id), do: Repo.get!(Entry, id)
+  def get_entry!(id), do: Repo.get!(Entry, id) |> Repo.preload([:verses])
 
   @doc """
   Creates an Entry.

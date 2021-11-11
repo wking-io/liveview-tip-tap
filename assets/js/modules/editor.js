@@ -34,7 +34,7 @@ export function setupEditor() {
           },
           element,
           extensions: [ StarterKit, Highlight, Underline ],
-          content: this.el.dataset.content,
+          content: JSON.parse(this.el.dataset.content),
           onUpdate({ editor }) {
             updateButtonState(editorActions, editor);
 
