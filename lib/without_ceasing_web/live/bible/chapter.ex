@@ -35,6 +35,7 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
 
     socket
     |> assign(
+      current_action: :index,
       page_title: "#{book} #{chapter}",
       book: book,
       chapter: Bible.get_chapter(book, chapter),
@@ -51,6 +52,7 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
 
     socket
     |> assign(
+      current_action: :index,
       page_title: "#{book} #{chapter}",
       book: book,
       chapter: Bible.get_chapter(book, chapter),
@@ -71,6 +73,7 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
 
     socket
     |> assign(
+      current_action: :create,
       page_title: "#{book} #{chapter}",
       book: book,
       chapter: Bible.get_chapter(book, chapter),
@@ -91,6 +94,7 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
 
     socket
     |> assign(
+      current_action: :create,
       page_title: "#{book} #{chapter_num}",
       book: book,
       chapter: chapter,
@@ -111,6 +115,7 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
 
     socket
     |> assign(
+      current_action: :show,
       page_title: "#{book} #{chapter_num}",
       book: book,
       chapter: chapter,
@@ -125,11 +130,14 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
          :edit,
          %{"book" => book, "chapter" => chapter_num, "entry" => entry_id, "verses" => verses}
        ) do
+    Logger.debug("Socket: #{inspect(socket)}")
+    Logger.debug("Assigns: #{inspect(socket.assigns)}")
     entry = Content.get_entry!(entry_id)
     chapter = Bible.get_chapter(book, chapter_num)
 
     socket
     |> assign(
+      current_action: :edit,
       page_title: "#{book} #{chapter_num}",
       book: book,
       chapter: chapter,
@@ -139,20 +147,40 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
     )
   end
 
-  def handle_event("close_panel", _, socket), do: {:noreply, update_page(socket)}
-
   def handle_event("unselect_verse", %{"verse" => verse}, socket) do
     verses = Enum.filter(socket.assigns.current_verses, &(&1 != verse))
-    {:noreply, update_page(socket, verses)}
+    {:noreply, update_page(socket, socket.assigns.action, verses)}
   end
 
   # TODO: Check for shift key press and select all verses in between too
   def handle_event("select_verse", %{"verse" => verse}, socket) do
     verses = [verse | socket.assigns.current_verses]
-    {:noreply, update_page(socket, verses)}
+    {:noreply, update_page(socket, socket.assigns.action, verses)}
   end
 
   def handle_event("save", %{"entry" => entry_params}, socket) do
+    save_entry(socket, socket.assigns.action, entry_params)
+  end
+
+  defp save_entry(socket, :edit, entry_params) do
+    verses = get_current_verses(socket.assigns)
+
+    case Content.update_entry(
+           socket.assigns.entry,
+           entry_params,
+           verses
+         ) do
+      {:ok, entry} ->
+        {:noreply,
+         socket
+         |> update_page(:index, socket.assigns.current_verses)}
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        {:noreply, assign(socket, changeset: changeset)}
+    end
+  end
+
+  defp save_entry(socket, :create, entry_params) do
     verses = get_current_verses(socket.assigns)
 
     case Content.create_entry(
@@ -163,8 +191,7 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
       {:ok, entry} ->
         {:noreply,
          socket
-         |> put_flash(:info, "Entry created successfully")
-         |> assign(socket, changeset: Content.change_entry(entry))}
+         |> update_page(:index, socket.assigns.current_verses)}
 
       {:error, %Ecto.Changeset{} = changeset} ->
         {:noreply, assign(socket, changeset: changeset)}
@@ -176,24 +203,12 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
   defp get_current_verses(%{current_verses: [], chapter: chapter}), do: chapter.verses
   defp get_current_verses(%{current_verses: verses}), do: verses
 
-  defp update_page(socket) do
+  defp update_page(socket, action, verses) do
     push_patch(socket,
       to:
         Routes.bible_chapter_path(
           socket,
-          :index,
-          socket.assigns.book,
-          socket.assigns.chapter.chapter
-        )
-    )
-  end
-
-  defp update_page(socket, verses) do
-    push_patch(socket,
-      to:
-        Routes.bible_chapter_path(
-          socket,
-          :index,
+          action,
           socket.assigns.book,
           socket.assigns.chapter.chapter,
           verses: verses

@@ -25,6 +25,13 @@ defmodule WithoutCeasing.Content.Entry do
     |> put_assoc(:member, member)
   end
 
+  def update_changeset(entry, attrs, verses) do
+    entry
+    |> cast(attrs, [:content])
+    |> validate_required([:content])
+    |> put_assoc(:verses, verses)
+  end
+
   def changeset(entry, attrs) do
     entry
     |> cast(attrs, [:content])

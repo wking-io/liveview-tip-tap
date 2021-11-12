@@ -217,9 +217,18 @@ defmodule WithoutCeasing.Content do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_entry(%Entry{} = entry, attrs) do
+  def update_entry(%Entry{} = entry, attrs, verse_ids) when is_list(verse_ids) do
+    verses =
+      Verse
+      |> where([verse], verse.id in ^verse_ids)
+      |> Repo.all()
+
+    attrs =
+      attrs
+      |> Map.update!("content", &Jason.decode!(&1))
+
     entry
-    |> Entry.changeset(attrs)
+    |> Entry.update_changeset(attrs, verses)
     |> Repo.update()
   end
 
