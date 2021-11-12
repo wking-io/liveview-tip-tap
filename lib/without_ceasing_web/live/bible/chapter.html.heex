@@ -73,8 +73,11 @@
 
             <% end %>
           </div>
-          <div tabindex="-1" class="hidden" role="tabpanel" id="resources-panel" aria-labelledby="resources-label">
-              Resource List
+          <div tabindex="-1" class="hidden flex-1 min-h-0 flex-col" role="tabpanel" id="resources-panel" aria-labelledby="resources-label">
+            <div class="flex flex-col items-center justify-center h-full space-y-4">
+              <img src={Routes.static_path(@socket, "/images/coming-soon.png")} class="max-w-sm -mt-24" />
+              <p class="font-medium text-center">In progress! More resources coming soon!</p>
+            </div>
           </div>
         </div>
     <% end %>
