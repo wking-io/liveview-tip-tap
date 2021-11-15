@@ -65,6 +65,15 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
   end
 
   defp apply_action(
+         %{assigns: %{update: :verse_only}} = socket,
+         _action,
+         %{"verses" => verses}
+       ) do
+    socket
+    |> assign(current_verses: verses)
+  end
+
+  defp apply_action(
          socket,
          :create,
          %{"book" => book, "chapter" => chapter, "verses" => verses}
@@ -130,8 +139,6 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
          :edit,
          %{"book" => book, "chapter" => chapter_num, "entry" => entry_id, "verses" => verses}
        ) do
-    Logger.debug("Socket: #{inspect(socket)}")
-    Logger.debug("Assigns: #{inspect(socket.assigns)}")
     entry = Content.get_entry!(entry_id)
     chapter = Bible.get_chapter(book, chapter_num)
 
@@ -147,15 +154,59 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
     )
   end
 
-  def handle_event("unselect_verse", %{"verse" => verse}, socket) do
+  @impl true
+  def handle_event("unselect_all", %{"action" => action}, socket)
+      when action in ["edit", "create"] do
+    {:noreply,
+     socket
+     |> assign(:update, :verse_only)
+     |> update_page(String.to_existing_atom(action), [])}
+  end
+
+  def handle_event("unselect_all", %{"action" => action}, socket) do
+    {:noreply,
+     socket
+     |> assign(:update, :all)
+     |> update_page(String.to_existing_atom(action), [])}
+  end
+
+  def handle_event("unselect_verse", %{"verse" => verse, "action" => action}, socket)
+      when action in ["edit", "create"] do
     verses = Enum.filter(socket.assigns.current_verses, &(&1 != verse))
-    {:noreply, update_page(socket, socket.assigns.action, verses)}
+
+    {:noreply,
+     socket
+     |> assign(:update, :verse_only)
+     |> update_page(String.to_existing_atom(action), verses)}
+  end
+
+  def handle_event("unselect_verse", %{"verse" => verse, "action" => action}, socket) do
+    verses = Enum.filter(socket.assigns.current_verses, &(&1 != verse))
+
+    {:noreply,
+     socket
+     |> assign(:update, :all)
+     |> update_page(String.to_existing_atom(action), verses)}
   end
 
   # TODO: Check for shift key press and select all verses in between too
-  def handle_event("select_verse", %{"verse" => verse}, socket) do
+  def handle_event("select_verse", %{"verse" => verse, "action" => action}, socket)
+      when action in ["edit", "create"] do
     verses = [verse | socket.assigns.current_verses]
-    {:noreply, update_page(socket, socket.assigns.action, verses)}
+
+    {:noreply,
+     socket
+     |> assign(:update, :verse_only)
+     |> update_page(String.to_existing_atom(action), verses)}
+  end
+
+  def handle_event("select_verse", %{"verse" => verse, "action" => action}, socket) do
+    verses = [verse | socket.assigns.current_verses]
+
+    {:noreply,
+     socket
+     |> assign(:update, :all)
+     |> update_page(String.to_existing_atom(action), verses)}
   end
 
   def handle_event("save", %{"entry" => entry_params}, socket) do
@@ -188,7 +239,7 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
            verses,
            socket.assigns.current_member
          ) do
-      {:ok, entry} ->
+      {:ok, _entry} ->
         {:noreply,
          socket
          |> update_page(:index, socket.assigns.current_verses)}
@@ -202,6 +253,20 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
 
   defp get_current_verses(%{current_verses: [], chapter: chapter}), do: chapter.verses
   defp get_current_verses(%{current_verses: verses}), do: verses
+
+  defp update_page(socket, :edit, verses) do
+    push_patch(socket,
+      to:
+        Routes.bible_chapter_path(
+          socket,
+          :edit,
+          socket.assigns.book,
+          socket.assigns.chapter.chapter,
+          socket.assigns.entry.id,
+          verses: verses
+        )
+    )
+  end
 
   defp update_page(socket, action, verses) do
     push_patch(socket,
