@@ -37,10 +37,26 @@ defmodule WithoutCeasingWeb.Components.Layout do
   def with_bible(assigns) do
     ~H"""
       <div class="grid grid-cols-12 h-full">
-        <div class="col-span-5 h-full overflow-y-auto overflow-x-hidden px-12 py-8 border-r border-gray-900">
+        <div class="relative col-span-6 h-full overflow-y-auto overflow-x-hidden px-12 py-8 border-r border-gray-900">
           <%= render_slot(@bible) %>
         </div>
-        <div class="col-span-7 h-full overflow-y-auto overflow-x-hidden">
+        <%= if @show_actions do %>
+          <aside>
+            <button phx-click="">
+              Highlight
+            </button>
+            <button phx-click="">
+              Clear Selection
+            </button>
+            <button phx-click="">
+              Copy
+            </button>
+            <button phx-click="">
+              Share
+            </button>
+          </aside>
+        <% end %>
+        <div class="col-span-6 h-full overflow-y-auto overflow-x-hidden">
           <%= render_slot(@inner_block) %>
         </div>
       </div>

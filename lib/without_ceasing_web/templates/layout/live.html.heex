@@ -78,6 +78,53 @@
   class={"main overflow-hidden mt-16"}
 >
   <%= @inner_content %>
+    <%= if info = live_flash(@flash, :info) do %>
+      <aside
+        class="fixed bottom-4 left-4 p-4 bg-gray-50 border border-gray-900 shadow animate-enter-bottom" 
+        role="alert"
+      >
+        <div class="flex items-center gap-4">
+          <p>
+            <%= info %>
+          </p>
+          <button
+            class={"p-1 hover:bg-gray-200 #{focus_classes()}"}
+            aria-label="close message" 
+            phx-click="lv:clear-flash" 
+            phx-value-key="info"
+          >
+            <svg aria-hidden xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </aside>
+    <% end %>
+
+    <%= if error = live_flash(@flash, :error) do %>
+      <aside
+        class="fixed bottom-4 left-4 bg-grey-900 animate-enter-bottom bg-gray-900 text-white p-4" 
+        role="alert"
+        phx-click="lv:clear-flash" 
+        phx-value-key="error"
+      >
+        <div class="flex items-center gap-4">
+          <p>
+            <%= error %>
+          </p>
+          <button
+            class={"p-1 hover:bg-gray-200 #{focus_classes()}"}
+            aria-label="close message" 
+            phx-click="lv:clear-flash" 
+            phx-value-key="info"
+          >
+            <svg aria-hidden xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </aside>
+    <% end %>
 </main>
 <!--
 <footer class="bg-brand-200">

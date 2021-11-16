@@ -15,6 +15,16 @@ function updateButtonState(buttons, editor) {
   });
 }
 
+function updateContent(root, editor) {
+  const input = root.querySelector('[phx-ref="content"]');
+  if (input) input.value = JSON.stringify(editor.getJSON());
+}
+
+function onUpdate(root, actions, editor) {
+  updateButtonState(actions, editor);
+  updateContent(root, editor);
+}
+
 export function setupEditor() {
   let instance;
   let actionListener;
@@ -36,10 +46,7 @@ export function setupEditor() {
           extensions: [ StarterKit, Highlight, Underline ],
           content: JSON.parse(this.el.dataset.content),
           onUpdate({ editor }) {
-            updateButtonState(editorActions, editor);
-
-            const input = _this.el.querySelector('[phx-ref="content"]');
-            if (input) input.value = JSON.stringify(editor.getJSON());
+            onUpdate(_this.el, editorActions, editor);
           },
           onSelectionUpdate({ editor }) {
             updateButtonState(editorActions, editor);
@@ -54,6 +61,9 @@ export function setupEditor() {
           }
         });
       }
+    },
+    updated() {
+      updateContent(this.el, instance);
     },
     destroyed() {
       instance = null;

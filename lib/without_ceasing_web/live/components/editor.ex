@@ -53,7 +53,7 @@ defmodule WithoutCeasingWeb.Components.Editor do
             </div>
           </div>
 
-          <div id="editor-element" phx-ref="element" class="bg-gray-100 flex-1 overflow-auto"></div>
+          <div id="editor-element" phx-ref="element" phx-update="ignore" class="bg-gray-100 flex-1 overflow-auto"></div>
         </div>
         <.form
           let={f}

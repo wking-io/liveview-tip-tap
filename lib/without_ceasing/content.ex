@@ -217,7 +217,7 @@ defmodule WithoutCeasing.Content do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_entry(%Entry{} = entry, attrs, verse_ids) when is_list(verse_ids) do
+  def update_entry(%Entry{} = entry, attrs, verse_ids, _member) when is_list(verse_ids) do
     verses =
       Verse
       |> where([verse], verse.id in ^verse_ids)
@@ -259,5 +259,18 @@ defmodule WithoutCeasing.Content do
   """
   def change_entry(%Entry{} = entry, attrs \\ %{}) do
     Entry.changeset(entry, attrs)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking Entry changes.
+
+  ## Examples
+
+      iex> change_entry(entry)
+      %Ecto.Changeset{data: %Entry{}}
+
+  """
+  def change_entry() do
+    Entry.changeset(%Entry{}, %{})
   end
 end

@@ -40,6 +40,10 @@ module.exports = {
       serif: [ 'Bitter', ...defaultTheme.fontFamily.serif ],
     },
     extend: {
+      animation: {
+        'enter-bottom': 'enter-bottom 300ms ease-out both',
+        'exit-top': 'enter-top 100ms ease-in both',
+      },
       boxShadow: {
         'box-gray': `4px 4px 0 ${colors.gray[300]}`,
         'box-300-sm': `4px 4px 0 ${colors.brand[300]}`,
@@ -51,6 +55,28 @@ module.exports = {
       },
       gridTemplateColumns: {
         books: 'repeat(auto-fit, minmax(120px, 1fr))',
+      },
+      keyframes: {
+        'enter-bottom': {
+          '0%': {
+            opacity: 0,
+            transform: 'translateY(16px)',
+          },
+          '100%': {
+            opacity: 1,
+            transform: 'translateY(0)',
+          },
+        },
+        'exit-bottom': {
+          '0%': {
+            opacity: 1,
+            transform: 'translateY(0)',
+          },
+          '100%': {
+            opacity: 0,
+            transform: 'translateY(16px)',
+          },
+        },
       },
     },
   },

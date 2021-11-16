@@ -10,7 +10,7 @@ defmodule WithoutCeasingWeb.Components.Bible do
         <%= if is_list(element) do %>
           <p class="paragraph font-serif leading-relaxed">
             <%= for verse <- element do %>
-              <span class={"verse pl-4 relative cursor-pointer #{maybe_highlight(@current_verses, verse.id)}"} phx-click={verse_action(@current_verses, verse.id)} phx-value-verse={"#{verse.id}"} phx-value-action={@action}>
+              <span class={"verse pl-4 relative #{maybe_highlight(@current_verses, verse.id)}"} phx-click={verse_action(verse.id, @current_verses)} phx-value-verse={"#{verse.id}"} phx-value-action={@action}>
               <%= unless is_nil(verse.number) do %>
                 <span class="absolute text-[10px] top-0 left-0 w-4 flex justify-end pr-1"><%= verse.number %></span>
               <% end %>
@@ -30,9 +30,9 @@ defmodule WithoutCeasingWeb.Components.Bible do
   defp is_current_verse([], _), do: false
   defp is_current_verse(current, instance), do: Enum.member?(current, to_string(instance))
 
-  defp verse_action([], _current), do: "select_verse"
+  defp verse_action(_current, []), do: "select_verse"
 
-  defp verse_action([verse | _rest = []], current) do
+  defp verse_action(current, [verse | _rest = []]) do
     if verse == to_string(current) do
       "unselect_all"
     else
@@ -40,7 +40,7 @@ defmodule WithoutCeasingWeb.Components.Bible do
     end
   end
 
-  defp verse_action(verses, current) do
+  defp verse_action(current, verses) do
     if is_current_verse(verses, current) do
       "unselect_verse"
     else
