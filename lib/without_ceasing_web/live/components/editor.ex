@@ -45,7 +45,7 @@ defmodule WithoutCeasingWeb.Components.Editor do
                       role="none"
                     >Reference</h6>
                     <.dropdown_button name="Verse" action={:verse} icon="M3 18.5V5a3 3 0 0 1 3-3h14a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5A3.5 3.5 0 0 1 3 18.5zM19 20v-3H6.5a1.5 1.5 0 0 0 0 3H19zM10 4H6a1 1 0 0 0-1 1v10.337A3.486 3.486 0 0 1 6.5 15H19V4h-2v8l-3.5-2-3.5 2V4z" />
-                    <.dropdown_button name="Entry" action={:entry} icon="M20.005 2C21.107 2 22 2.898 22 3.99v16.02c0 1.099-.893 1.99-1.995 1.99H4v-4H2v-2h2v-3H2v-2h2V8H2V6h2V2h16.005zM8 4H6v16h2V4zm12 0H10v16h10V4z" />
+                    <.dropdown_button name="Note" action={:note} icon="M20.005 2C21.107 2 22 2.898 22 3.99v16.02c0 1.099-.893 1.99-1.995 1.99H4v-4H2v-2h2v-3H2v-2h2V8H2V6h2V2h16.005zM8 4H6v16h2V4zm12 0H10v16h10V4z" />
                     <.dropdown_button name="Resource" action={:resource} icon="M3 21a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h7.414l2 2H20a1 1 0 0 1 1 1v3h-2V7h-7.414l-2-2H4v11.998L5.5 11h17l-2.31 9.243a1 1 0 0 1-.97.757H3zm16.938-8H7.062l-1.5 6h12.876l1.5-6z" />
                   </div>
                 </div>
@@ -58,14 +58,14 @@ defmodule WithoutCeasingWeb.Components.Editor do
         <.form
           let={f}
           for={@changeset}
-          id="entry-form"
+          id="note-form"
           phx-submit="save"
         >
           <%= hidden_input f, :content, [value: Jason.encode!(@content), "phx-ref": "content"] %>
 
           <div class="flex justify-end">
             <%= render_slot(@cancel_button) %>
-            <%= submit "Save Entry", phx_disable_with: "Saving...", class: "flex items-center justify-center py-4 px-8 border border-transparent text-sm font-medium text-white bg-gray-900 hover:bg-gray-700 focus:bg-gray-700 #{focus_classes()}" %>
+            <%= submit "Save Note", phx_disable_with: "Saving...", class: "flex items-center justify-center py-4 px-8 border border-transparent text-sm font-medium text-white bg-gray-900 hover:bg-gray-700 focus:bg-gray-700 #{focus_classes()}" %>
           </div>
         </.form>
       </div>
@@ -180,8 +180,8 @@ defmodule WithoutCeasingWeb.Components.Editor do
     JS.dispatch("editor-button:action", detail: %{action: "linkVerse"})
   end
 
-  defp editor_action(:entry) do
-    JS.dispatch("editor-button:action", detail: %{action: "linkEntry"})
+  defp editor_action(:note) do
+    JS.dispatch("editor-button:action", detail: %{action: "linkNote"})
   end
 
   defp editor_action(:resource) do

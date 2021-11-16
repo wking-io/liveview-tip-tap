@@ -16,7 +16,7 @@ defmodule WithoutCeasing.Identity.Member do
     has_many :account_members, WithoutCeasing.Identity.AccountMember, on_delete: :delete_all
     has_many :accounts, through: [:account_members, :accounts]
     has_many :resources, WithoutCeasing.Content.Resource
-    has_many :entries, WithoutCeasing.Content.Entry
+    has_many :notes, WithoutCeasing.Content.Note
 
     timestamps()
   end

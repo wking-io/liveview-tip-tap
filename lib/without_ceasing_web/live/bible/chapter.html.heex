@@ -8,24 +8,24 @@
   >
     <%= case @live_action do %>
       <% action when action in [:edit, :create] -> %>
-        <.editor content={@entry.content} changeset={@changeset}>
+        <.editor content={@note.content} changeset={@changeset}>
           <:cancel_button>
               <%= live_redirect "Cancel", to: Routes.bible_chapter_path(@socket, :index, @book, @chapter.chapter, verses: @current_verses), class: "flex items-center justify-center py-2 px-6 font-medium hover:bg-gray-50 focus:bg-gray-50 #{focus_classes()}" %>
           </:cancel_button>
         </.editor>
       <% :show -> %>
-        <.entry entry={@entry} />
+        <.note note={@note} />
       <% _ -> %>
         <div class="relative h-full flex flex-col" id="tabs" phx-hook="Tabs">
           <div class="flex items-end sm:text-sm border-b border-gray-900" role="tablist">
-              <button class={"relative flex flex-col sm:flex-row items-center justify-center text-center font-display font-bold py-3 px-6 relative z-10 hover:bg-gray-100 focus:bg-gray-100 focus:z-20 #{focus_classes()}"} role="tab" aria-controls="entries-panel" id="entries-tab-label" tabindex="0" aria-selected="true" phx-click={select_tab("entries", ["resources"])} phx-keyup={navigate()}>Entries</button>
-              <button class={"relative flex flex-col sm:flex-row items-center justify-center text-center font-display font-bold py-3 px-6 relative z-10 hover:bg-gray-100 focus:bg-gray-50 focus:z-20 #{focus_classes()}"} role="tab" aria-controls="resources-panel" id="resources-tab-label" tabindex="-1" aria-selected="false" phx-click={select_tab("resources", ["entries"])} phx-keyup={navigate()}>Resources</button>
+              <button class={"relative flex flex-col sm:flex-row items-center justify-center text-center font-display font-bold py-3 px-6 relative z-10 hover:bg-gray-100 focus:bg-gray-100 focus:z-20 #{focus_classes()}"} role="tab" aria-controls="notes-panel" id="notes-tab-label" tabindex="0" aria-selected="true" phx-click={select_tab("notes", ["resources"])} phx-keyup={navigate()}>Entries</button>
+              <button class={"relative flex flex-col sm:flex-row items-center justify-center text-center font-display font-bold py-3 px-6 relative z-10 hover:bg-gray-100 focus:bg-gray-50 focus:z-20 #{focus_classes()}"} role="tab" aria-controls="resources-panel" id="resources-tab-label" tabindex="-1" aria-selected="false" phx-click={select_tab("resources", ["notes"])} phx-keyup={navigate()}>Resources</button>
           </div>
-          <div tabindex="0" role="tabpanel" id="entries-panel" aria-labelledby="entries-label" class="flex-1 min-h-0 flex flex-col">
-            <%= unless @entries == [] do %>
+          <div tabindex="0" role="tabpanel" id="notes-panel" aria-labelledby="notes-label" class="flex-1 min-h-0 flex flex-col">
+            <%= unless @notes == [] do %>
               <div class="overflow-y-auto flex-1 min-h-0">
-                <%= for entry <- @entries do %>
-                  <div x-data={"render(#{Jason.encode!(entry.content)})"} class="border-b border-gray-900 space-y-4 bg-gray-100" id={"entry-card-#{entry.id}"}>
+                <%= for note <- @notes do %>
+                  <div x-data={"render(#{Jason.encode!(note.content)})"} class="border-b border-gray-900 space-y-4 bg-gray-100" id={"note-card-#{note.id}"}>
                     <div phx-update="ignore" x-ref="content" class="prose p-4">Loading...</div>
                     <div class="flex items-center justify-between px-4 py-2 bg-gray-200">
                       <div class="flex items-center space-x-4">
@@ -33,19 +33,19 @@
                           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
                           </svg>
-                          <span><%= parse_verses(entry.verses) %></span>
+                          <span><%= parse_verses(note.verses) %></span>
                         </p>
                         <p class="text-xs text-gray-900 italic space-x-2 flex items-center">
                           <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
                           </svg>
-                          <span><%= Timex.format!(entry.updated_at, "{Mshort} {D}, {YYYY}") %></span>
+                          <span><%= Timex.format!(note.updated_at, "{Mshort} {D}, {YYYY}") %></span>
                         </p>
                       </div>
                       <div class="flex items-center justify-end">
-                        <%= live_redirect "View", to: Routes.bible_chapter_path(@socket, :show, @book, @chapter.chapter, entry.id, verses: verses_to_param(entry)), class: "text-gray-700 font-medium block px-2 py-1 text-sm hover:text-brand-300 focus:outline-none focus:ring-2 focus:ring-brand-100", role: "menuitem", id: "menu-item-0" %>
-                        <%= live_redirect "Edit", to: Routes.bible_chapter_path(@socket, :edit, @book, @chapter.chapter, entry.id, verses: verses_to_param(entry)), class: "text-gray-700 font-medium block px-2 py-1 text-sm hover:text-brand-300 focus:outline-none focus:ring-2 focus:ring-brand-100", role: "menuitem", id: "menu-item-0" %>
-                        <%= link "Delete", to: "#", phx_click: "delete_entry", phx_value_id: entry.id, data: [confirm: "Are you sure?"], class: "text-error-500 font-medium block px-2 py-1 text-sm hover:text-error-700 focus:outline-none focus:ring-2 focus:ring-error-200", role: "menuitem", id: "menu-item-2" %>
+                        <%= live_redirect "View", to: Routes.bible_chapter_path(@socket, :show, @book, @chapter.chapter, note.id, verses: verses_to_param(note)), class: "text-gray-700 font-medium block px-2 py-1 text-sm hover:text-brand-300 focus:outline-none focus:ring-2 focus:ring-brand-100", role: "menuitem", id: "menu-item-0" %>
+                        <%= live_redirect "Edit", to: Routes.bible_chapter_path(@socket, :edit, @book, @chapter.chapter, note.id, verses: verses_to_param(note)), class: "text-gray-700 font-medium block px-2 py-1 text-sm hover:text-brand-300 focus:outline-none focus:ring-2 focus:ring-brand-100", role: "menuitem", id: "menu-item-0" %>
+                        <%= link "Delete", to: "#", phx_click: "delete_note", phx_value_id: note.id, data: [confirm: "Are you sure?"], class: "text-error-500 font-medium block px-2 py-1 text-sm hover:text-error-700 focus:outline-none focus:ring-2 focus:ring-error-200", role: "menuitem", id: "menu-item-2" %>
                       </div>
                     </div>
                   </div>
@@ -56,18 +56,18 @@
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                   </svg>
-                  <span>Add Entry</span>
+                  <span>Add Note</span>
                 <% end %>
               </div>
             <% else %>
               <div class="flex flex-col items-center justify-center h-full space-y-4">
                 <img src={Routes.static_path(@socket, "/images/empty.png")} class="max-w-sm -mb-12 -mt-32" />
-                <p class="font-medium text-center">No entries yet. Add your first entry for this passage.</p>
+                <p class="font-medium text-center">No notes yet. Add your first note for this passage.</p>
                 <%= live_redirect to: Routes.bible_chapter_path(@socket, :create, @book, @chapter.chapter, verses: @current_verses), class: "flex items-center justify-center py-3 pl-5 pr-6 bg-brand-200 text-white shadow font-medium hover:bg-brand-300 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-brand-100 focus:bg-brand-300" do %>
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                   </svg>
-                  <span>Add An Entry</span>
+                  <span>Add An Note</span>
                 <% end %>
               </div>
 

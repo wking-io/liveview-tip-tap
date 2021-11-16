@@ -1,12 +1,12 @@
-defmodule WithoutCeasingWeb.EntryLive.Index do
+defmodule WithoutCeasingWeb.NoteLive.Index do
   use WithoutCeasingWeb, :live_view
 
   alias WithoutCeasing.Content
-  alias WithoutCeasing.Content.Entry
+  alias WithoutCeasing.Content.Note
 
   @impl true
   def mount(_params, _session, socket) do
-    {:ok, assign(socket, :entries, list_entries())}
+    {:ok, assign(socket, :notes, list_notes())}
   end
 
   @impl true
@@ -16,31 +16,31 @@ defmodule WithoutCeasingWeb.EntryLive.Index do
 
   defp apply_action(socket, :edit, %{"id" => id}) do
     socket
-    |> assign(:page_title, "Edit Entry")
-    |> assign(:entry, Content.get_entry!(id))
+    |> assign(:page_title, "Edit Note")
+    |> assign(:note, Content.get_note!(id))
   end
 
   defp apply_action(socket, :new, _params) do
     socket
-    |> assign(:page_title, "New Entry")
-    |> assign(:entry, %Entry{})
+    |> assign(:page_title, "New Note")
+    |> assign(:note, %Note{})
   end
 
   defp apply_action(socket, :index, _params) do
     socket
     |> assign(:page_title, "Listing Entries")
-    |> assign(:entry, nil)
+    |> assign(:note, nil)
   end
 
   @impl true
   def handle_event("delete", %{"id" => id}, socket) do
-    entry = Content.get_entry!(id)
-    {:ok, _} = Content.delete_entry(entry)
+    note = Content.get_note!(id)
+    {:ok, _} = Content.delete_note(note)
 
-    {:noreply, assign(socket, :entries, list_entries())}
+    {:noreply, assign(socket, :notes, list_notes())}
   end
 
-  defp list_entries do
-    Content.list_entries()
+  defp list_notes do
+    Content.list_notes()
   end
 end

@@ -1,4 +1,4 @@
-defmodule WithoutCeasingWeb.EntryLive.Show do
+defmodule WithoutCeasingWeb.NoteLive.Show do
   use WithoutCeasingWeb, :live_view
 
   alias WithoutCeasing.Content
@@ -13,9 +13,9 @@ defmodule WithoutCeasingWeb.EntryLive.Show do
     {:noreply,
      socket
      |> assign(:page_title, page_title(socket.assigns.live_action))
-     |> assign(:entry, Content.get_entry!(id))}
+     |> assign(:note, Content.get_note!(id))}
   end
 
-  defp page_title(:show), do: "Show Entry"
-  defp page_title(:edit), do: "Edit Entry"
+  defp page_title(:show), do: "Show Note"
+  defp page_title(:edit), do: "Edit Note"
 end

@@ -21,16 +21,16 @@ defmodule WithoutCeasing.ContentFixtures do
   end
 
   @doc """
-  Generate a entry.
+  Generate a note.
   """
-  def entry_fixture(attrs \\ %{}) do
-    {:ok, entry} =
+  def note_fixture(attrs \\ %{}) do
+    {:ok, note} =
       attrs
       |> Enum.into(%{
         content: %{}
       })
-      |> WithoutCeasing.Content.create_entry()
+      |> WithoutCeasing.Content.create_note()
 
-    entry
+    note
   end
 end

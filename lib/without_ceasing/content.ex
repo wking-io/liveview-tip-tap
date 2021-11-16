@@ -106,19 +106,19 @@ defmodule WithoutCeasing.Content do
     Resource.changeset(resource, attrs)
   end
 
-  alias WithoutCeasing.Content.Entry
+  alias WithoutCeasing.Content.Note
 
   @doc """
-  Returns the list of Entrys.
+  Returns the list of Notes.
 
   ## Examples
 
-      iex> list_Entrys()
-      [%Entry{}, ...]
+      iex> list_Notes()
+      [%Note{}, ...]
 
   """
-  def list_entries do
-    Repo.all(Entry)
+  def list_notes do
+    Repo.all(Note)
   end
 
   @doc """
@@ -126,12 +126,12 @@ defmodule WithoutCeasing.Content do
 
   ## Examples
 
-      iex> list_Entrys()
-      [%Entry{}, ...]
+      iex> list_Notes()
+      [%Note{}, ...]
 
   """
-  def get_entries(verses, %Member{} = member) do
-    Entry
+  def get_notes(verses, %Member{} = member) do
+    Note
     |> join(:inner, [e], v in assoc(e, :verses))
     |> join(:inner, [e, v], m in assoc(e, :member))
     |> where([e, v, m], v.id in ^verses)
@@ -146,12 +146,12 @@ defmodule WithoutCeasing.Content do
 
   ## Examples
 
-      iex> list_Entrys()
-      [%Entry{}, ...]
+      iex> list_Notes()
+      [%Note{}, ...]
 
   """
-  def get_chapter_entries(book, chapter, %Member{} = member) do
-    Entry
+  def get_chapter_notes(book, chapter, %Member{} = member) do
+    Note
     |> join(:inner, [e], v in assoc(e, :verses))
     |> join(:inner, [e, v], m in assoc(e, :member))
     |> where([e, v, m], v.book == ^book)
@@ -163,34 +163,34 @@ defmodule WithoutCeasing.Content do
   end
 
   @doc """
-  Gets a single Entry.
+  Gets a single Note.
 
-  Raises `Ecto.NoResultsError` if the Entry does not exist.
+  Raises `Ecto.NoResultsError` if the Note does not exist.
 
   ## Examples
 
-      iex> get_Entry!(123)
-      %Entry{}
+      iex> get_Note!(123)
+      %Note{}
 
-      iex> get_Entry!(456)
+      iex> get_Note!(456)
       ** (Ecto.NoResultsError)
 
   """
-  def get_entry!(id), do: Repo.get!(Entry, id) |> Repo.preload([:verses])
+  def get_note!(id), do: Repo.get!(Note, id) |> Repo.preload([:verses])
 
   @doc """
-  Creates an Entry.
+  Creates an Note.
 
   ## Examples
 
-      iex> create_entry(%{field: value})
-      {:ok, %Entry{}}
+      iex> create_note(%{field: value})
+      {:ok, %Note{}}
 
-      iex> create_entry(%{field: bad_value})
+      iex> create_note(%{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_entry(attrs \\ %{}, verse_ids, user) when is_list(verse_ids) do
+  def create_note(attrs \\ %{}, verse_ids, user) when is_list(verse_ids) do
     verses =
       Verse
       |> where([verse], verse.id in ^verse_ids)
@@ -200,24 +200,24 @@ defmodule WithoutCeasing.Content do
       attrs
       |> Map.update!("content", &Jason.decode!(&1))
 
-    %Entry{}
-    |> Entry.create_changeset(attrs, verses, user)
+    %Note{}
+    |> Note.create_changeset(attrs, verses, user)
     |> Repo.insert()
   end
 
   @doc """
-  Updates a Entry.
+  Updates a Note.
 
   ## Examples
 
-      iex> update_entry(entry, %{field: new_value})
-      {:ok, %Entry{}}
+      iex> update_note(note, %{field: new_value})
+      {:ok, %Note{}}
 
-      iex> update_entry(entry, %{field: bad_value})
+      iex> update_note(note, %{field: bad_value})
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_entry(%Entry{} = entry, attrs, verse_ids, _member) when is_list(verse_ids) do
+  def update_note(%Note{} = note, attrs, verse_ids, _member) when is_list(verse_ids) do
     verses =
       Verse
       |> where([verse], verse.id in ^verse_ids)
@@ -227,50 +227,50 @@ defmodule WithoutCeasing.Content do
       attrs
       |> Map.update!("content", &Jason.decode!(&1))
 
-    entry
-    |> Entry.update_changeset(attrs, verses)
+    note
+    |> Note.update_changeset(attrs, verses)
     |> Repo.update()
   end
 
   @doc """
-  Deletes a Entry.
+  Deletes a Note.
 
   ## Examples
 
-      iex> delete_entry(entry)
-      {:ok, %Entry{}}
+      iex> delete_note(note)
+      {:ok, %Note{}}
 
-      iex> delete_entry(entry)
+      iex> delete_note(note)
       {:error, %Ecto.Changeset{}}
 
   """
-  def delete_entry(%Entry{} = entry) do
-    Repo.delete(entry)
+  def delete_note(%Note{} = note) do
+    Repo.delete(note)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking Entry changes.
+  Returns an `%Ecto.Changeset{}` for tracking Note changes.
 
   ## Examples
 
-      iex> change_entry(entry)
-      %Ecto.Changeset{data: %Entry{}}
+      iex> change_note(note)
+      %Ecto.Changeset{data: %Note{}}
 
   """
-  def change_entry(%Entry{} = entry, attrs \\ %{}) do
-    Entry.changeset(entry, attrs)
+  def change_note(%Note{} = note, attrs \\ %{}) do
+    Note.changeset(note, attrs)
   end
 
   @doc """
-  Returns an `%Ecto.Changeset{}` for tracking Entry changes.
+  Returns an `%Ecto.Changeset{}` for tracking Note changes.
 
   ## Examples
 
-      iex> change_entry(entry)
-      %Ecto.Changeset{data: %Entry{}}
+      iex> change_note(note)
+      %Ecto.Changeset{data: %Note{}}
 
   """
-  def change_entry() do
-    Entry.changeset(%Entry{}, %{})
+  def change_note() do
+    Note.changeset(%Note{}, %{})
   end
 end

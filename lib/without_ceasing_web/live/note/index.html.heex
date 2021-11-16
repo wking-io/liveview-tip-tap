@@ -1,0 +1,35 @@
+<h1>Listing Entries</h1>
+
+<%= if @live_action in [:new, :edit] do %>
+  <%= live_modal WithoutCeasingWeb.NoteLive.FormComponent,
+    id: @note.id || :new,
+    title: @page_title,
+    action: @live_action,
+    note: @note,
+    return_to: Routes.note_index_path(@socket, :index) %>
+<% end %>
+
+<table>
+  <thead>
+    <tr>
+      <th>Content</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody id="notes">
+    <%= for note <- @notes do %>
+      <tr id={"note-#{note.id}"}>
+        <td><%= note.content %></td>
+
+        <td>
+          <span><%= live_redirect "Show", to: Routes.note_show_path(@socket, :show, note) %></span>
+          <span><%= live_patch "Edit", to: Routes.note_index_path(@socket, :edit, note) %></span>
+          <span><%= link "Delete", to: "#", phx_click: "delete", phx_value_id: note.id, data: [confirm: "Are you sure?"] %></span>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<span><%= live_patch "New Note", to: Routes.note_index_path(@socket, :new) %></span>
