@@ -9,6 +9,7 @@ defmodule WithoutCeasing.Content do
 
   alias WithoutCeasing.Repo
   alias WithoutCeasing.Content.Resource
+  alias WithoutCeasing.Bible
   alias WithoutCeasing.Bible.Verse
   alias WithoutCeasing.Identity.Member
 
@@ -122,7 +123,7 @@ defmodule WithoutCeasing.Content do
   end
 
   @doc """
-  Returns the list of Entries based on member and list of associated verses.
+  Returns the list of Notes based on member and list of associated verses.
 
   ## Examples
 
@@ -132,17 +133,17 @@ defmodule WithoutCeasing.Content do
   """
   def get_notes(verses, %Member{} = member) do
     Note
-    |> join(:inner, [e], v in assoc(e, :verses))
-    |> join(:inner, [e, v], m in assoc(e, :member))
-    |> where([e, v, m], v.id in ^verses)
-    |> where([e, v, m], m.id == ^member.id)
+    |> join(:inner, [h], v in assoc(h, :verses))
+    |> join(:inner, [h, v], m in assoc(h, :member))
+    |> where([h, v, m], v.id in ^verses)
+    |> where([h, v, m], m.id == ^member.id)
     |> preload([], [:verses])
-    |> group_by([e], [e.id])
+    |> group_by([h], [h.id])
     |> Repo.all()
   end
 
   @doc """
-  Returns the list of Entries based on member and list of associated verses.
+  Returns the list of Notes based on member and list of associated verses.
 
   ## Examples
 
@@ -152,13 +153,13 @@ defmodule WithoutCeasing.Content do
   """
   def get_chapter_notes(book, chapter, %Member{} = member) do
     Note
-    |> join(:inner, [e], v in assoc(e, :verses))
-    |> join(:inner, [e, v], m in assoc(e, :member))
-    |> where([e, v, m], v.book == ^book)
-    |> where([e, v, m], v.chapter == ^chapter)
-    |> where([e, v, m], m.id == ^member.id)
+    |> join(:inner, [h], v in assoc(h, :verses))
+    |> join(:inner, [h, v], m in assoc(h, :member))
+    |> where([h, v, m], v.book == ^book)
+    |> where([h, v, m], v.chapter == ^chapter)
+    |> where([h, v, m], m.id == ^member.id)
     |> preload([], [:verses])
-    |> group_by([e], [e.id])
+    |> group_by([h], [h.id])
     |> Repo.all()
   end
 
@@ -190,18 +191,14 @@ defmodule WithoutCeasing.Content do
       {:error, %Ecto.Changeset{}}
 
   """
-  def create_note(attrs \\ %{}, verse_ids, user) when is_list(verse_ids) do
-    verses =
-      Verse
-      |> where([verse], verse.id in ^verse_ids)
-      |> Repo.all()
-
+  def create_note(attrs \\ %{}) do
     attrs =
       attrs
       |> Map.update!("content", &Jason.decode!(&1))
+      |> Map.update!(:verses, &Bible.get_verses/1)
 
     %Note{}
-    |> Note.create_changeset(attrs, verses, user)
+    |> Note.create_changeset(attrs)
     |> Repo.insert()
   end
 
@@ -217,18 +214,14 @@ defmodule WithoutCeasing.Content do
       {:error, %Ecto.Changeset{}}
 
   """
-  def update_note(%Note{} = note, attrs, verse_ids, _member) when is_list(verse_ids) do
-    verses =
-      Verse
-      |> where([verse], verse.id in ^verse_ids)
-      |> Repo.all()
-
+  def update_note(%Note{} = note, attrs) do
     attrs =
       attrs
       |> Map.update!("content", &Jason.decode!(&1))
+      |> Map.update!(:verses, &Bible.get_verses/1)
 
     note
-    |> Note.update_changeset(attrs, verses)
+    |> Note.update_changeset(attrs)
     |> Repo.update()
   end
 

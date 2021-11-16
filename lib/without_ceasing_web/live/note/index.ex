@@ -28,7 +28,7 @@ defmodule WithoutCeasingWeb.NoteLive.Index do
 
   defp apply_action(socket, :index, _params) do
     socket
-    |> assign(:page_title, "Listing Entries")
+    |> assign(:page_title, "Listing Notes")
     |> assign(:note, nil)
   end
 

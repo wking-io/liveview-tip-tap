@@ -18,6 +18,10 @@ defmodule WithoutCeasing.Identity.Member do
     has_many :resources, WithoutCeasing.Content.Resource
     has_many :notes, WithoutCeasing.Content.Note
 
+    many_to_many :highlights, WithoutCeasing.Bible.Verse,
+      join_through: "highlights",
+      on_replace: :delete
+
     timestamps()
   end
 

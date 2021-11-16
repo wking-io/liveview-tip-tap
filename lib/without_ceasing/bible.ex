@@ -10,21 +10,12 @@ defmodule WithoutCeasing.Bible do
   alias WithoutCeasing.Bible.Verse
   alias WithoutCeasing.Bible.Book
   alias WithoutCeasing.Bible.Data
+  alias WithoutCeasing.Identity.Member
   require Logger
 
-  def with_most_recent_version(query) do
-    query
-    |> join(:left, [verse: v], r in assoc(v, :verse_revisions), as: :revision)
-    |> preload([revision: r], verse_revisions: r)
-  end
-
-  def get_verses(translation, book, chapter) do
-    from(v in Verse, as: :verse)
-    |> join(:left, [v], t in Translation, on: t.id == v.translation_id, as: :translation)
-    |> with_most_recent_version()
-    |> where([v], v.book == ^book)
-    |> where([v], v.chapter == ^chapter)
-    |> where([_, t], t.slug == ^translation)
+  def get_verses(verse_ids) when is_list(verse_ids) do
+    Verse
+    |> where([verse], verse.id in ^verse_ids)
     |> Repo.all()
   end
 
@@ -32,7 +23,33 @@ defmodule WithoutCeasing.Bible do
     Book.get_book_summaries()
   end
 
-  def get_chapter(book, chapter), do: Data.get_chapter(book, chapter)
+  def get_chapter(book, chapter, member) do
+    Data.get_chapter(book, chapter)
+    |> Map.put(:highlighted, get_highlighted_verses(book, chapter, member))
+  end
+
+  defp get_highlighted_verses(book, chapter, member) do
+    Member
+    |> join(:inner, [m], h in assoc(m, :highlights))
+    |> where([m, h], h.book == ^book)
+    |> where([m, h], h.chapter == ^chapter)
+    |> where([m], m.id == ^member.id)
+    |> select([m, h], h.id)
+    |> Repo.all()
+  end
+
+  def highlight_verses(verse_ids, member) do
+    verses = get_verses(verse_ids)
+
+    loaded =
+      member
+      |> Repo.preload(:highlights)
+
+    loaded
+    |> Changeset.change()
+    |> Changeset.put_assoc(:highlights, [verses | loaded.highlights])
+    |> Repo.update()
+  end
 
   def prettify_verses(verses) do
     verses

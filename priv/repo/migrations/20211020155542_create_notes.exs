@@ -1,4 +1,4 @@
-defmodule WithoutCeasing.Repo.Migrations.CreateEntries do
+defmodule WithoutCeasing.Repo.Migrations.CreateNotes do
   use Ecto.Migration
 
   def up do

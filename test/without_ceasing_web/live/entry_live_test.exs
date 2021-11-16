@@ -19,7 +19,7 @@ defmodule WithoutCeasingWeb.NoteLiveTest do
     test "lists all notes", %{conn: conn} do
       {:ok, _index_live, html} = live(conn, Routes.note_index_path(conn, :index))
 
-      assert html =~ "Listing Entries"
+      assert html =~ "Listing Notes"
     end
 
     test "saves new note", %{conn: conn} do

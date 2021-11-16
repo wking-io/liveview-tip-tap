@@ -25,7 +25,7 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
      |> assign(
        page_title: "#{book} #{chapter}",
        book: book,
-       chapter: Bible.get_chapter(book, chapter)
+       chapter: Bible.get_chapter(book, chapter, socket.assigns.current_member)
      )
      |> apply_action(socket.assigns.live_action, params)}
   end
@@ -111,6 +111,26 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
     update_chapter(socket, String.to_existing_atom(action), verses)
   end
 
+  def handle_event("highlight_verse", _params, socket) do
+    verses = socket.assigns.current_verses -- socket.assigns.chapter.highlighted
+
+    case Bible.highlight_verses(verses, socket.assigns.current_member) do
+      :ok ->
+        {:noreply,
+         assign(
+           :chapter,
+           Map.update!(
+             socket.assigns.chapter,
+             :highlighted,
+             &(&1 ++ socket.assigns.current_verses)
+           )
+         )}
+
+      :error ->
+        {:noreply, put_flash(socket, :error, "Failed to highlight verses.")}
+    end
+  end
+
   def handle_event("save", %{"note" => note_params}, socket) do
     save_note(socket, socket.assigns.action, note_params)
   end
@@ -121,7 +141,9 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
     note = socket.assigns.note
 
     note_params
-    |> Content.update_note(note, verses, member)
+    |> Map.put(:verses, verses)
+    |> Map.put(:member, member)
+    |> Content.update_note(note)
     |> handle_save_result(socket)
   end
 
@@ -130,7 +152,9 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
     member = socket.assigns.current_member
 
     note_params
-    |> Content.create_note(verses, member)
+    |> Map.put(:verses, verses)
+    |> Map.put(:member, member)
+    |> Content.create_note()
     |> handle_save_result(socket)
   end
 

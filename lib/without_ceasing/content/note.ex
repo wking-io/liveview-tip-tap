@@ -17,19 +17,19 @@ defmodule WithoutCeasing.Content.Note do
   end
 
   @doc false
-  def create_changeset(note, attrs, verses, member) do
+  def create_changeset(note, attrs) do
     note
     |> cast(attrs, [:content])
     |> validate_required([:content])
-    |> put_assoc(:verses, verses)
-    |> put_assoc(:member, member)
+    |> put_assoc(:verses, attrs.verses)
+    |> put_assoc(:member, attrs.member)
   end
 
-  def update_changeset(note, attrs, verses) do
+  def update_changeset(note, attrs) do
     note
     |> cast(attrs, [:content])
     |> validate_required([:content])
-    |> put_assoc(:verses, verses)
+    |> put_assoc(:verses, attrs.verses)
   end
 
   def changeset(note, attrs) do
