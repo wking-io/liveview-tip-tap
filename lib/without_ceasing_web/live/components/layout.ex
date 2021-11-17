@@ -37,15 +37,15 @@ defmodule WithoutCeasingWeb.Components.Layout do
   def with_bible(assigns) do
     ~H"""
       <div class="grid grid-cols-12 h-full">
-        <div class="relative col-span-6 h-full overflow-y-auto overflow-x-hidden px-12 py-8 border-r border-gray-900">
+        <div class="relative col-span-6 h-full overflow-y-auto overflow-x-hidden px-16 py-8 border-r border-gray-900">
           <%= render_slot(@bible) %>
         </div>
         <%= if @show_actions do %>
-          <aside>
-            <button phx-click="">
+          <aside class="fixed left-0 top-16 mt-12 w-12 bg-gray-50 border border-gray-900 animate-enter-left-full">
+            <button phx-click="highlight_verses">
               Highlight
             </button>
-            <button phx-click="">
+            <button phx-click="unselect_all">
               Clear Selection
             </button>
             <button phx-click="">

@@ -25,7 +25,7 @@ defmodule WithoutCeasing.Bible do
 
   def get_chapter(book, chapter, member) do
     Data.get_chapter(book, chapter)
-    |> Map.put(:highlighted, get_highlighted_verses(book, chapter, member))
+    |> Map.put(:highlights, get_highlighted_verses(book, chapter, member))
   end
 
   defp get_highlighted_verses(book, chapter, member) do
@@ -47,7 +47,7 @@ defmodule WithoutCeasing.Bible do
 
     loaded
     |> Changeset.change()
-    |> Changeset.put_assoc(:highlights, [verses | loaded.highlights])
+    |> Changeset.put_assoc(:highlights, verses ++ loaded.highlights)
     |> Repo.update()
   end
 

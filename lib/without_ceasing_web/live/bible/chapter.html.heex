@@ -1,4 +1,4 @@
-<Layout.with_bible flash={@flash} show_actions={false}>
+<Layout.with_bible flash={@flash} show_actions={not Enum.empty?(@current_verses)}>
   <:bible>
     <h1 class="font-bold text-4xl font-serif"><%= "#{@chapter.book} #{@chapter.chapter}" %></h1>
     <.chapter chapter={@chapter} current_verses={@current_verses} action={@live_action} />

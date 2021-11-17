@@ -42,6 +42,10 @@ module.exports = {
     extend: {
       animation: {
         'enter-bottom': 'enter-bottom 300ms ease-out both',
+        'enter-left': 'enter-left 300ms ease-out both',
+        'enter-left-full': 'enter-left-full 200ms ease-out both',
+        'enter-right': 'enter-right 300ms ease-out both',
+        'enter-top': 'enter-top 300ms ease-out both',
         'exit-top': 'enter-top 100ms ease-in both',
       },
       boxShadow: {
@@ -61,6 +65,44 @@ module.exports = {
           '0%': {
             opacity: 0,
             transform: 'translateY(16px)',
+          },
+          '100%': {
+            opacity: 1,
+            transform: 'translateY(0)',
+          },
+        },
+        'enter-left': {
+          '0%': {
+            opacity: 0,
+            transform: 'translateX(-16px)',
+          },
+          '100%': {
+            opacity: 1,
+            transform: 'translateX(0)',
+          },
+        },
+        'enter-left-full': {
+          '0%': {
+            transform: 'translateX(-100%)',
+          },
+          '100%': {
+            transform: 'translateX(0)',
+          },
+        },
+        'enter-right': {
+          '0%': {
+            opacity: 0,
+            transform: 'translateX(16px)',
+          },
+          '100%': {
+            opacity: 1,
+            transform: 'translateX(0)',
+          },
+        },
+        'enter-top': {
+          '0%': {
+            opacity: 0,
+            transform: 'translateY(-16px)',
           },
           '100%': {
             opacity: 1,

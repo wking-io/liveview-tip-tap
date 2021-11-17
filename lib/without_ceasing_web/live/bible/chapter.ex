@@ -25,7 +25,8 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
      |> assign(
        page_title: "#{book} #{chapter}",
        book: book,
-       chapter: Bible.get_chapter(book, chapter, socket.assigns.current_member)
+       chapter: Bible.get_chapter(book, chapter, socket.assigns.current_member),
+       action: socket.assigns.live_action
      )
      |> apply_action(socket.assigns.live_action, params)}
   end
@@ -97,36 +98,34 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
     {:noreply, put_flash(socket, :info, "Cannot change verse selection")}
   end
 
-  def handle_event("unselect_all", %{"action" => action}, socket) do
-    update_chapter(socket, String.to_existing_atom(action), [])
+  def handle_event("unselect_all", _, socket) do
+    update_chapter(socket, socket.assigns.action, [])
   end
 
-  def handle_event("unselect_verse", %{"verse" => verse, "action" => action}, socket) do
+  def handle_event("unselect_verse", %{"verse" => verse}, socket) do
     verses = Enum.filter(socket.assigns.current_verses, &(&1 != verse))
-    update_chapter(socket, String.to_existing_atom(action), verses)
+    update_chapter(socket, socket.assigns.action, verses)
   end
 
-  def handle_event("select_verse", %{"verse" => verse, "action" => action}, socket) do
+  def handle_event("select_verse", %{"verse" => verse}, socket) do
     verses = [verse | socket.assigns.current_verses]
-    update_chapter(socket, String.to_existing_atom(action), verses)
+    update_chapter(socket, socket.assigns.action, verses)
   end
 
-  def handle_event("highlight_verse", _params, socket) do
-    verses = socket.assigns.current_verses -- socket.assigns.chapter.highlighted
+  def handle_event("highlight_verses", _params, socket) do
+    verses = socket.assigns.current_verses -- socket.assigns.chapter.highlights
 
     case Bible.highlight_verses(verses, socket.assigns.current_member) do
-      :ok ->
+      {:ok, member} ->
         {:noreply,
-         assign(
+         socket
+         |> assign(:current_member, member)
+         |> update(
            :chapter,
-           Map.update!(
-             socket.assigns.chapter,
-             :highlighted,
-             &(&1 ++ socket.assigns.current_verses)
-           )
+           &Map.update!(&1, :highlights, fn highlights -> verses ++ highlights end)
          )}
 
-      :error ->
+      {:error, _} ->
         {:noreply, put_flash(socket, :error, "Failed to highlight verses.")}
     end
   end
@@ -141,8 +140,8 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
     note = socket.assigns.note
 
     note_params
-    |> Map.put(:verses, verses)
-    |> Map.put(:member, member)
+    |> Map.put("verses", verses)
+    |> Map.put("member", member)
     |> Content.update_note(note)
     |> handle_save_result(socket)
   end
@@ -152,14 +151,14 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
     member = socket.assigns.current_member
 
     note_params
-    |> Map.put(:verses, verses)
-    |> Map.put(:member, member)
+    |> Map.put("verses", verses)
+    |> Map.put("member", member)
     |> Content.create_note()
     |> handle_save_result(socket)
   end
 
   defp handle_save_result({:ok, _note}, socket) do
-    update_chapter(socket, :index, socket.assigns.current_verses)
+    update_chapter(socket, socket.assings.action, socket.assigns.current_verses)
   end
 
   defp handle_save_result({:error, %Ecto.Changeset{} = changeset}, socket) do

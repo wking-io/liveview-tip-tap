@@ -195,7 +195,7 @@ defmodule WithoutCeasing.Content do
     attrs =
       attrs
       |> Map.update!("content", &Jason.decode!(&1))
-      |> Map.update!(:verses, &Bible.get_verses/1)
+      |> Map.update!("verses", &Bible.get_verses/1)
 
     %Note{}
     |> Note.create_changeset(attrs)
@@ -218,7 +218,7 @@ defmodule WithoutCeasing.Content do
     attrs =
       attrs
       |> Map.update!("content", &Jason.decode!(&1))
-      |> Map.update!(:verses, &Bible.get_verses/1)
+      |> Map.update!("verses", &Bible.get_verses/1)
 
     note
     |> Note.update_changeset(attrs)
