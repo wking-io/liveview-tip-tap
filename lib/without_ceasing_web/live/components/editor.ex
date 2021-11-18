@@ -75,7 +75,7 @@ defmodule WithoutCeasingWeb.Components.Editor do
   def editor_button(assigns) do
     ~H"""
     <button
-      class={"h-full w-[38px] flex items-center justify-center hover:bg-gray-50 hover:text-gray-900 focus:bg-gray-50 #{focus_classes()}"}
+      class={"h-full w-[38px] flex items-center justify-center hover:bg-white hover:text-gray-900 focus:bg-white #{focus_classes()}"}
       phx-click={editor_action(@action)}
       data-editor-action={action_name(@action)}
       aria-label={@name}

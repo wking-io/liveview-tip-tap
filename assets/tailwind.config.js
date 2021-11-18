@@ -1,4 +1,4 @@
-const { red, coolGray } = require('tailwindcss/colors');
+const { red, trueGray, amber, teal } = require('tailwindcss/colors');
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 const greenGray = {
@@ -25,7 +25,9 @@ const colors = {
     500: '#3C4B4E',
     600: '#2A3336',
   },
-  gray: greenGray,
+  gray: trueGray,
+  success: teal,
+  warning: amber,
   error: red,
 };
 

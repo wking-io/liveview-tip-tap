@@ -23,12 +23,31 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
     {:noreply,
      socket
      |> assign(
-       page_title: "#{book} #{chapter}",
+       page_title: "#{String.capitalize(book)} #{chapter}",
        book: book,
        chapter: Bible.get_chapter(book, chapter, socket.assigns.current_member),
        action: socket.assigns.live_action
      )
      |> apply_action(socket.assigns.live_action, params)}
+  end
+
+  @impl true
+  def handle_params(params, _url, socket) do
+    book = "john"
+    chapter = "12"
+
+    {:noreply,
+     socket
+     |> assign(
+       page_title: "#{String.capitalize(book)} #{chapter}",
+       book: book,
+       chapter: Bible.get_chapter(book, chapter, socket.assigns.current_member),
+       action: socket.assigns.live_action
+     )
+     |> apply_action(
+       socket.assigns.live_action,
+       Map.merge(params, %{"book" => book, "chapter" => chapter})
+     )}
   end
 
   defp apply_action(

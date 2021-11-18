@@ -48,8 +48,8 @@ defmodule WithoutCeasingWeb.Components.Bible do
     end
   end
 
-  defp maybe_highlight(_, true), do: "bg-brand-400 bg-opacity-40"
-  defp maybe_highlight(true, _), do: "bg-brand-400 bg-opacity-20"
+  defp maybe_highlight(_, true), do: "bg-warning-400"
+  defp maybe_highlight(true, _), do: "bg-warning-200"
   defp maybe_highlight(_, _), do: ""
 
   defp verse(%{content: {:normal, text}} = assigns) do

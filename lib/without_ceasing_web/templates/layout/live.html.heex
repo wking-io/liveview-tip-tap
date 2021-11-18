@@ -2,7 +2,7 @@
   <div
     class={"fixed flex items-center border-b border-gray-900 top-0 pl-6 transition-all duration-300 z-50 w-full h-16"}
   >
-    <%= live_redirect to: Routes.dashboard_index_path(@socket, :index), class: "w-auto #{focus_classes(:offset)}" do %>
+    <%= live_redirect to: Routes.bible_chapter_path(@socket, :index), class: "w-auto #{focus_classes(:offset)}" do %>
       <span class="sr-only">Without Ceasing</span>
       <svg
         height="32"
@@ -35,23 +35,23 @@
     <nav class="flex-1 ml-6">
       <ul class="flex items-center space-x-3 text-sm">
         <li class="">
-          <%= live_redirect to: Routes.dashboard_index_path(@socket, :index), class: "nav-link flex items-center text-gray-900 group hover:text-gray-700 py-1 px-4 relative #{focus_classes()}" do %>
+          <%= live_redirect to: Routes.bible_chapter_path(@socket, :index), class: "nav-link flex items-center text-gray-900 group hover:text-gray-700 py-1 px-4 relative #{focus_classes()}" do %>
             <span class="relative z-10">Notes</span>
           <% end %>
         </li>
         <li class="">
-          <%= live_redirect to: Routes.dashboard_index_path(@socket, :index), class: "nav-link flex items-center text-gray-900 group hover:text-gray-700 py-1 px-4 relative #{focus_classes()}" do %>
+          <%= live_redirect to: Routes.bible_chapter_path(@socket, :index), class: "nav-link flex items-center text-gray-900 group hover:text-gray-700 py-1 px-4 relative #{focus_classes()}" do %>
             <span class="relative z-10">Resources</span>
           <% end %>
         </li>
         <li class="">
-          <%= live_redirect to: Routes.dashboard_index_path(@socket, :index), class: "nav-link flex items-center text-gray-900 group hover:text-gray-700 py-1 px-4 relative #{focus_classes()}" do %>
+          <%= live_redirect to: Routes.bible_chapter_path(@socket, :index), class: "nav-link flex items-center text-gray-900 group hover:text-gray-700 py-1 px-4 relative #{focus_classes()}" do %>
             <span class="relative z-10">Collections</span>
           <% end %>
         </li>
       </ul>
     </nav>
-    <label class={"bg-gray-50 flex items-center h-full px-3 text-sm border border-transparent #{focus_classes(:within)}"}>
+    <label class={"bg-white flex items-center h-full px-3 text-sm border border-transparent #{focus_classes(:within)}"}>
       <span class="sr-only">Search</span>
       <svg aria-hidden xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
@@ -80,7 +80,7 @@
   <%= @inner_content %>
     <%= if info = live_flash(@flash, :info) do %>
       <aside
-        class="fixed bottom-4 left-4 p-4 bg-gray-50 border border-gray-900 shadow animate-enter-bottom" 
+        class="fixed bottom-4 left-4 p-4 bg-white border border-gray-900 shadow animate-enter-bottom" 
         role="alert"
       >
         <div class="flex items-center gap-4">
