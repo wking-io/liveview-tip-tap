@@ -2,7 +2,7 @@ defmodule WithoutCeasingWeb.Components.Editor do
   use Phoenix.Component
   use Phoenix.HTML
 
-  import WithoutCeasingWeb.LiveHelpers
+  import WithoutCeasingWeb.Helpers
   import WithoutCeasingWeb.Components.MenuButtons
 
   alias Phoenix.LiveView.JS

@@ -1,4 +1,4 @@
-defmodule WithoutCeasing.NewsletterForm do
+defmodule WithoutCeasing.Newsletter.Form do
   use Ecto.Schema
   import Ecto.Changeset
 

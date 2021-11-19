@@ -193,7 +193,7 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
     {:noreply,
      push_patch(socket,
        to:
-         Routes.bible_chapter_path(
+         Routes.bible_path(
            socket,
            action,
            socket.assigns.book,
@@ -208,7 +208,7 @@ defmodule WithoutCeasingWeb.BibleLive.Chapter do
     {:noreply,
      push_patch(socket,
        to:
-         Routes.bible_chapter_path(
+         Routes.bible_path(
            socket,
            action,
            socket.assigns.book,

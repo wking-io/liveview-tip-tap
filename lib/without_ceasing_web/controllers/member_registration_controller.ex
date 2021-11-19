@@ -3,7 +3,7 @@ defmodule WithoutCeasingWeb.MemberRegistrationController do
 
   alias WithoutCeasing.Identity
   alias WithoutCeasing.Identity.Member
-  alias WithoutCeasingWeb.MemberAuth
+  alias WithoutCeasingWeb.MemberPlug
 
   def new(conn, _params) do
     changeset = Identity.change_member_registration(%Member{})
@@ -21,7 +21,7 @@ defmodule WithoutCeasingWeb.MemberRegistrationController do
 
         conn
         |> put_flash(:info, "Member created successfully.")
-        |> MemberAuth.sign_in_member(member)
+        |> MemberPlug.sign_in_member(member)
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)

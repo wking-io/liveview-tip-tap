@@ -1,5 +1,5 @@
 defmodule WithoutCeasing.Newsletter do
-  alias WithoutCeasing.NewsletterForm
+  alias WithoutCeasing.Newsletter.Form
   alias WithoutCeasing.ConvertKitClient
   alias Ecto.Changeset
 
@@ -16,7 +16,7 @@ defmodule WithoutCeasing.Newsletter do
 
   """
   def subscribe(attrs) do
-    changeset = NewsletterForm.changeset(%NewsletterForm{}, attrs)
+    changeset = Form.changeset(%Form{}, attrs)
 
     if changeset.valid? do
       result =
@@ -43,6 +43,6 @@ defmodule WithoutCeasing.Newsletter do
 
   """
   def change(attrs \\ %{}) do
-    NewsletterForm.changeset(%NewsletterForm{}, attrs)
+    Form.changeset(%Form{}, attrs)
   end
 end

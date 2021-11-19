@@ -1,7 +1,7 @@
 defmodule WithoutCeasingWeb.Components.MenuButtons do
   use Phoenix.Component
 
-  import WithoutCeasingWeb.LiveHelpers
+  import WithoutCeasingWeb.Helpers
 
   alias Phoenix.LiveView.JS
 

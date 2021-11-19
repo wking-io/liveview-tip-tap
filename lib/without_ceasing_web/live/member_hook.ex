@@ -1,7 +1,11 @@
-defmodule WithoutCeasingWeb.MemberLiveAuth do
+defmodule WithoutCeasingWeb.MemberHook do
   import Phoenix.LiveView
 
   alias WithoutCeasing.Identity
+
+  def on_mount(:maybe, _params, %{"member_token" => member_token} = _session, socket) do
+    {:cont, assign_new(socket, :current_member, fn -> fetch_current_member(member_token) end)}
+  end
 
   def on_mount(:default, _params, %{"member_token" => member_token} = _session, socket) do
     socket =
@@ -14,6 +18,10 @@ defmodule WithoutCeasingWeb.MemberLiveAuth do
     else
       {:halt, redirect(socket, to: "/members/confirm")}
     end
+  end
+
+  def on_mount(:maybe, _params, _session, socket) do
+    {:cont, socket}
   end
 
   def on_mount(:default, _params, _session, socket) do

@@ -1,7 +1,7 @@
 defmodule WithoutCeasingWeb.Router do
   use WithoutCeasingWeb, :router
 
-  import WithoutCeasingWeb.MemberAuth
+  import WithoutCeasingWeb.MemberPlug
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -32,20 +32,28 @@ defmodule WithoutCeasingWeb.Router do
     put "/members/reset-password/:token", MemberResetPasswordController, :update
   end
 
+  live_session :public, on_mount: {WithoutCeasingWeb.MemberHook, :maybe} do
+    scope "/", WithoutCeasingWeb do
+      pipe_through [:browser]
+
+      live "/", HomeLive, :index
+    end
+  end
+
   scope "/", WithoutCeasingWeb do
-    live_session :app, on_mount: WithoutCeasingWeb.MemberLiveAuth do
+    live_session :app, on_mount: WithoutCeasingWeb.MemberHook do
       pipe_through [:browser, :require_authenticated_member]
 
       get "/members/settings", MemberSettingsController, :edit
       put "/members/settings", MemberSettingsController, :update
       get "/members/settings/confirm-email/:token", MemberSettingsController, :confirm_email
 
-      live "/", BibleLive.Chapter, :index
+      live "/bible", BibleLive, :index
 
-      live "/bible/:book/:chapter", BibleLive.Chapter, :index
-      live "/bible/:book/:chapter/create", BibleLive.Chapter, :create
-      live "/bible/:book/:chapter/:note/show", BibleLive.Chapter, :show
-      live "/bible/:book/:chapter/:note/edit", BibleLive.Chapter, :edit
+      live "/bible/:book/:chapter", BibleLive, :index
+      live "/bible/:book/:chapter/create", BibleLive, :create
+      live "/bible/:book/:chapter/:note/show", BibleLive, :show
+      live "/bible/:book/:chapter/:note/edit", BibleLive, :edit
 
       live "/notes", NoteLive.Index, :index
       live "/notes/:note", NoteLive.Show, :show

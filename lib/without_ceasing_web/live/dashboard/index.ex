@@ -3,13 +3,13 @@ defmodule WithoutCeasingWeb.DashboardLive.Index do
   use WithoutCeasingWeb.UniversalEvents
 
   alias WithoutCeasing.Newsletter
-  alias WithoutCeasing.NewsletterForm
+  alias WithoutCeasing.Newsletter.Form
 
   @impl true
   def mount(_params, _session, socket) do
     {:ok,
      socket
-     |> assign(:newsletter_form, %NewsletterForm{})
+     |> assign(:newsletter_form, %Newsletter.Form{})
      |> assign(:changeset, Newsletter.change())
      |> assign(:subscribed, false)}
   end

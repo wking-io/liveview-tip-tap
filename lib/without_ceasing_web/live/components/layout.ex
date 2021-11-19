@@ -1,7 +1,7 @@
 defmodule WithoutCeasingWeb.Components.Layout do
   use Phoenix.Component
 
-  import WithoutCeasingWeb.LiveHelpers
+  import WithoutCeasingWeb.Helpers
 
   # Optionally also bring the HTML helpers
   # use Phoenix.HTML

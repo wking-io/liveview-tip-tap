@@ -1,4 +1,4 @@
-const { red, trueGray, amber, teal } = require('tailwindcss/colors');
+const { orange, trueGray, amber, teal } = require('tailwindcss/colors');
 const defaultTheme = require('tailwindcss/defaultTheme');
 
 const greenGray = {
@@ -28,7 +28,7 @@ const colors = {
   gray: trueGray,
   success: teal,
   warning: amber,
-  error: red,
+  error: orange,
 };
 
 module.exports = {

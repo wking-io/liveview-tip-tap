@@ -10,7 +10,7 @@
       <% action when action in [:edit, :create] -> %>
         <.editor content={@note.content} changeset={@changeset}>
           <:cancel_button>
-              <%= live_redirect "Cancel", to: Routes.bible_chapter_path(@socket, :index, @book, @chapter.chapter, verses: @current_verses), class: "flex items-center justify-center py-2 px-6 font-medium hover:bg-white focus:bg-white #{focus_classes()}" %>
+              <%= live_redirect "Cancel", to: Routes.bible_path(@socket, :index, @book, @chapter.chapter, verses: @current_verses), class: "flex items-center justify-center py-2 px-6 font-medium hover:bg-white focus:bg-white #{focus_classes()}" %>
           </:cancel_button>
         </.editor>
       <% :show -> %>
@@ -44,8 +44,8 @@
                       <.menu_button id="extras" class="h-full">
                         <:label>Actions</:label>
                         <div class="py-1" role="none">
-                          <%= live_redirect "View", to: Routes.bible_chapter_path(@socket, :show, @book, @chapter.chapter, note.id, verses: verses_to_param(note)), class: "text-gray-700 font-medium block px-2 py-1 text-sm hover:text-brand-300 focus:outline-none focus:ring-2 focus:ring-brand-100", role: "menuitem", id: "menu-item-0" %>
-                          <%= live_redirect "Edit", to: Routes.bible_chapter_path(@socket, :edit, @book, @chapter.chapter, note.id, verses: verses_to_param(note)), class: "text-gray-700 font-medium block px-2 py-1 text-sm hover:text-brand-300 focus:outline-none focus:ring-2 focus:ring-brand-100", role: "menuitem", id: "menu-item-0" %>
+                          <%= live_redirect "View", to: Routes.bible_path(@socket, :show, @book, @chapter.chapter, note.id, verses: verses_to_param(note)), class: "text-gray-700 font-medium block px-2 py-1 text-sm hover:text-brand-300 focus:outline-none focus:ring-2 focus:ring-brand-100", role: "menuitem", id: "menu-item-0" %>
+                          <%= live_redirect "Edit", to: Routes.bible_path(@socket, :edit, @book, @chapter.chapter, note.id, verses: verses_to_param(note)), class: "text-gray-700 font-medium block px-2 py-1 text-sm hover:text-brand-300 focus:outline-none focus:ring-2 focus:ring-brand-100", role: "menuitem", id: "menu-item-0" %>
                           <%= link "Delete", to: "#", phx_click: "delete_note", phx_value_id: note.id, data: [confirm: "Are you sure?"], class: "text-error-500 font-medium block px-2 py-1 text-sm hover:text-error-700 focus:outline-none focus:ring-2 focus:ring-error-200", role: "menuitem", id: "menu-item-2" %>
                         </div>
                       </.menu_button>
@@ -55,7 +55,7 @@
                 <% end %>
               </div>
               <div class="">
-                <%= live_redirect to: Routes.bible_chapter_path(@socket, :create, @book, @chapter.chapter, verses: @current_verses), class: "flex items-center text-white justify-center text-sm py-2 pl-2 pr-3 border border-transparent font-medium bg-gray-900 hover:bg-gray-800 #{focus_classes()}" do %>
+                <%= live_redirect to: Routes.bible_path(@socket, :create, @book, @chapter.chapter, verses: @current_verses), class: "flex items-center text-white justify-center text-sm py-2 pl-2 pr-3 border border-transparent font-medium bg-gray-900 hover:bg-gray-800 #{focus_classes()}" do %>
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                   </svg>
@@ -66,7 +66,7 @@
               <div class="flex flex-col items-center justify-center h-full space-y-4">
                 <img src={Routes.static_path(@socket, "/images/empty.png")} class="max-w-sm -mb-12 -mt-32" />
                 <p class="font-medium text-center">No notes yet. Add your first note for this passage.</p>
-                <%= live_redirect to: Routes.bible_chapter_path(@socket, :create, @book, @chapter.chapter, verses: @current_verses), class: "flex items-center justify-center py-3 pl-5 pr-6 bg-brand-200 text-white shadow font-medium hover:bg-brand-300 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-brand-100 focus:bg-brand-300" do %>
+                <%= live_redirect to: Routes.bible_path(@socket, :create, @book, @chapter.chapter, verses: @current_verses), class: "flex items-center justify-center py-3 pl-5 pr-6 bg-brand-200 text-white shadow font-medium hover:bg-brand-300 hover:shadow-md focus:outline-none focus:ring-2 focus:ring-brand-100 focus:bg-brand-300" do %>
                   <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
                   </svg>

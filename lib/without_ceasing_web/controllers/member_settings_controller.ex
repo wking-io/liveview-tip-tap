@@ -2,7 +2,7 @@ defmodule WithoutCeasingWeb.MemberSettingsController do
   use WithoutCeasingWeb, :controller
 
   alias WithoutCeasing.Identity
-  alias WithoutCeasingWeb.MemberAuth
+  alias WithoutCeasingWeb.MemberPlug
 
   plug :assign_email_and_password_changesets
 
@@ -43,7 +43,7 @@ defmodule WithoutCeasingWeb.MemberSettingsController do
         conn
         |> put_flash(:info, "Password updated successfully.")
         |> put_session(:member_return_to, Routes.member_settings_path(conn, :edit))
-        |> MemberAuth.sign_in_member(member)
+        |> MemberPlug.sign_in_member(member)
 
       {:error, changeset} ->
         render(conn, "edit.html", password_changeset: changeset)

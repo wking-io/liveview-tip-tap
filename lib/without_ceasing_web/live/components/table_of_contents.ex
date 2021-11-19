@@ -62,7 +62,7 @@ defmodule WithoutCeasingWeb.Components.TableOfContents do
         <ul class="grid grid-cols-chapters gap-x-4 gap-y-2 mt-4 -mx-1">
           <%= for chapter <- @current_book.chapters do %>
             <li class="w-8 h-8 flex items-center justify-start">
-              <%= live_redirect to: Routes.bible_chapter_path(@socket, :index, @current_book.slug, chapter), class: "text-sm leading-none p-2 hover:bg-gray-300 #{focus_classes()}" do %>
+              <%= live_redirect to: Routes.bible_path(@socket, :index, @current_book.slug, chapter), class: "text-sm leading-none p-2 hover:bg-gray-300 #{focus_classes()}" do %>
                 <span class="sr-only">Chapter</span> <%= chapter %>
               <% end %>
             </li>

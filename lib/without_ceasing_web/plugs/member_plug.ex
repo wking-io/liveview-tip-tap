@@ -1,4 +1,4 @@
-defmodule WithoutCeasingWeb.MemberAuth do
+defmodule WithoutCeasingWeb.MemberPlug do
   import Plug.Conn
   import Phoenix.Controller
 
