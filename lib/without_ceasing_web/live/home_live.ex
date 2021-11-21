@@ -16,11 +16,11 @@ defmodule WithoutCeasingWeb.HomeLive do
   @impl true
   def handle_event(
         "validate",
-        %{"newsletter_form" => newsletter_params},
+        %{"form" => params},
         socket
       ) do
     changeset =
-      Newsletter.change(newsletter_params)
+      Newsletter.change(params)
       |> Map.put(:action, :validate)
 
     {:noreply,
@@ -28,10 +28,11 @@ defmodule WithoutCeasingWeb.HomeLive do
      |> assign(:changeset, changeset)}
   end
 
-  def handle_event("save", %{"newsletter_form" => newsletter_params}, socket) do
-    save_newsletter(socket, socket.assigns.live_action, newsletter_params)
+  def handle_event("save", %{"form" => params}, socket) do
+    save_newsletter(socket, socket.assigns.live_action, params)
   end
 
+  @impl true
   def render(assigns) do
     ~H"""
     <section class="flex items-center min-h-screen">
@@ -57,20 +58,20 @@ defmodule WithoutCeasingWeb.HomeLive do
           </div>
           <div>
             <%= if (@subscribed) do %>
-              <p class="mt-10 max-w-xl w-full text-center text-center sm:text-left text-sm px-6 py-3 border border-transparent text-white bg-brand-200 shadow-box-300-sm" id="early-access-success" phx-hook="EarlyAccessEvent">
+              <p class="mt-10 max-w-xl w-full text-center text-center sm:text-left text-sm px-6 py-3 border-2 border-success-400 bg-white" id="early-access-success" phx-hook="EarlyAccessEvent">
                 Got it! You should have an email to confirm the subscription now. If you don't reach out at hi@fabledlabs.com.
               </p>
             <% else %>
               <.form let={f} for={@changeset} url="#" id="subscription-form" phx_change="validate" phx_submit="save" class="mt-10 flex flex-col sm:flex-row max-w-xl">
                 <div class="flex-1 relative">
                   <%= label f, :email, class: "sr-only" %>
-                  <%= email_input f, :email, class: "text-center sm:text-left appearance-none w-full px-4 py-3 border border-gray-900 text-base bg-white #{focus_classes()}", placeholder: "Enter your email" %>
+                  <%= email_input f, :email, class: "text-center sm:text-left appearance-none w-full px-4 py-3 border border-gray-900 focus:border-gray-900 text-base bg-white #{focus_classes(:primary)}", placeholder: "Enter your email" %>
                   <%= error_tag f, :email, class: "sm:absolute top-full left-0 w-full text-sm bg-error-500 text-white py-2 px-4" %>
                 </div>
                 <div
                   class="flex-shrink-0 w-full flex rounded-md shadow-sm sm:mt-0 sm:ml-3 sm:w-auto sm:inline-flex"
                 >
-                  <%= submit "Get Early Access", phx_disable_with: "Saving...", class: "w-full text-center flex items-center justify-center px-6 py-3 border border-transparent text-base font-semibold text-white bg-gray-900 #{focus_classes()}" %>
+                  <%= submit "Get Early Access", phx_disable_with: "Saving...", class: "w-full text-center flex items-center justify-center px-6 py-3 border border-transparent text-base font-semibold text-white bg-gray-900 #{focus_classes(:primary)}" %>
                 </div>
               </.form>
             <% end %>

@@ -30,7 +30,9 @@ defmodule WithoutCeasingWeb.Helpers do
   def focus_classes(:within),
     do: "focus-within:outline-none focus-within:ring-1 focus-within:ring-gray-900"
 
-  def focus_classes(), do: "focus:outline-none focus:ring-1 focus:ring-gray-900"
+  def focus_classes(:primary), do: "focus:outline-none focus:ring-2 focus:ring-warning-400"
+
+  def focus_classes(), do: "focus:outline-none focus:ring-2 focus:ring-gray-900"
 
   def select_tab(tab, others) do
     JS.show(to: "##{tab}-panel", display: "flex")

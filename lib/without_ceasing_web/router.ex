@@ -22,14 +22,14 @@ defmodule WithoutCeasingWeb.Router do
   scope "/", WithoutCeasingWeb do
     pipe_through [:browser, :redirect_if_member_is_authenticated]
 
-    get "/members/register", MemberRegistrationController, :new
-    post "/members/register", MemberRegistrationController, :create
-    get "/members/sign-in", MemberSessionController, :new
-    post "/members/sign-in", MemberSessionController, :create
-    get "/members/reset-password", MemberResetPasswordController, :new
-    post "/members/reset-password", MemberResetPasswordController, :create
-    get "/members/reset-password/:token", MemberResetPasswordController, :edit
-    put "/members/reset-password/:token", MemberResetPasswordController, :update
+    # get "/members/register", MemberRegistrationController, :new
+    # post "/members/register", MemberRegistrationController, :create
+    # get "/members/sign-in", MemberSessionController, :new
+    # post "/members/sign-in", MemberSessionController, :create
+    # get "/members/reset-password", MemberResetPasswordController, :new
+    # post "/members/reset-password", MemberResetPasswordController, :create
+    # get "/members/reset-password/:token", MemberResetPasswordController, :edit
+    # put "/members/reset-password/:token", MemberResetPasswordController, :update
   end
 
   live_session :public, on_mount: {WithoutCeasingWeb.MemberHook, :maybe} do
@@ -44,35 +44,35 @@ defmodule WithoutCeasingWeb.Router do
     live_session :app, on_mount: WithoutCeasingWeb.MemberHook do
       pipe_through [:browser, :require_authenticated_member]
 
-      get "/members/settings", MemberSettingsController, :edit
-      put "/members/settings", MemberSettingsController, :update
-      get "/members/settings/confirm-email/:token", MemberSettingsController, :confirm_email
+      # get "/members/settings", MemberSettingsController, :edit
+      # put "/members/settings", MemberSettingsController, :update
+      # get "/members/settings/confirm-email/:token", MemberSettingsController, :confirm_email
 
-      live "/bible", BibleLive, :index
+      # live "/bible", BibleLive, :index
 
-      live "/bible/:book/:chapter", BibleLive, :index
-      live "/bible/:book/:chapter/create", BibleLive, :create
-      live "/bible/:book/:chapter/:note/show", BibleLive, :show
-      live "/bible/:book/:chapter/:note/edit", BibleLive, :edit
+      # live "/bible/:book/:chapter", BibleLive, :index
+      # live "/bible/:book/:chapter/create", BibleLive, :create
+      # live "/bible/:book/:chapter/:note/show", BibleLive, :show
+      # live "/bible/:book/:chapter/:note/edit", BibleLive, :edit
 
-      live "/notes", NoteLive.Index, :index
-      live "/notes/:note", NoteLive.Show, :show
-      live "/notes/:note/edit", NoteLive.Show, :edit
+      # live "/notes", NoteLive.Index, :index
+      # live "/notes/:note", NoteLive.Show, :show
+      # live "/notes/:note/edit", NoteLive.Show, :edit
 
-      live "/resources", ResourceLive.Index, :index
-      live "/resources/:resource", ResourceLive.Show, :show
-      live "/resources/:resource/edit", ResourceLive.Show, :edit
+      # live "/resources", ResourceLive.Index, :index
+      # live "/resources/:resource", ResourceLive.Show, :show
+      # live "/resources/:resource/edit", ResourceLive.Show, :edit
     end
   end
 
   scope "/", WithoutCeasingWeb do
     pipe_through [:browser]
 
-    delete "/members/sign-out", MemberSessionController, :delete
-    get "/members/confirm", MemberConfirmationController, :new
-    post "/members/confirm", MemberConfirmationController, :create
-    get "/members/confirm/:token", MemberConfirmationController, :edit
-    post "/members/confirm/:token", MemberConfirmationController, :update
+    # delete "/members/sign-out", MemberSessionController, :delete
+    # get "/members/confirm", MemberConfirmationController, :new
+    # post "/members/confirm", MemberConfirmationController, :create
+    # get "/members/confirm/:token", MemberConfirmationController, :edit
+    # post "/members/confirm/:token", MemberConfirmationController, :update
   end
 
   # Other scopes may use custom stacks.

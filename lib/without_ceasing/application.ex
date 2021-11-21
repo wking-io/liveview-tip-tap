@@ -16,8 +16,8 @@ defmodule WithoutCeasing.Application do
       # Start the Endpoint (http/https)
       WithoutCeasingWeb.Endpoint,
       # Finch
-      # WithoutCeasing.ConvertKitClient.child_spec(),
-      WithoutCeasing.EsvClient.child_spec()
+      Supervisor.child_spec(WithoutCeasing.ConvertKitClient.child_spec(), id: :convert_kit),
+      Supervisor.child_spec(WithoutCeasing.EsvClient.child_spec(), id: :esv)
       # Start a worker by calling: WithoutCeasing.Worker.start_link(arg)
       # {WithoutCeasing.Worker, arg}
     ]
