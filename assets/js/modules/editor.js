@@ -2,7 +2,6 @@ import { Editor, generateHTML } from '@tiptap/core';
 import StarterKit from '@tiptap/starter-kit';
 import Highlight from '@tiptap/extension-highlight';
 import Underline from '@tiptap/extension-underline';
-import Link from '@tiptap/extension-link';
 
 function updateButtonState(buttons, editor) {
   buttons.forEach((btn) => {

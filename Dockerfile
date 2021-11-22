@@ -50,15 +50,17 @@ COPY lib lib
 RUN mix compile
 
 # For Phoenix 1.6 and later, compile assets using esbuild
-RUN npm install --prefix ./assets
-RUN npm run deploy --prefix ./assets
-RUN mix phx.digest
+COPY assets/package.json assets/package-lock.json ./assets/
+RUN npm --prefix ./assets ci --progress=false --no-audit --loglevel=error
 
 # note: if your project uses a tool like https://purgecss.com/,
 # which customizes asset compilation based on what it finds in
 # your Elixir templates, you will need to move the asset compilation
 # step down so that `lib` is available.
 COPY assets assets
+
+RUN npm run --prefix ./assets deploy
+RUN mix phx.digest
 
 # Changes to config/runtime.exs don't require recompiling the code
 COPY config/runtime.exs config/

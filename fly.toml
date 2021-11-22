@@ -7,7 +7,7 @@ kill_timeout = 5
 processes = []
 
 [deploy]
-  release_command = "/app/entry eval HelloElixir.Release.migrate"
+  release_command = "/app/entry eval WithoutCeasing.Release.migrate"
 
 [env]
 
