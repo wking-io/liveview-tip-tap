@@ -8,7 +8,7 @@ defmodule WithoutCeasingWeb.HomeLive do
   def mount(_params, _session, socket) do
     {:ok,
      socket
-     |> assign(:newsletter_form, %Newsletter.Form{})
+     |> assign(:newsletter_form, %Form{})
      |> assign(:changeset, Newsletter.change())
      |> assign(:subscribed, false)}
   end
@@ -35,15 +35,15 @@ defmodule WithoutCeasingWeb.HomeLive do
   @impl true
   def render(assigns) do
     ~H"""
-    <section class="flex items-center min-h-screen">
-      <div class="flex-1 flex justify-center">
+    <section class="flex flex-col md:flex-row w-5/6 md:w-full mx-auto md:mt-0 items-center min-h-screen">
+      <div class="flex-1 flex items-center justify-center md:mx-8 space-y-4">
         <div class="space-y-8">
-          <p class="flex items-center text-xl font-bold gap-3">
+          <p class="flex items-center text-lg lg:text-xl font-bold gap-3">
             <svg
               height="32"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 124 74"
-              class="fill-current h-6"
+              class="fill-current h-5 lg:h-6"
               aria-hidden
             >
               <path
@@ -52,9 +52,9 @@ defmodule WithoutCeasingWeb.HomeLive do
             </svg>
             <span>Without Ceasing</span>
           </p>
-          <div class="lg:max-w-3xl space-y-4">
-            <h1 class="font-extrabold text-4xl md:text-5xl mt-6 md:mt-2"><span class="bg-success-400 inline-block">Saveable</span>, <span class="bg-warning-400 inline-block">Searchable</span>, <span class="bg-error-400 inline-block">Shareable</span> Bible Notes and Resources</h1>
-            <p class="text-gray-500">Supercharge your Bible study with access to notes, sermons, images, devotionals, and more from past you and people you know.</p>
+          <div class="lg:max-w-3xl">
+            <h1 class="font-extrabold text-4xl md::text-4xl lg:text-5xl mt-6 md:mt-2"><span class="bg-success-400 inline-block">Saveable</span>, <span class="bg-warning-400 inline-block">Searchable</span>, <span class="bg-error-400 inline-block">Shareable</span> Bible Notes and Resources</h1>
+            <p class="text-gray-500 mt-4">Supercharge your Bible study with access to notes, sermons, images, devotionals, and more from past you and people you know.</p>
           </div>
           <div>
             <%= if (@subscribed) do %>
@@ -78,8 +78,9 @@ defmodule WithoutCeasingWeb.HomeLive do
           </div>
         </div>
       </div>
-      <div class="w-1/3">
-        <img class="border-t-4 border-l-4 border-b-4 border-gray-900 rounded-l-3xl" src={Routes.static_path(@socket, "/images/app-preview.png")} alt="App Preview" />
+      <div class="hidden sm:block w-full md:w-1/3">
+        <img class="hidden md:block border-t-4 border-l-4 border-b-4 border-gray-900 rounded-l-3xl" src={Routes.static_path(@socket, "/images/app-preview.png")} alt="App Preview" />
+        <img class="md:hidden border-t-4 border-l-4 border-r-4 border-gray-900 rounded-t-3xl" src={Routes.static_path(@socket, "/images/app-preview-mobile.png")} alt="App Preview" />
       </div>
     </section>
     """

@@ -38,14 +38,5 @@ config :logger, level: :info
 # Check `Plug.SSL` for all available options in `force_ssl`.
 
 config :without_ceasing, WithoutCeasingWeb.Endpoint,
-  url: [host: "withoutceasing.co", port: 80],
+  cache_static_manifest: "priv/static/cache_manifest.json",
   force_ssl: [rewrite_on: [:x_forwarded_proto]]
-
-convert_kit_api =
-  System.get_env("CONVERT_KIT_API") ||
-    raise """
-    environment variable CONVERT_KIT_API is missing.
-    """
-
-config :without_ceasing,
-  convertkit_api_key: convert_kit_api

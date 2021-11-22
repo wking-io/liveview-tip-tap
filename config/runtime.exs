@@ -38,7 +38,11 @@ if config_env() == :prod do
       raise "FLY_APP_NAME not available"
 
   config :without_ceasing, WithoutCeasingWeb.Endpoint,
-    url: [host: "#{app_name}.fly.dev", port: 80],
+    url: [host: "withoutceasing.co", port: 80],
+    check_origin: [
+      "//www.withoutceasing.co",
+      "//#{app_name}.fly.dev"
+    ],
     http: [
       # Enable IPv6 and bind on all interfaces.
       # Set it to  {0, 0, 0, 0, 0, 0, 0, 1} for local network only access.
@@ -66,7 +70,8 @@ if config_env() == :prod do
       You can generate one by calling: mix phx.gen.secret
       """
 
-  config :without_ceasing, WithoutCeasing.ConvertKitClient, convertkit_api_key: convert_kit_api
+  config :without_ceasing,
+    convertkit_api_key: convert_kit_api
 
   # ## Configuring the mailer
   #
